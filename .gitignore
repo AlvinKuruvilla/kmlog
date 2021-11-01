@@ -1,0 +1,5 @@
+env
+__pycache__/
+.env
+keylog.log
+mouse_data_file.log
