@@ -3,3 +3,5 @@ __pycache__/
 .env
 keylog.log
 mouse_data_file.log
+src/logs
+./env
