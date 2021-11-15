@@ -15,7 +15,21 @@ if __name__ == '__main__':
         1: Start KMLogger
         2:  Exit
         """)
-    choice = int(input("Enter a choice: "))
+    while True:
+        print(welcome("KMLogger"))
+        print("A Keylogger and mouse tracker for research purposes")
+        print("\nChoose service you want to use : ")
+        print("""
+        1: Start KMLogger
+        2:  Exit
+            """)
+        choice = int(input("Enter a choice: "))
+        if choice == 1 or choice == 2:
+            break
+
+        else:
+            print("Invalid selection")
+            continue
     if choice == 1:
         driver = SQLDriver()
         driver.try_connect()
