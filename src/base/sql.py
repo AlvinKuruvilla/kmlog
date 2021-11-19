@@ -38,3 +38,13 @@ class SQLDriver():
         self.connection.commit()
         cursor.close()
         return id
+
+    def fields(cursor):
+        """ Given a DB API 2.0 cursor object that has been executed, returns
+        a dictionary that maps each field name to a column index; 0 and up. """
+        results = {}
+        column = 0
+        for d in cursor.description:
+            results[d[0]] = column
+            column = column + 1
+        return results

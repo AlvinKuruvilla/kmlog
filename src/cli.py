@@ -1,12 +1,12 @@
 import os
 from base.sql import *
-from base.user import add_user
+from base.user import add_user, display_profile
 from base.util import *
 from tools.keylogger import *
 from dotenv import load_dotenv
 
 if __name__ == '__main__':
-    os.system("clear")
+    clear_screen()
     print(welcome("KMLogger"))
     load_dotenv()
     print("A Keylogger and mouse tracker for research purposes")
@@ -21,7 +21,7 @@ if __name__ == '__main__':
         print("\nChoose service you want to use : ")
         print("""
         1: Start KMLogger
-        2:  Exit
+        2: Exit
             """)
         choice = int(input("Enter a choice: "))
         if choice == 1 or choice == 2:
@@ -31,9 +31,12 @@ if __name__ == '__main__':
             print("Invalid selection")
             continue
     if choice == 1:
+        clear_screen()
+        print(welcome("Keylogger"))
         driver = SQLDriver()
         driver.try_connect()
-        user_id = input("Enter your user_id: ")
+        user_id = input("""
+        Enter your user_id: """)
         # NOTE: To understand this api look in the mysql package's cursor.py file...According to that api the params argument as they have named it defaults to an empty tuple
         # Step through of the reasoning behind the lines below:
         #   - Make the driver query the table for the user_id table
@@ -47,10 +50,10 @@ if __name__ == '__main__':
         result = cursor.fetchone()
         if user_id in result:
             print("User ID: " + user_id + " found")
+            display_profile(user_id)
             km = Keylogger(user_id)
             km.start_recording()
         else:
-
             print("ID not found")
             km = Keylogger(user_id)
             add_user(user_id)
@@ -58,4 +61,3 @@ if __name__ == '__main__':
 
     if choice == 2:
         exit()
-    # TODO: Prompt for user input again until valid input is given

