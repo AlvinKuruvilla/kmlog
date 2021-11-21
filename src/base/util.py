@@ -13,5 +13,5 @@ def clear_screen():
     if os.name == 'posix':
         _ = os.system('clear')
     else:
-        # for windows platfrom
+        # for windows
         _ = os.system('cls')

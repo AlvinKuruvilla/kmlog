@@ -5,7 +5,8 @@ import os
 
 
 class SQLDriver():
-    """This is a wrapper class which provides a slightly nicer API for specific MySQL operations:
+    """This is a wrapper class which provides a slightly nicer API for specific
+        MySQL operations:
         - connecting to the database
         - query the database
         - insert into the database
@@ -13,7 +14,8 @@ class SQLDriver():
 
     def __init__(self):
         self.connection = None
-    # This method attempts to connect to the database using the data from a .env file as the parameters
+    # This method attempts to connect to the database using the data from a .env
+    # file as the parameters
 
     def try_connect(self):
         load_dotenv()
@@ -30,7 +32,8 @@ class SQLDriver():
         cursor = self.connection.cursor()
         cursor.execute(sql, args)
         return cursor
-    # This is a wrapper function to make inserting into the database slightly nicer
+    # This is a wrapper function to make inserting into the database slightly
+    # nicer
 
     def insert(self, sql, args):
         cursor = self.query(sql, args)
@@ -40,8 +43,8 @@ class SQLDriver():
         return id
 
     def fields(cursor):
-        """ Given a DB API 2.0 cursor object that has been executed, returns
-        a dictionary that maps each field name to a column index; 0 and up. """
+        """ Given a DB API 2.0 cursor object that has been executed, returns a
+        dictionary that maps each field name to a column index; 0 and up. """
         results = {}
         column = 0
         for d in cursor.description:

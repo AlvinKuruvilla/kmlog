@@ -2,6 +2,7 @@ from .sql import SQLDriver
 import os
 from dotenv import load_dotenv
 from prettytable import PrettyTable
+from base.log import Logger
 
 
 def add_user(user_id):
@@ -37,6 +38,7 @@ def get_profile_info(user_id):
 
 
 def display_profile(user_id):
+    log = Logger()
     profile_info = get_profile_info(user_id)
     print("Your user profile:")
     if profile_info[0] != None:
