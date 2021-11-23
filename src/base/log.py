@@ -1,6 +1,7 @@
 # Check this link for more details: https://stackoverflow.com/a/23964880
 from colorlog import ColoredFormatter
 import logging
+from colorama import Fore, Style
 
 
 class Logger():
@@ -27,3 +28,8 @@ class Logger():
 
     def km_fatal(self, msg):
         self.log.critical(msg)
+
+    def km_log_color(self, msg):
+        # FIXME: Right now this will only print red, we have to expand this to allow the user to pass in a color to the function
+        print(Fore.RED + msg)
+        print(Style.RESET_ALL)
