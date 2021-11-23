@@ -1,12 +1,13 @@
 # TODO: Simplify file writing but just having columns P/R, Key, Time
 # TODO: Maybe we should have a keyboard shortcut to stop program execution rather than ctrl + c?
 # NOTE: Eventually we may also want to have the shutdown method remove the interupt shortcut used to terminate the program and remove them from the file.... we may also want to extend this to personally identifiable information eventually
-# FIX: The file writing seems a little broken
 from pynput.keyboard import Listener
 import time
 from .util import *
-from base.sql import *
+from base.sql import SQLDriver
+from base.log import Logger
 from dotenv import load_dotenv
+import os
 
 
 class Keylogger:
@@ -55,8 +56,9 @@ class Keylogger:
     def start_recording(self):
         try:
             self.get_and_write_user_info()
-            print("Initializing keylogger....")
-            print(
+            klog = Logger("klog")
+            klog.km_info("Initializing keylogger....")
+            klog.km_log_color(
                 "WARNING! Anything you will type shall be recorded until you terminate this app manually!")
 
             def on_press(key):

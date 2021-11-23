@@ -1,6 +1,7 @@
 import mysql.connector
 from mysql.connector import Error
 from dotenv import load_dotenv
+from base.log import Logger
 import os
 
 
@@ -18,14 +19,15 @@ class SQLDriver():
     # file as the parameters
 
     def try_connect(self):
+        sql_log = Logger("sql")
         load_dotenv()
         try:
             self.connection = mysql.connector.connect(
                 host=os.getenv("DB_HOST"), database=os.getenv("DB_NAME"), user=os.getenv("USERNAME"), password=os.getenv("PASSWORD"))
-            if self.connection.is_connected():
-                print("Connected")
+            # if self.connection.is_connected():
+            #   sql_log.km_info("Connected")
         except Error as e:
-            print(e)
+            sql_log.km_fatal(e)
     # This is a wrapper function to make querying the database slightly nicer
 
     def query(self, sql, args):

@@ -7,7 +7,7 @@ from tools.keylogger import *
 from dotenv import load_dotenv
 
 if __name__ == '__main__':
-    log = Logger()
+    log = Logger("cli")
     print(welcome("KMLogger"))
     load_dotenv()
     print("A Keylogger and mouse tracker for research purposes")
@@ -58,8 +58,15 @@ if __name__ == '__main__':
         if user_id in result:
             log.km_info("User ID: " + user_id + " found")
             display_profile(user_id)
-            km = Keylogger(user_id)
-            km.start_recording()
+            info_correct = input("Is all of this information correct? y/n: ")
+            if(info_correct.lower() == "y" or info_correct.lower() == "yes"):
+                km = Keylogger(user_id)
+                km.start_recording()
+            elif info_correct.lower() == "n" or info_correct.lower() == "no":
+                log.km_fatal(
+                    "Please let the researchers know that this information is incorrect and it will be addressed")
+            else:
+                log.km_fatal("Invalid Input")
         else:
             log.km_warn("ID not found")
             km = Keylogger(user_id)

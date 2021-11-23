@@ -5,20 +5,127 @@ from prettytable import PrettyTable
 from base.log import Logger
 
 
+def verify_gender(gender_input):
+    if gender_input.lower() == "m" or gender_input.lower() == "f" or gender_input.lower() == "o":
+        return True
+    else:
+        return False
+
+
+def verify_handedness(hand_input):
+    if hand_input.lower() == "l" or hand_input.lower() == "r" or hand_input.lower() == "a":
+        return True
+    else:
+        return False
+
+
+def verify_age(age_str):
+    age = int(age_str)
+    # Check if the age is negative or has a decimal in it
+    if age < 0 or age_str.isdigit() == False:
+        user_log = Logger("user")
+        user_log.km_warn("Age is negative or not a whole number")
+        return False
+    else:
+        return True
+
+
+def verify_education(education_str):
+    if education_str.lower() == "b" or education_str.lower() == "m" or education_str.lower() == "d":
+        return True
+    else:
+        return False
+
+
+def verify_social_media_platform(platform_name):
+    if platform_name.lower() == "f" or platform_name.lower() == "t" or platform_name.lower == "i":
+        return True
+    else:
+        return False
+
+
+def expand_user_data(gender, handedness, education, platform):
+    """A function to expand specific user data before it gets committed to the database to make it easier to read
+    For example for gender this function would transform 'm' to 'Male'
+    """
+
+    if gender.lower() == "m":
+        expanded_gender = "Male"
+    elif gender.lower() == "f":
+        expanded_gender = "Female"
+    if handedness.lower() == "l":
+        expanded_handedness = "Left"
+    elif handedness.lower() == "r":
+        expanded_handedness = "Reft"
+    elif handedness.lower() == "a":
+        expanded_handedness = "Ambidextrous"
+    if education.lower() == "b":
+        expanded_education = "Bachelors"
+    elif education.lower() == "m":
+        expanded_education = "Masters"
+    elif education.lower() == "d":
+        expanded_education = "Doctorate"
+    if platform.lower() == "f":
+        expanded_platform_name = "Facebook"
+    elif platform.lower() == "i":
+        expanded_platform_name = "Instagram"
+    elif platform.lower() == "t":
+        expanded_platform_name = "Twitter"
+    return (expanded_gender, expanded_handedness, expanded_education, expanded_platform_name)
+
+
 def add_user(user_id):
+    vlog = Logger("add")
     load_dotenv()
-    """A utility function which takes user input and appends it to the database. This function should only be called during the initial enrollment phase, ie the user is not in the database yet"""
+    """A function which takes user input and appends it to the database. This function should only be called during the initial enrollment phase, ie the user is not in the database yet"""
     driver = SQLDriver()
 
     first = input("Please enter your first name: ")
     last = input("Please enter your last name: ")
-    gender = input("Gender (enter m for male, f for female, o: other): ")
-    handedness = input("dominant hand: (enter l for left, r for right): ")
+    gender = input("Gender (enter m for male, f for female, o for other): ")
+    while True:
+        if verify_gender(gender) == False:
+            vlog.km_warn("Please enter a valid gender")
+            gender = input(
+                "Gender (enter m for male, f for female, o: other): ")
+        else:
+            break
+
+    handedness = input(
+        "dominant hand: (enter l for left, r for right, or a for ambidextrous): ")
+    while True:
+        if verify_handedness(handedness) == False:
+            vlog.km_warn("Please enter a valid handedness")
+            handedness = input(
+                "dominant hand: (enter l for left, r for right, or a for ambidextrous): ")
+        else:
+            break
+
     age = input("age (whole number): ")
+    while True:
+        if verify_age(age) == False:
+            age = input("age (whole number): ")
+        else:
+            break
     education_level = input(
         "education level?: (b for bachelor, m for master, d for doctor): ")
+    while True:
+        if verify_education(education_level) == False:
+            vlog.km_warn("Please enter a valid education level")
+            education_level = input(
+                "education level?: (b for bachelor, m for master, d for doctor): ")
+        else:
+            break
     social_platform = input(
-        "what social media platform you are going to use? (f for facebook, i for instagram, t for twitter) ")
+        "what social media platform you are going to use? (f for facebook, i for instagram, t for twitter): ")
+    while True:
+        if verify_social_media_platform(social_platform) == False:
+            social_platform = input(
+                "what social media platform you are going to use? (f for facebook, i for instagram, t for twitter): ")
+            vlog.km_warn("Please enter a valid social media platform")
+        else:
+            break
+    expand_user_data(gender, handedness, education_level, social_platform)
     driver.try_connect()
     driver.insert("INSERT INTO " + os.getenv("TABLE")+" VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
                   (user_id, first, last, handedness, gender, age, education_level, social_platform))
@@ -38,7 +145,7 @@ def get_profile_info(user_id):
 
 
 def display_profile(user_id):
-    log = Logger()
+    dlog = Logger("display")
     profile_info = get_profile_info(user_id)
     print("Your user profile:")
     if profile_info[0] != None:
@@ -46,21 +153,21 @@ def display_profile(user_id):
     else:
         # We should probably crash and error out if we reach any part where we get "None"
         uid = "None"
-        print("User ID not found")
+        dlog.km_warn("User ID not found")
     if profile_info[1] != None:
         fname = profile_info[1]
     else:
         fname = "None"
-        print("First name not found")
+        dlog.km_warn("First name not found")
     if profile_info[2] != None:
         lname = profile_info[2]
     else:
         lname = "None"
-        print("Last name not found")
+        dlog.km_warn("Last name not found")
 
     if profile_info[3] == None:
         hand = "None"
-        print("Handedness not found")
+        dlog.km_warn("Handedness not found")
     elif profile_info[3] == "l":
         hand = "Left"
     elif profile_info[3] == "r":
@@ -68,7 +175,7 @@ def display_profile(user_id):
 
     if profile_info[4] == None:
         gender = "None"
-        print("Gender not found")
+        dlog.km_warn("Gender not found")
     elif profile_info[4] == "m":
         gender = "Male"
     elif profile_info[4] == "f":
@@ -76,13 +183,13 @@ def display_profile(user_id):
 
     if profile_info[5] == None:
         age = "None"
-        print("Age not found")
+        dlog.km_warn("Age not found")
     else:
         age = profile_info[5]
 
     if profile_info[6] == None:
         education_level = "None"
-        print("Education not found")
+        dlog.km_warn("Education not found")
     elif profile_info[6] == "b":
         education_level = "Bachelors"
     elif profile_info[6] == "m":
@@ -92,7 +199,7 @@ def display_profile(user_id):
 
     if profile_info[7] == None:
         platform = "None"
-        print("Social Media Platform not found")
+        dlog.km_warn("Social Media Platform not found")
     elif profile_info[7] == "f":
         platform = "Facebook"
     elif profile_info[7] == "i":
@@ -105,7 +212,7 @@ def display_profile(user_id):
     out.field_names = ["User ID", "First Name", "Last Name",
                        "Handedness", "Gender", "Age", "Education", "Social Media Platform"]
 
-    out.add_row([uid, lname, fname, hand, gender,
+    out.add_row([uid, fname, lname, hand, gender,
                  age, education_level, platform])
 
     print(out)
