@@ -15,10 +15,10 @@ class SQLDriver():
 
     def __init__(self):
         self.connection = None
-    # This method attempts to connect to the database using the data from a .env
-    # file as the parameters
 
     def try_connect(self):
+        """This method attempts to connect to the database using the data from a
+        .env file as the parameters"""
         sql_log = Logger("sql")
         load_dotenv()
         try:
@@ -31,13 +31,14 @@ class SQLDriver():
     # This is a wrapper function to make querying the database slightly nicer
 
     def query(self, sql, args):
+        """Issue a particular query to the database with optional arguments"""
         cursor = self.connection.cursor()
         cursor.execute(sql, args)
         return cursor
-    # This is a wrapper function to make inserting into the database slightly
-    # nicer
 
     def insert(self, sql, args):
+        """A wrapper function to take a sql statement string to insert into a
+        database"""
         cursor = self.query(sql, args)
         id = cursor.lastrowid
         self.connection.commit()

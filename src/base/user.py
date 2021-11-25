@@ -1,4 +1,4 @@
-from .sql import SQLDriver
+from base.sql import SQLDriver
 import os
 from dotenv import load_dotenv
 from prettytable import PrettyTable
@@ -6,6 +6,8 @@ from base.log import Logger
 
 
 def verify_gender(gender_input):
+    """A helper function to make verifying gender strings easier"""
+
     if gender_input.lower() == "m" or gender_input.lower() == "f" or gender_input.lower() == "o":
         return True
     else:
@@ -13,6 +15,8 @@ def verify_gender(gender_input):
 
 
 def verify_handedness(hand_input):
+    """A helper function to make verifying handedness strings easier"""
+
     if hand_input.lower() == "l" or hand_input.lower() == "r" or hand_input.lower() == "a":
         return True
     else:
@@ -20,6 +24,8 @@ def verify_handedness(hand_input):
 
 
 def verify_age(age_str):
+    """A helper function to make verifying age strings easier"""
+
     age = int(age_str)
     # Check if the age is negative or has a decimal in it
     if age < 0 or age_str.isdigit() == False:
@@ -31,6 +37,8 @@ def verify_age(age_str):
 
 
 def verify_education(education_str):
+    """A helper function to make verifying education strings easier"""
+
     if education_str.lower() == "b" or education_str.lower() == "m" or education_str.lower() == "d":
         return True
     else:
@@ -38,6 +46,8 @@ def verify_education(education_str):
 
 
 def verify_social_media_platform(platform_name):
+    """A helper function to make verifying social media platform strings easier"""
+
     if platform_name.lower() == "f" or platform_name.lower() == "t" or platform_name.lower == "i":
         return True
     else:
@@ -46,7 +56,7 @@ def verify_social_media_platform(platform_name):
 
 def expand_user_data(gender, handedness, education, platform):
     """A function to expand specific user data before it gets committed to the database to make it easier to read
-    For example for gender this function would transform 'm' to 'Male'
+    For example, for gender this function would transform 'm' to 'Male'
     """
 
     if gender.lower() == "m":
@@ -75,9 +85,14 @@ def expand_user_data(gender, handedness, education, platform):
 
 
 def add_user(user_id):
+    """A function which takes a user ID as input and appends it to the database
+    along with information about the user such as their gender, their age, etc.
+    This function should only be called during the initial enrollment phase,
+    i.e. the user is not in the database yet"""
+
     vlog = Logger("add")
     load_dotenv()
-    """A function which takes user input and appends it to the database. This function should only be called during the initial enrollment phase, ie the user is not in the database yet"""
+
     driver = SQLDriver()
 
     first = input("Please enter your first name: ")
@@ -132,6 +147,7 @@ def add_user(user_id):
 
 
 def get_profile_info(user_id):
+    """Grab all the information stored on a particular user by their user ID"""
     load_dotenv()
     res = []
     driver = SQLDriver()
@@ -145,6 +161,7 @@ def get_profile_info(user_id):
 
 
 def display_profile(user_id):
+    """Cleanly display user information in a tabular format"""
     dlog = Logger("display")
     profile_info = get_profile_info(user_id)
     print("Your user profile:")
