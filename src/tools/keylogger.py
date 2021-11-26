@@ -13,12 +13,12 @@ import os
 class Keylogger:
     """This keylogger stores the keys pressed by the user. It stores the keys pressed by the user to a named file, along with their names. """
 
-    def __init__(self, user_id):
+    def __init__(self, user_id: str) -> None:
         self.user_id = user_id
         self.buffer = []
     # We need this function to account for the edge case that there are stored key strings in the buffer when the keylogger is quit, so right before we quit we must write at the buffer and clear it
 
-    def graceful_shutdown(self):
+    def graceful_shutdown(self) -> None:
         """This function only runs when a KeyboardInterupt exception is
         received. This function will then write everything stored in the key
         string buffer to the file and then clear the buffer before exiting"""
@@ -28,7 +28,7 @@ class Keylogger:
                     self.buffer_write(
                         f"R,{override_key(string)}, {time.time()}")
 
-    def buffer_write(self, to_add: str):
+    def buffer_write(self, to_add: str) -> None:
         """This function writes to the buffer and if it exceeds the size it
         takes everything from the buffer to the file and clears it"""
         if len(self.buffer) >= 80:  # 80 is the number of letters people type in one line, in general
@@ -39,7 +39,7 @@ class Keylogger:
         else:
             self.buffer.append(to_add)
 
-    def get_and_write_user_info(self):
+    def get_and_write_user_info(self) -> None:
         """Query the database for the first and last name associated with a
         particular user ID and write those to the log file with the that
         particular user ID in the name"""
@@ -57,7 +57,7 @@ class Keylogger:
             file.write("\n"+first + " " + last + "\n")
             file.write("**********************************" + "\n")
 
-    def start_recording(self):
+    def start_recording(self) -> None:
         """This function reccords all the key presses to the file and the
         buffer. See also :func: `~tools.Keylogger.buffer_write`"""
         try:
@@ -67,10 +67,10 @@ class Keylogger:
             klog.km_log_color(
                 "WARNING! Anything you will type shall be recorded until you terminate this app manually!")
 
-            def on_press(key):
+            def on_press(key) -> None:
                 self.buffer_write(f"P,{override_key(key)}, {time.time()}")
 
-            def on_release(key):
+            def on_release(key) -> None:
                 self.buffer_write(f"R,{override_key(key)}, {time.time()}")
             with Listener(on_press=on_press, on_release=on_release) as listener:
                 listener.join()

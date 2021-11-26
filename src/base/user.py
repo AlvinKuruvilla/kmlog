@@ -5,7 +5,7 @@ from prettytable import PrettyTable
 from base.log import Logger
 
 
-def verify_gender(gender_input):
+def verify_gender(gender_input: str) -> bool:
     """A helper function to make verifying gender strings easier"""
 
     if gender_input.lower() == "m" or gender_input.lower() == "f" or gender_input.lower() == "o":
@@ -14,7 +14,7 @@ def verify_gender(gender_input):
         return False
 
 
-def verify_handedness(hand_input):
+def verify_handedness(hand_input: str) -> bool:
     """A helper function to make verifying handedness strings easier"""
 
     if hand_input.lower() == "l" or hand_input.lower() == "r" or hand_input.lower() == "a":
@@ -23,7 +23,7 @@ def verify_handedness(hand_input):
         return False
 
 
-def verify_age(age_str):
+def verify_age(age_str: str) -> bool:
     """A helper function to make verifying age strings easier"""
 
     age = int(age_str)
@@ -36,7 +36,7 @@ def verify_age(age_str):
         return True
 
 
-def verify_education(education_str):
+def verify_education(education_str: str) -> bool:
     """A helper function to make verifying education strings easier"""
 
     if education_str.lower() == "b" or education_str.lower() == "m" or education_str.lower() == "d":
@@ -45,7 +45,7 @@ def verify_education(education_str):
         return False
 
 
-def verify_social_media_platform(platform_name):
+def verify_social_media_platform(platform_name: str) -> bool:
     """A helper function to make verifying social media platform strings easier"""
 
     if platform_name.lower() == "f" or platform_name.lower() == "t" or platform_name.lower == "i":
@@ -54,7 +54,7 @@ def verify_social_media_platform(platform_name):
         return False
 
 
-def expand_user_data(gender, handedness, education, platform):
+def expand_user_data(gender: str, handedness: str, education: str, platform: str) -> tuple:
     """A function to expand specific user data before it gets committed to the database to make it easier to read
     For example, for gender this function would transform 'm' to 'Male'
     """
@@ -84,7 +84,7 @@ def expand_user_data(gender, handedness, education, platform):
     return (expanded_gender, expanded_handedness, expanded_education, expanded_platform_name)
 
 
-def add_user(user_id):
+def add_user(user_id: str) -> None:
     """A function which takes a user ID as input and appends it to the database
     along with information about the user such as their gender, their age, etc.
     This function should only be called during the initial enrollment phase,
@@ -146,7 +146,7 @@ def add_user(user_id):
                   (user_id, first, last, handedness, gender, age, education_level, social_platform))
 
 
-def get_profile_info(user_id):
+def get_profile_info(user_id: str) -> list:
     """Grab all the information stored on a particular user by their user ID"""
     load_dotenv()
     res = []
@@ -160,7 +160,7 @@ def get_profile_info(user_id):
     return res
 
 
-def display_profile(user_id):
+def display_profile(user_id: str) -> None:
     """Cleanly display user information in a tabular format"""
     dlog = Logger("display")
     profile_info = get_profile_info(user_id)

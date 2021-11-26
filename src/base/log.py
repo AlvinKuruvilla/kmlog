@@ -21,23 +21,23 @@ class Logger():
         self.log.setLevel(LOG_LEVEL)
         self.log.addHandler(stream)
 
-    def km_info(self, msg):
+    def km_info(self, msg: str) -> None:
         """Displays a information level message to the user"""
         self.log.info(msg)
 
-    def km_warn(self, msg):
+    def km_warn(self, msg: str) -> None:
         """Displays a warning level message to the user """
         self.log.warn(msg)
 
-    def km_error(self, msg):
+    def km_error(self, msg: str) -> None:
         """Displays an error level message to the user """
         self.log.error(msg)
 
-    def km_fatal(self, msg):
+    def km_fatal(self, msg: str) -> None:
         """Displays a fatal level message to the user """
         self.log.critical(msg)
 
-    def km_log_color(self, msg):
+    def km_log_color(self, msg: str) -> None:
         """Display messages with a color (right now the only supported color is red)"""
         # FIXME: Right now this will only print red, we have to expand this to allow the user to pass in a color to the function
         print(Fore.RED + msg)

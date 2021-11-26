@@ -2,6 +2,7 @@ import mysql.connector
 from mysql.connector import Error
 from dotenv import load_dotenv
 from base.log import Logger
+from typing import Optional
 import os
 
 
@@ -13,10 +14,10 @@ class SQLDriver():
         - insert into the database
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.connection = None
 
-    def try_connect(self):
+    def try_connect(self) -> None:
         """This method attempts to connect to the database using the data from a
         .env file as the parameters"""
         sql_log = Logger("sql")
@@ -30,13 +31,13 @@ class SQLDriver():
             sql_log.km_fatal(e)
     # This is a wrapper function to make querying the database slightly nicer
 
-    def query(self, sql, args):
+    def query(self, sql: str, args: tuple):
         """Issue a particular query to the database with optional arguments"""
         cursor = self.connection.cursor()
         cursor.execute(sql, args)
         return cursor
 
-    def insert(self, sql, args):
+    def insert(self, sql: str, args: tuple) -> Optional[int]:
         """A wrapper function to take a sql statement string to insert into a
         database"""
         cursor = self.query(sql, args)
@@ -45,7 +46,7 @@ class SQLDriver():
         cursor.close()
         return id
 
-    def fields(cursor):
+    def fields(cursor) -> dict:
         """ Given a DB API 2.0 cursor object that has been executed, returns a
         dictionary that maps each field name to a column index; 0 and up. """
         results = {}
