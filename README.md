@@ -4,7 +4,9 @@ KMLog is an interactive cli application for interfacing with tools which collect
 **[Rationale](#rationale)**<br>
 **[Code Breakdown](#code-breakdown)**<br>
 **[MySQL Installation](#mysql-installation)**<br>
+**[MySQL Setup](#mysql-setup)**<br>
 **[Usage](#usage)**<br>
+**[References](#refs)**<br>
 **[License](#license)**<br>
 
 ## Rationale
@@ -35,12 +37,37 @@ The .env file contains the following variables:
 See sample.env for an example .env configuration
 ## MySQL Installation
 ### [Homebrew](https://formulae.brew.sh/formula/htmlq)
+For macs install homebrew and run:
 ```sh
 brew install mysql
 ```
 ### [MySQL Installer](https://dev.mysql.com/doc/refman/8.0/en/windows-installation.html)
 The MySQL documentation recommends using the MySQL Installer for Windows 
 
+## MySQL Setup
+To ensure that mysql is installed correctly run:
+```sh
+mysql --version
+```
+### **<u>Windows</u>**
+The MySQL installer should take care of everything
+To start the mysql interactive cli run:
+```sh
+mysql -u [YOUR_USERNAME] -p
+```
+### **<u>MacOS</u>**
+Start MySQL server by running:
+```sh
+brew services start mysql
+```
+Secure installation of MySQL Server:
+```sh
+mysql_secure_installation
+```
+Like for Windows, to start the MySQL cli run:
+```sh
+mysql -u [YOUR_USERNAME] -p
+```
 ## Usage
 Clone this repository. After installing all necessary packages cd into the kmlog directory and run:
 
