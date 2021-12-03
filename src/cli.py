@@ -16,19 +16,12 @@ if __name__ == '__main__':
         1: Start KMLogger
         2:  Exit
         """)
-    clear_screen()
+    # clear_screen()
     while True:
-        banner("KMLogger")
-        print("\nChoose service you want to use : ")
-        print("""
-        1: Start KMLogger
-        2: Exit
-            """)
         choice = int(input("Enter a choice: "))
         if choice == 1 or choice == 2:
             break
         else:
-            clear_screen()
             log.km_error("Invalid selection: choose 1 or 2")
             continue
     if choice == 1:
