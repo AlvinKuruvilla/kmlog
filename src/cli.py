@@ -8,9 +8,9 @@ from dotenv import load_dotenv
 
 if __name__ == '__main__':
     log = Logger("cli")
-    print(welcome("KMLogger"))
+    clear_screen()
+    banner("KMLogger")
     load_dotenv()
-    print("A Keylogger and mouse tracker for research purposes")
     print("\nChoose service you want to use : ")
     print("""
         1: Start KMLogger
@@ -18,8 +18,7 @@ if __name__ == '__main__':
         """)
     clear_screen()
     while True:
-        print(welcome("KMLogger"))
-        print("A Keylogger and mouse tracker for research purposes")
+        banner("KMLogger")
         print("\nChoose service you want to use : ")
         print("""
         1: Start KMLogger
@@ -34,7 +33,7 @@ if __name__ == '__main__':
             continue
     if choice == 1:
         clear_screen()
-        print(welcome("Keylogger"))
+        block_text("Keylogger")
         driver = SQLDriver()
         driver.try_connect()
         user_id = input("""
