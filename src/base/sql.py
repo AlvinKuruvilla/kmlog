@@ -23,8 +23,9 @@ class SQLDriver():
         sql_log = Logger("sql")
         load_dotenv()
         try:
+            print("The database user is "+os.getenv("KM_USER") )
             self.connection = mysql.connector.connect(
-                host=os.getenv("DB_HOST"), database=os.getenv("DB_NAME"), user=os.getenv("USERNAME"), password=os.getenv("PASSWORD"))
+                host=os.getenv("DB_HOST"), database=os.getenv("DB_NAME"), user=os.getenv("KM_USER"), password=os.getenv("PASSWORD"))
             # if self.connection.is_connected():
             #   sql_log.km_info("Connected")
         except Error as e:

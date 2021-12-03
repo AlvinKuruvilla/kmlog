@@ -47,7 +47,7 @@ if __name__ == '__main__':
         cursor = driver.query("SELECT user_id FROM " + os.getenv("TABLE"), ())
         # NOTE: Here it should be okay to use fetchone rather fetchmany or fetchall because we are assuming that each user_id will be unique, so there will only ever be at most 1 row in the result
         result = cursor.fetchone()
-        if user_id in result:
+        if result is not None and user_id in result:
             log.km_info("User ID: " + user_id + " found")
             display_profile(user_id)
             info_correct = input("Is all of this information correct? y/n: ")
