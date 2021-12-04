@@ -16,6 +16,8 @@ class Keylogger:
     def __init__(self, user_id: str) -> None:
         self.user_id = user_id
         self.buffer = []
+        self.log_file_path = os.path.join(os.getcwd(),"logs",self.user_id, ".log")
+
     # We need this function to account for the edge case that there are stored key strings in the buffer when the keylogger is quit, so right before we quit we must write at the buffer and clear it
 
     def graceful_shutdown(self) -> None:
@@ -23,7 +25,7 @@ class Keylogger:
         received. This function will then write everything stored in the key
         string buffer to the file and then clear the buffer before exiting"""
         if len(self.buffer) != 0:
-            with open("src/logs/"+self.user_id+".log", "a") as file:
+            with open(self.log_file_path, "a") as file:
                 for string in self.buffer:
                     self.buffer_write(
                         f"R,{override_key(string)}, {time.time()}")
@@ -32,7 +34,7 @@ class Keylogger:
         """This function writes to the buffer and if it exceeds the size it
         takes everything from the buffer to the file and clears it"""
         if len(self.buffer) >= 80:  # 80 is the number of letters people type in one line, in general
-            with open("src/logs/"+self.user_id+".log", "a") as file:
+            with open(self.log_file_path, "a") as file:
                 for string in self.buffer:
                     file.write(string)
             self.buffer.clear()
@@ -49,11 +51,12 @@ class Keylogger:
         cursor = driver.query("SELECT first_name, last_name FROM " +
                               os.getenv("TABLE") + " WHERE user_id = " + str(self.user_id), ())
         first, last = cursor.fetchone()
+        log_file_path = os.path.join(os.getcwd(),"logs",self.user_id, ".log")
         if first == None:
             first = "Unknown"
         if last == None:
             last = "Unknown"
-        with open("src/logs/"+self.user_id+".log", "a") as file:
+        with open(log_file_path, "a") as file:
             file.write("\n"+first + " " + last + "\n")
             file.write("**********************************" + "\n")
 

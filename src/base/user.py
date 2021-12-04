@@ -84,7 +84,7 @@ def expand_user_data(gender: str, handedness: str, education: str, platform: str
     return (expanded_gender, expanded_handedness, expanded_education, expanded_platform_name)
 
 
-def add_user(user_id: str) -> None:
+def add_user(user_defined_id: str) -> None:
     """A function which takes a user ID as input and appends it to the database
     along with information about the user such as their gender, their age, etc.
     This function should only be called during the initial enrollment phase,
@@ -142,8 +142,8 @@ def add_user(user_id: str) -> None:
             break
     expand_user_data(gender, handedness, education_level, social_platform)
     driver.try_connect()
-    driver.insert("INSERT INTO " + os.getenv("TABLE")+" VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
-                  (user_id, first, last, handedness, gender, age, education_level, social_platform))
+    driver.insert("INSERT INTO " + os.getenv("TABLE")+" VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                  (first, last, handedness, gender, age, education_level, social_platform, user_defined_id))
 
 
 def get_profile_info(user_id: str) -> list:
