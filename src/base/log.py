@@ -1,5 +1,4 @@
 # Check this link for more details: https://stackoverflow.com/a/23964880
-from colorama.ansi import AnsiFore
 from colorlog import ColoredFormatter
 import logging
 from colorama import Fore, Style
