@@ -1,5 +1,6 @@
 from base.sql import SQLDriver
 import os
+from base.util import km_prompt
 from dotenv import load_dotenv
 from prettytable import PrettyTable
 from base.log import Logger
@@ -95,48 +96,49 @@ def add_user(user_defined_id: str) -> None:
 
     driver = SQLDriver()
 
-    first = input("Please enter your first name: ")
-    last = input("Please enter your last name: ")
-    gender = input("Gender (enter m for male, f for female, o for other): ")
+    first = input(km_prompt("Please enter your first name: "))
+    last = input(km_prompt("Please enter your last name: "))
+    gender = input(
+        km_prompt("Gender (enter m for male, f for female, o for other): "))
     while True:
         if verify_gender(gender) == False:
             vlog.km_warn("Please enter a valid gender")
             gender = input(
-                "Gender (enter m for male, f for female, o: other): ")
+                km_prompt("Gender (enter m for male, f for female, o for other): "))
         else:
             break
 
     handedness = input(
-        "dominant hand: (enter l for left, r for right, or a for ambidextrous): ")
+        km_prompt("dominant hand: (enter l for left, r for right, or a for ambidextrous): "))
     while True:
         if verify_handedness(handedness) == False:
             vlog.km_warn("Please enter a valid handedness")
             handedness = input(
-                "dominant hand: (enter l for left, r for right, or a for ambidextrous): ")
+                km_prompt("dominant hand: (enter l for left, r for right, or a for ambidextrous): "))
         else:
             break
 
-    age = input("age (whole number): ")
+    age = input(km_prompt("What is your age (whole number): "))
     while True:
         if verify_age(age) == False:
-            age = input("age (whole number): ")
+            age = input(km_prompt("What is your age (whole number): "))
         else:
             break
     education_level = input(
-        "education level?: (b for bachelor, m for master, d for doctor): ")
+        km_prompt("education level?: (b for bachelor, m for master, d for doctor): "))
     while True:
         if verify_education(education_level) == False:
             vlog.km_warn("Please enter a valid education level")
             education_level = input(
-                "education level?: (b for bachelor, m for master, d for doctor): ")
+                km_prompt("education level?: (b for bachelor, m for master, d for doctor): "))
         else:
             break
     social_platform = input(
-        "what social media platform you are going to use? (f for facebook, i for instagram, t for twitter): ")
+        km_prompt("what social media platform you are going to use? (f for facebook, i for instagram, t for twitter): "))
     while True:
         if verify_social_media_platform(social_platform) == False:
             social_platform = input(
-                "what social media platform you are going to use? (f for facebook, i for instagram, t for twitter): ")
+                km_prompt("what social media platform you are going to use? (f for facebook, i for instagram, t for twitter): "))
             vlog.km_warn("Please enter a valid social media platform")
         else:
             break
@@ -231,5 +233,4 @@ def display_profile(user_id: str) -> None:
 
     out.add_row([uid, fname, lname, hand, gender,
                  age, education_level, platform])
-
     print(out)

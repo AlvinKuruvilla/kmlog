@@ -4,10 +4,13 @@ from base.user import add_user, display_profile
 from base.util import *
 from base.log import Logger
 from tools.keylogger import *
+from tools.env_verifier import verify_env_values
 from dotenv import load_dotenv
-
 if __name__ == '__main__':
     log = Logger("cli")
+    clear_screen()
+    verify_env_values()
+    input("Press any key to continue ")
     clear_screen()
     banner("KMLogger")
     load_dotenv()
@@ -16,9 +19,8 @@ if __name__ == '__main__':
         1: Start KMLogger
         2:  Exit
         """)
-    # clear_screen()
     while True:
-        choice = int(input("Enter a choice: "))
+        choice = int(input(km_prompt("Enter a choice: ")))
         if choice == 1 or choice == 2:
             break
         else:
@@ -29,8 +31,7 @@ if __name__ == '__main__':
         block_text("Keylogger")
         driver = SQLDriver()
         driver.try_connect()
-        user_id = input("""
-        Enter your user_id: """)
+        user_id = input(km_prompt("Enter your user_id: "))
         # NOTE: To understand this api look in the mysql package's cursor.py
         # file...According to that api the params argument as they have named it
         # defaults to an empty tuple

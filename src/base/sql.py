@@ -23,14 +23,12 @@ class SQLDriver():
         sql_log = Logger("sql")
         load_dotenv()
         try:
-            print("The database user is "+os.getenv("KM_USER") )
             self.connection = mysql.connector.connect(
                 host=os.getenv("DB_HOST"), database=os.getenv("DB_NAME"), user=os.getenv("KM_USER"), password=os.getenv("PASSWORD"))
             # if self.connection.is_connected():
             #   sql_log.km_info("Connected")
         except Error as e:
             sql_log.km_fatal(e)
-    # This is a wrapper function to make querying the database slightly nicer
 
     def query(self, sql: str, args: tuple):
         """Issue a particular query to the database with optional arguments"""
