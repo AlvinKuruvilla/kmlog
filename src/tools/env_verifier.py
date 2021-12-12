@@ -2,6 +2,7 @@
 # variable name(s) they provide in their .env file conflict with existing
 # variables
 from base.log import *
+from base.util import block_text
 import os
 from dotenv import dotenv_values
 
@@ -9,6 +10,7 @@ log = Logger("env")
 
 
 def verify_env_values():
+    block_text("ENV")
     c = []
     c2 = []
     config = dotenv_values(".env")
