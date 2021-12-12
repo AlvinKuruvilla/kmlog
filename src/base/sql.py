@@ -51,7 +51,7 @@ class SQLDriver():
         cursor.close()
         return id
 
-    def fields(cursor) -> dict:
+    def fields_from_cursor(cursor) -> dict:
         """ Given a DB API 2.0 cursor object that has been executed, returns a
         dictionary that maps each field name to a column index; 0 and up. """
         results = {}
@@ -60,3 +60,19 @@ class SQLDriver():
             results[d[0]] = column
             column = column + 1
         return results
+
+    def fields_from_table_name(self, table_name: str):
+        """A helper function to make getting column names of a specific table
+        easier so we can be more dynamic with how we support displaying table
+        data
+        Example usage:
+
+        driver = SQLDriver()
+        driver.try_connect()
+        # This last line will return a list containing a list of all the field names for a table name
+        driver.table_fields_from_name(os.getenv("TABLE_NAME"))
+        """
+        cursor = self.query("SELECT * FROM " + table_name, ())
+        field_names = [i[0] for i in cursor.description]
+        print(field_names)
+        return field_names

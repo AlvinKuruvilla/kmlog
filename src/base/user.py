@@ -162,9 +162,20 @@ def get_profile_info(user_id: str) -> list:
     return res
 
 
+def get_profile_info_as_dict(user_id: str):
+    driver = SQLDriver()
+    driver.try_connect()
+    keys = driver.fields_from_table_name(os.getenv("TABLE"))
+    values = get_profile_info(user_id)
+    return dict(zip(keys, values))
+
+
 def display_profile(user_id: str) -> None:
+    # TODO: We need to figure out a way to not rely on a specific number of fields or a specific ordering of them
     """Cleanly display user information in a tabular format"""
     dlog = Logger("display")
+    driver = SQLDriver()
+    driver.try_connect()
     profile_info = get_profile_info(user_id)
     print("Your user profile:")
     if profile_info[0] != None:
@@ -227,9 +238,9 @@ def display_profile(user_id: str) -> None:
         platform = "Twitter"
 
     out = PrettyTable()
-
-    out.field_names = ["User ID", "First Name", "Last Name",
-                       "Handedness", "Gender", "Age", "Education", "Social Media Platform"]
+# Old field names ["User ID", "First Name", "Last Name",
+    # "Handedness", "Gender", "Age", "Education", "Social Media Platform"]
+    out.field_names = driver.fields_from_table_name(os.getenv("TABLE"))
 
     out.add_row([uid, fname, lname, hand, gender,
                  age, education_level, platform])
