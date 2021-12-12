@@ -4,6 +4,12 @@ from dotenv import load_dotenv
 from base.log import Logger
 from typing import Optional
 import os
+import subprocess
+
+
+def check_mysql_installed() -> int:
+    version = subprocess.run(["mysql", "-V"], stdout=subprocess.DEVNULL)
+    return version.returncode == 0
 
 
 class SQLDriver():
