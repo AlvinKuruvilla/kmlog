@@ -1,0 +1,11 @@
+---
+km_user:
+  first_name: "Sample First Name"
+  last_name: "Sample Last Name"
+  age: 20
+  gender: "Male"
+  handedness: "Left"
+  education: "Bachelors"
+  platform: "Instagram"
+
+
