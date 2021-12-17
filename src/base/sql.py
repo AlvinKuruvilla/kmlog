@@ -7,8 +7,9 @@ import os
 import subprocess
 
 
-def check_mysql_installed() -> int:
+def check_mysql_installed() -> bool:
     version = subprocess.run(["mysql", "-V"], stdout=subprocess.DEVNULL)
+    # TODO: Find the ranges for the returncode to properly determine if there was an issue with the command, a success or some other issue
     return version.returncode == 0
 
 
