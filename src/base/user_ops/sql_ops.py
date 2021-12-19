@@ -4,88 +4,10 @@ from base.util import km_prompt
 from dotenv import load_dotenv
 from prettytable import PrettyTable
 from base.log import Logger
+from base.user_ops.generic_ops import *
 
 
-def verify_gender(gender_input: str) -> bool:
-    """A helper function to make verifying gender strings easier"""
-
-    if gender_input.lower() == "m" or gender_input.lower() == "f" or gender_input.lower() == "o":
-        return True
-    else:
-        return False
-
-
-def verify_handedness(hand_input: str) -> bool:
-    """A helper function to make verifying handedness strings easier"""
-
-    if hand_input.lower() == "l" or hand_input.lower() == "r" or hand_input.lower() == "a":
-        return True
-    else:
-        return False
-
-
-def verify_age(age_str: str) -> bool:
-    """A helper function to make verifying age strings easier"""
-
-    age = int(age_str)
-    # Check if the age is negative or has a decimal in it
-    if age < 0 or age_str.isdigit() == False:
-        user_log = Logger("user")
-        user_log.km_warn("Age is negative or not a whole number")
-        return False
-    else:
-        return True
-
-
-def verify_education(education_str: str) -> bool:
-    """A helper function to make verifying education strings easier"""
-
-    if education_str.lower() == "b" or education_str.lower() == "m" or education_str.lower() == "d":
-        return True
-    else:
-        return False
-
-
-def verify_social_media_platform(platform_name: str) -> bool:
-    """A helper function to make verifying social media platform strings easier"""
-
-    if platform_name.lower() == "f" or platform_name.lower() == "t" or platform_name.lower == "i":
-        return True
-    else:
-        return False
-
-
-def expand_user_data(gender: str, handedness: str, education: str, platform: str) -> tuple:
-    """A function to expand specific user data before it gets committed to the database to make it easier to read
-    For example, for gender this function would transform 'm' to 'Male'
-    """
-
-    if gender.lower() == "m":
-        expanded_gender = "Male"
-    elif gender.lower() == "f":
-        expanded_gender = "Female"
-    if handedness.lower() == "l":
-        expanded_handedness = "Left"
-    elif handedness.lower() == "r":
-        expanded_handedness = "Reft"
-    elif handedness.lower() == "a":
-        expanded_handedness = "Ambidextrous"
-    if education.lower() == "b":
-        expanded_education = "Bachelors"
-    elif education.lower() == "m":
-        expanded_education = "Masters"
-    elif education.lower() == "d":
-        expanded_education = "Doctorate"
-    if platform.lower() == "f":
-        expanded_platform_name = "Facebook"
-    elif platform.lower() == "i":
-        expanded_platform_name = "Instagram"
-    elif platform.lower() == "t":
-        expanded_platform_name = "Twitter"
-    return (expanded_gender, expanded_handedness, expanded_education, expanded_platform_name)
-
-
-def add_user(user_defined_id: str) -> None:
+def add_user_to_db(user_defined_id: str) -> None:
     """A function which takes a user ID as input and appends it to the database
     along with information about the user such as their gender, their age, etc.
     This function should only be called during the initial enrollment phase,
@@ -148,7 +70,7 @@ def add_user(user_defined_id: str) -> None:
                   (first, last, handedness, gender, age, education_level, social_platform, user_defined_id))
 
 
-def get_profile_info(user_id: str) -> list:
+def query_profile_info_from_db(user_id: str) -> list:
     """Grab all the information stored on a particular user by their user ID"""
     load_dotenv()
     res = []
@@ -166,17 +88,17 @@ def get_profile_info_as_dict(user_id: str):
     driver = SQLDriver()
     driver.try_connect()
     keys = driver.fields_from_table_name(os.getenv("TABLE"))
-    values = get_profile_info(user_id)
+    values = query_profile_info_from_db(user_id)
     return dict(zip(keys, values))
 
 
-def display_profile(user_id: str) -> None:
+def display_profile_from_db(user_id: str) -> None:
     # TODO: We need to figure out a way to not rely on a specific number of fields or a specific ordering of them
-    """Cleanly display user information in a tabular format"""
+    """Cleanly display user information in a table"""
     dlog = Logger("display")
     driver = SQLDriver()
     driver.try_connect()
-    profile_info = get_profile_info(user_id)
+    profile_info = query_profile_info_from_db(user_id)
     print("Your user profile:")
     if profile_info[0] != None:
         uid = profile_info[0]

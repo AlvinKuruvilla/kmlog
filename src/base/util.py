@@ -2,8 +2,8 @@ from clint.textui import colored
 from pyfiglet import Figlet
 from colorama import Fore, Style
 import os
-from dotenv import dotenv_values
-import os
+import progressbar
+import time
 
 text_color = {
     "redBold": Style.BRIGHT+Fore.RED,
@@ -42,3 +42,12 @@ def clear_screen():
     else:
         # for windows
         _ = os.system('cls')
+
+
+def animated_marker(text: str):
+    widgets = [text, progressbar.AnimatedMarker()]
+    bar = progressbar.ProgressBar(widgets=widgets).start()
+
+    for i in range(10):
+        time.sleep(0.1)
+        bar.update(i)

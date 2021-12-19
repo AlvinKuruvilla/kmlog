@@ -3,11 +3,21 @@
 # NOTE: Eventually we may also want to have the shutdown method remove the interupt shortcut used to terminate the program and remove them from the file.... we may also want to extend this to personally identifiable information eventually
 from pynput.keyboard import Listener
 import time
-from .util import override_key
 from base.sql import SQLDriver
 from base.log import Logger
 from dotenv import load_dotenv
 import os
+from base.util import animated_marker
+
+
+def override_key(key) -> str:
+    """Handles the fn key for macs"""
+    if str(key) == "<179>" or str(key) == "<63>":
+        return "Key.fn"
+    if str(key) == "'\\\\'":
+        return "'\\'"
+    else:
+        return str(key)
 
 
 class Keylogger:
@@ -16,7 +26,8 @@ class Keylogger:
     def __init__(self, user_id: str) -> None:
         self.user_id = user_id
         self.buffer = []
-        self.log_file_path = os.path.join(os.getcwd(),"logs",self.user_id, ".log")
+        self.log_file_path = os.path.join(
+            os.getcwd(), "src", "logs", self.user_id + ".log")
 
     # We need this function to account for the edge case that there are stored key strings in the buffer when the keylogger is quit, so right before we quit we must write at the buffer and clear it
 
@@ -46,17 +57,18 @@ class Keylogger:
         particular user ID and write those to the log file with the that
         particular user ID in the name"""
         load_dotenv()
+        # TODO: Implement a YAML version of these SQL lines as well
         driver = SQLDriver()
         driver.try_connect()
         cursor = driver.query("SELECT first_name, last_name FROM " +
                               os.getenv("TABLE") + " WHERE user_id = " + str(self.user_id), ())
         first, last = cursor.fetchone()
-        log_file_path = os.path.join(os.getcwd(),"logs",self.user_id, ".log")
+
         if first == None:
             first = "Unknown"
         if last == None:
             last = "Unknown"
-        with open(log_file_path, "a") as file:
+        with open(self.log_file_path, "a") as file:
             file.write("\n"+first + " " + last + "\n")
             file.write("**********************************" + "\n")
 
@@ -66,7 +78,7 @@ class Keylogger:
         try:
             self.get_and_write_user_info()
             klog = Logger("klog")
-            klog.km_info("Initializing keylogger....")
+            animated_marker("Initializing keylogger....")
             klog.km_log_color(
                 "WARNING! Anything you will type shall be recorded until you terminate this app manually!")
 

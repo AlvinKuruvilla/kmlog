@@ -2,7 +2,7 @@ import mysql.connector
 from mysql.connector import Error
 from dotenv import load_dotenv
 from base.log import Logger
-from typing import Optional
+import typing
 import os
 import subprocess
 
@@ -43,7 +43,7 @@ class SQLDriver():
         cursor.execute(sql, args)
         return cursor
 
-    def insert(self, sql: str, args: tuple) -> Optional[int]:
+    def insert(self, sql: str, args: tuple) -> typing.Optional[int]:
         """A wrapper function to take a sql statement string to insert into a
         database"""
         cursor = self.query(sql, args)
@@ -52,7 +52,7 @@ class SQLDriver():
         cursor.close()
         return id
 
-    def fields_from_cursor(cursor) -> dict:
+    def fields_from_cursor(cursor) -> typing.Dict:
         """ Given a DB API 2.0 cursor object that has been executed, returns a
         dictionary that maps each field name to a column index; 0 and up. """
         results = {}
@@ -62,7 +62,7 @@ class SQLDriver():
             column = column + 1
         return results
 
-    def fields_from_table_name(self, table_name: str):
+    def fields_from_table_name(self, table_name: str) -> typing.List[str]:
         """A helper function to make getting column names of a specific table
         easier so we can be more dynamic with how we support displaying table
         data
@@ -70,7 +70,7 @@ class SQLDriver():
 
         driver = SQLDriver()
         driver.try_connect()
-        # This last line will return a list containing a list of all the field names for a table name
+        The last line returns a list of all the field names for a table name
         driver.table_fields_from_name(os.getenv("TABLE_NAME"))
         """
         cursor = self.query("SELECT * FROM " + table_name, ())
