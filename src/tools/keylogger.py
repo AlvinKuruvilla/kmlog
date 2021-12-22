@@ -8,6 +8,7 @@ from base.log import Logger
 from dotenv import load_dotenv
 import os
 from base.util import animated_marker
+from base.backends.csv_writer import CSVWriter
 
 
 def override_key(key) -> str:
@@ -25,9 +26,12 @@ class Keylogger:
 
     def __init__(self, user_id: str) -> None:
         self.user_id = user_id
+        self.csv_writer = CSVWriter()
         self.buffer = []
         self.log_file_path = os.path.join(
             os.getcwd(), "src", "logs", self.user_id + ".log")
+        self.csv_writer.write_header(os.path.join(
+            os.getcwd(), "src", "logs", self.user_id + ".csv"))
 
     # We need this function to account for the edge case that there are stored key strings in the buffer when the keylogger is quit, so right before we quit we must write at the buffer and clear it
 
@@ -84,9 +88,15 @@ class Keylogger:
 
             def on_press(key) -> None:
                 self.buffer_write(f"P,{override_key(key)}, {time.time()}")
+                data = ["P", override_key(key), time.time()]
+                self.csv_writer.write_data_to_csv(os.path.join(
+                    os.getcwd(), "src", "logs", self.user_id + ".csv"), data)
 
             def on_release(key) -> None:
                 self.buffer_write(f"R,{override_key(key)}, {time.time()}")
+                data = ["R", override_key(key), time.time()]
+                self.csv_writer.write_data_to_csv(os.path.join(
+                    os.getcwd(), "src", "logs", self.user_id + ".csv"), data)
             with Listener(on_press=on_press, on_release=on_release) as listener:
                 listener.join()
         except KeyboardInterrupt:
