@@ -1,4 +1,3 @@
-from genericpath import exists
 import yaml
 import os
 from base.log import Logger

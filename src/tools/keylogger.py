@@ -1,9 +1,11 @@
 # TODO: Simplify file writing but just having columns P/R, Key, Time
 # TODO: Maybe we should have a keyboard shortcut to stop program execution rather than ctrl + c?
 # NOTE: Eventually we may also want to have the shutdown method remove the interupt shortcut used to terminate the program and remove them from the file.... we may also want to extend this to personally identifiable information eventually
+from base.backends.yaml_driver import YAMLDriver
+from base.user_ops.yml_ops import user_id_to_yaml_file_path
 from pynput.keyboard import Listener
 import time
-from base.backends.sql import SQLDriver
+from base.backends.sql import SQLDriver, check_mysql_installed
 from base.log import Logger
 from dotenv import load_dotenv
 import os
@@ -60,21 +62,33 @@ class Keylogger:
         """Query the database for the first and last name associated with a
         particular user ID and write those to the log file with the that
         particular user ID in the name"""
-        load_dotenv()
-        # TODO: Implement a YAML version of these SQL lines as well
-        driver = SQLDriver()
-        driver.try_connect()
-        cursor = driver.query("SELECT first_name, last_name FROM " +
-                              os.getenv("TABLE") + " WHERE user_id = " + str(self.user_id), ())
-        first, last = cursor.fetchone()
+        if check_mysql_installed == True:
+            load_dotenv()
+            driver = SQLDriver()
+            driver.try_connect()
+            cursor = driver.query("SELECT first_name, last_name FROM " +
+                                  os.getenv("TABLE") + " WHERE user_id = " + str(self.user_id), ())
+            first, last = cursor.fetchone()
 
-        if first == None:
-            first = "Unknown"
-        if last == None:
-            last = "Unknown"
-        with open(self.log_file_path, "a") as file:
-            file.write("\n"+first + " " + last + "\n")
-            file.write("**********************************" + "\n")
+            if first == "":
+                first = "Unknown"
+            if last == "":
+                last = "Unknown"
+            with open(self.log_file_path, "a") as file:
+                file.write("\n"+first + " " + last + "\n")
+                file.write("**********************************" + "\n")
+        else:
+            yml = YAMLDriver()
+            path = user_id_to_yaml_file_path(self.user_id)
+            f = yml.get_value_from_key(path, "first_name")
+            l = yml.get_value_from_key(path, "last_name")
+            if f == None:
+                f = "Unknown"
+            if l == None:
+                l = "Unknown"
+            with open(self.log_file_path, "a") as file:
+                file.write("\n"+f + " " + l + "\n")
+                file.write("**********************************" + "\n")
 
     def start_recording(self) -> None:
         """This function reccords all the key presses to the file and the
