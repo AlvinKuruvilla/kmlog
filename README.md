@@ -40,7 +40,7 @@ See sample.env for an example .env configuration
 ```
 
 ## MySQL Installation
-### [Homebrew](https://formulae.brew.sh/formula/htmlq)
+### [Homebrew](https://formulae.brew.sh/formula/mysql#default)
 For macs install homebrew and run:
 ```sh
 brew install mysql
