@@ -17,14 +17,36 @@ background_colors = {
 }
 
 
-def banner(text):
+def banner(text) -> None:
+    """
+    Stylizes text reminiscent to a banner.
+
+    Parameters
+    ----------
+    text: str
+          The text to be made into a banner.
+    Returns
+    -------
+    None
+    """
     block_text(text)
     print("\t" + text_color['redBold'] + "                |_|" + text_color['white'] +
           " 2021 by " + text_color['whiteBold'] + "Alvin Kuruvilla" + text_color['white']+"\n")
     print("A Keylogger and mouse tracker for research purposes ")
 
 
-def block_text(text):
+def block_text(text) -> None:
+    """
+       Block text.
+
+       Parameters
+       ----------
+       text: str
+             The text to be made into a banner.
+       Returns
+       -------
+       None
+   """
     result = Figlet()
     print(colored.cyan(result.renderText(text)))
 

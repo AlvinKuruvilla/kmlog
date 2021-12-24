@@ -81,17 +81,19 @@ if __name__ == '__main__':
                 log.km_info("User ID: " + user_id + " found")
                 ydriver.print_as_table(
                     user_id_to_yaml_file_path(user_id))
-                # TODO: Add a loop for input validation
-                info_correct = input(
-                    "Is all of this information correct? y/n: ")
-                if(info_correct.lower() == "y" or info_correct.lower() == "yes"):
-                    km = Keylogger(user_id)
-                    km.start_recording()
-                elif info_correct.lower() == "n" or info_correct.lower() == "no":
-                    log.km_fatal(
-                        "Please let the researchers know that this information is incorrect and it will be addressed")
-                else:
-                    log.km_fatal("Invalid Input")
+                while True:
+                    info_correct = input(
+                        "Is all of this information correct? y/n: ")
+                    if(info_correct.lower() == "y" or info_correct.lower() == "yes"):
+                        km = Keylogger(user_id)
+                        km.start_recording()
+                        break
+                    elif info_correct.lower() == "n" or info_correct.lower() == "no":
+                        log.km_fatal(
+                            "Please let the researchers know that this information is incorrect and it will be addressed")
+                        break
+                    else:
+                        log.km_fatal("Invalid Input")
             else:
                 print("The result is empty")
                 create_user(user_id)

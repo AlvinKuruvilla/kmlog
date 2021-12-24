@@ -32,7 +32,6 @@ class YAMLDriver():
         unique to each user) or just the user_id. If the file does not exist
         when calling thus function it will also create it
         """
-        # FIXME: Enforce naming scheme for filenames
         file_path = os.path.join(
             os.getcwd(), "src", "users", filename + ".yaml")
         with open(file_path, "w+") as file:

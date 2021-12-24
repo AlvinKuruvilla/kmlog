@@ -8,9 +8,13 @@ import subprocess
 
 
 def check_mysql_installed() -> bool:
+    log = Logger("sql_check")
     version = subprocess.run(["mysql", "-V"], stdout=subprocess.DEVNULL)
-    # TODO: Find the ranges for the returncode to properly determine if there was an issue with the command, a success or some other issue
-    return version.returncode == 0
+    if (version.returncode == 0):
+        return True
+    else:
+        log.km_info("MySQL not installed, falling back to YAML system")
+        return False
 
 
 class SQLDriver():
