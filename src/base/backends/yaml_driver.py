@@ -35,7 +35,7 @@ class YAMLDriver():
         file_path = os.path.join(
             os.getcwd(), "src", "users", filename + ".yaml")
         with open(file_path, "w+") as file:
-            yaml.dump(data, file)
+            yaml.dump(data, file, sort_keys=False)
 
     def print_as_table(self, filepath):
         """Take in a path to a YAML file and display its contents as a table"""
