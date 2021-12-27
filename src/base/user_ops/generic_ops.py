@@ -1,4 +1,5 @@
 from base.log import Logger
+from base.util import *
 
 
 def verify_gender(gender_input: str) -> bool:
@@ -21,12 +22,19 @@ def verify_handedness(hand_input: str) -> bool:
 
 def verify_age(age_str: str) -> bool:
     """A helper function to make verifying age strings easier"""
+    user_log = Logger("user")
 
+    # Check if the age is negative, has a decimal in it, or contains letters or some other invalid chars
+
+    if age_str.isdecimal() == False:
+        user_log.km_warn("Age contains letters or invalid characters")
+        return False
+    elif age_str.isdigit() == False:
+        user_log.km_warn("Age cannot be a decimal")
+        return False
     age = int(age_str)
-    # Check if the age is negative or has a decimal in it
-    if age < 0 or age_str.isdigit() == False:
-        user_log = Logger("user")
-        user_log.km_warn("Age is negative or not a whole number")
+    if age < 0:
+        user_log.km_warn("Age cannot be negative")
         return False
     else:
         return True
@@ -78,3 +86,54 @@ def expand_user_data(gender: str, handedness: str, education: str, platform: str
     elif platform.lower() == "t":
         expanded_platform_name = "Twitter"
     return (expanded_gender, expanded_handedness, expanded_education, expanded_platform_name)
+
+
+def generic_create_user():
+    vlog = Logger("add")
+    first = input(km_prompt("Please enter your first name: "))
+    last = input(km_prompt("Please enter your last name: "))
+    gender = input(
+        km_prompt("Gender (enter m for male, f for female, o for other): "))
+    while True:
+        if verify_gender(gender) == False:
+            vlog.km_warn("Please enter a valid gender")
+            gender = input(
+                km_prompt("Gender (enter m for male, f for female, o for other): "))
+        else:
+            break
+
+    handedness = input(
+        km_prompt("What is your dominant hand: (enter l for left, r for right, or a for ambidextrous): "))
+    while True:
+        if verify_handedness(handedness) == False:
+            vlog.km_warn("Please enter a valid handedness")
+            handedness = input(
+                km_prompt("What is your dominant hand: (enter l for left, r for right, or a for ambidextrous): "))
+        else:
+            break
+
+    age = input(km_prompt("What is your age (whole number): "))
+    while True:
+        if verify_age(age) == False:
+            age = input(km_prompt("What is your age (whole number): "))
+        else:
+            break
+    education_level = input(
+        km_prompt("What is your education level?: (b for bachelor, m for master, d for doctor): "))
+    while True:
+        if verify_education(education_level) == False:
+            vlog.km_warn("Please enter a valid education level")
+            education_level = input(
+                km_prompt("What is your education level?: (b for bachelor, m for master, d for doctor): "))
+        else:
+            break
+    social_platform = input(
+        km_prompt("What social media platform you are going to use? (f for facebook, i for instagram, t for twitter): "))
+    while True:
+        if verify_social_media_platform(social_platform) == False:
+            vlog.km_warn("Please enter a valid social media platform")
+            social_platform = input(
+                km_prompt("What social media platform are you going to use? (f for facebook, i for instagram, t for twitter): "))
+        else:
+            break
+    return(first, last, handedness, gender, age, education_level, social_platform)

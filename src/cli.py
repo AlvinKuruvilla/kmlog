@@ -1,4 +1,3 @@
-import os
 from base.backends.sql import SQLDriver, check_mysql_installed
 from base.backends.yaml_driver import YAMLDriver
 from base.user_ops.sql_ops import add_user_to_db, display_profile_from_db
@@ -70,7 +69,7 @@ if __name__ == '__main__':
                 else:
                     log.km_fatal("Invalid Input")
             else:
-                log.km_warn("ID not found")
+                log.km_info("ID not found")
                 km = Keylogger(user_id)
                 add_user_to_db(user_id)
                 km.start_recording()
@@ -97,6 +96,21 @@ if __name__ == '__main__':
             else:
                 print("The result is empty")
                 create_user(user_id)
+                ydriver.print_as_table(
+                    user_id_to_yaml_file_path(user_id))
+                while True:
+                    info_correct = input(
+                        "Is all of this information correct? y/n: ")
+                    if(info_correct.lower() == "y" or info_correct.lower() == "yes"):
+                        km = Keylogger(user_id)
+                        km.start_recording()
+                        break
+                    elif info_correct.lower() == "n" or info_correct.lower() == "no":
+                        log.km_fatal(
+                            "Please let the researchers know that this information is incorrect and it will be addressed")
+                        break
+                    else:
+                        log.km_fatal("Invalid Input")
 
     if choice == 2:
         log.km_info("Exiting KMLogger")
