@@ -1,4 +1,4 @@
-# TODO: Simplify file writing but just having columns P/R, Key, Time
+# TODO: Simplify file writing by just having columns P/R, Key, Time
 # TODO: Maybe we should have a keyboard shortcut to stop program execution rather than ctrl + c?
 # NOTE: Eventually we may also want to have the shutdown method remove the interupt shortcut used to terminate the program and remove them from the file.... we may also want to extend this to personally identifiable information eventually
 from base.backends.yaml_driver import YAMLDriver
@@ -10,7 +10,7 @@ from base.log import Logger
 from dotenv import load_dotenv
 import os
 from base.util import animated_marker
-from base.backends.csv_writer import CSVWriter
+from base.csv_writer import CSVWriter
 
 
 def override_key(key) -> str:
@@ -62,7 +62,7 @@ class Keylogger:
         """Query the database for the first and last name associated with a
         particular user ID and write those to the log file with the that
         particular user ID in the name"""
-        if check_mysql_installed == True:
+        if check_mysql_installed() == True:
             load_dotenv()
             driver = SQLDriver()
             driver.try_connect()
