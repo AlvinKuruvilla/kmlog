@@ -1,9 +1,7 @@
-# TODO: Simplify file writing by just having columns P/R, Key, Time
-# TODO: Maybe we should have a keyboard shortcut to stop program execution rather than ctrl + c?
-# NOTE: Eventually we may also want to have the shutdown method remove the interupt shortcut used to terminate the program and remove them from the file.... we may also want to extend this to personally identifiable information eventually
 from base.backends.yaml_driver import YAMLDriver
 from base.user_ops.yml_ops import user_id_to_yaml_file_path
 from pynput.keyboard import Listener
+from pynput import keyboard
 import time
 from base.backends.sql import SQLDriver, check_mysql_installed
 from base.log import Logger
@@ -11,6 +9,13 @@ from dotenv import load_dotenv
 import os
 from base.util import animated_marker
 from base.csv_writer import CSVWriter
+
+# TODO: Maybe we don't need this here and instead we can just make the hotkey Ctrl + c because the whole point was to allow the user to exit the keylogger without interrupting execution, which the new code kind of does anyway. I will keep this here in case we want an actual hotkey. But as it stands right now the below hotkey combo does not work (but shift works for some reason)
+SHUTDOWN = [
+    {keyboard.Key.ctrl, keyboard.KeyCode(char='a')},
+    {keyboard.Key.ctrl, keyboard.KeyCode(char='A')}
+]
+current = set()
 
 
 def override_key(key) -> str:
@@ -34,6 +39,12 @@ class Keylogger:
             os.getcwd(), "src", "logs", self.user_id + ".log")
         self.csv_writer.write_header(os.path.join(
             os.getcwd(), "src", "logs", self.user_id + ".csv"))
+
+    def __hotkey_shutdown(self):
+        hlog = Logger("hotkey")
+        hlog.km_info('Hotkey activated, shutting down keylogger')
+        self.graceful_shutdown()
+        exit()
 
     # We need this function to account for the edge case that there are stored key strings in the buffer when the keylogger is quit, so right before we quit we must write at the buffer and clear it
 
@@ -70,9 +81,9 @@ class Keylogger:
                                   os.getenv("TABLE") + " WHERE user_id = " + str(self.user_id), ())
             first, last = cursor.fetchone()
 
-            if first == "":
+            if first == None:
                 first = "Unknown"
-            if last == "":
+            if last == None:
                 last = "Unknown"
             with open(self.log_file_path, "a") as file:
                 file.write("\n"+first + " " + last + "\n")
@@ -105,16 +116,26 @@ class Keylogger:
                 data = ["P", override_key(key), time.time()]
                 self.csv_writer.write_data_to_csv(os.path.join(
                     os.getcwd(), "src", "logs", self.user_id + ".csv"), data)
+                # See hotkey todo above
+                # if any([key in COMBO for COMBO in SHUTDOWN]):
+                #     current.add(key)
+                #     if any(all(k in current for k in COMBO) for COMBO in SHUTDOWN):
+                # _        self.__hotkey_shutdown()
 
             def on_release(key) -> None:
                 self.buffer_write(f"R,{override_key(key)}, {time.time()}")
                 data = ["R", override_key(key), time.time()]
                 self.csv_writer.write_data_to_csv(os.path.join(
                     os.getcwd(), "src", "logs", self.user_id + ".csv"), data)
+                # See hotkey todo above
+                # if any([key in COMBO for COMBO in SHUTDOWN]):
+                #     current.remove(key)
+
             with Listener(on_press=on_press, on_release=on_release) as listener:
                 listener.join()
         except KeyboardInterrupt:
             self.graceful_shutdown()
+            self.__hotkey_shutdown()
 
 
 if __name__ == "__main__":
