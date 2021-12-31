@@ -32,7 +32,7 @@ if __name__ == '__main__':
     if choice == 1:
         clear_screen()
         block_text("Keylogger")
-        if(check_mysql_installed() == False):
+        if(check_mysql_installed() == True):
             driver = SQLDriver()
             driver.try_connect()
         else:
@@ -47,7 +47,7 @@ if __name__ == '__main__':
         #     table and start the keylogger
         #   - If they are in the table, let them know that, and then start the
         #     keylogger
-        if(check_mysql_installed() == False):
+        if(check_mysql_installed() == True):
             # NOTE: To understand this api look in the mysql package's cursor.py
             # file...According to that api the params argument as they have named it
             # defaults to an empty tuple

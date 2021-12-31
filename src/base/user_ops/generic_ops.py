@@ -52,8 +52,8 @@ def verify_education(education_str: str) -> bool:
 
 def verify_social_media_platform(platform_name: str) -> bool:
     """A helper function to make verifying social media platform strings easier"""
-
-    if platform_name.lower() == "f" or platform_name.lower() == "t" or platform_name.lower == "i":
+    print("The platform you inputted is", platform_name.lower())
+    if platform_name.lower() == "f" or platform_name.lower() == "t" or platform_name.lower() == "i":
         return True
     else:
         return False
