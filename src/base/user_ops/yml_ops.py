@@ -21,7 +21,6 @@ def tuple_to_dict(data: tuple, labels: list):
     data_list = list(data)
     data_dict = {}
     for i in range(len(data_list)):
-        print(labels[i] + ":" + str(data_list[i]))
         data_dict[labels[i]] = data_list[i]
     return data_dict
 
@@ -33,8 +32,8 @@ def create_user(user_id: str):
         str(gender), str(handedness), str(education_level), str(social_platform))
     # FIXME: We have to figure out a way so the string fields actually have quotes around them
     pl = list(part)
-    pl.insert(0, str(last))
-    pl.insert(0, str(first))
+    pl.insert(0, f'"{str(last)}"')
+    pl.insert(0, f'"{str(first)}"')
     pl.insert(0, int(user_id))
     pl.insert(4, int(age))
     t = tuple(pl)

@@ -13,7 +13,7 @@ if __name__ == '__main__':
     clear_screen()
     if(check_mysql_installed() == True):
         verify_env_values()
-        input("Press any key to continue ")
+        input(km_prompt("Press any key to continue "))
         clear_screen()
     banner("KMLogger")
     load_dotenv()
@@ -32,7 +32,7 @@ if __name__ == '__main__':
     if choice == 1:
         clear_screen()
         block_text("Keylogger")
-        if(check_mysql_installed() == True):
+        if(check_mysql_installed() == False):
             driver = SQLDriver()
             driver.try_connect()
         else:
@@ -47,7 +47,7 @@ if __name__ == '__main__':
         #     table and start the keylogger
         #   - If they are in the table, let them know that, and then start the
         #     keylogger
-        if(check_mysql_installed() == True):
+        if(check_mysql_installed() == False):
             # NOTE: To understand this api look in the mysql package's cursor.py
             # file...According to that api the params argument as they have named it
             # defaults to an empty tuple
@@ -58,8 +58,8 @@ if __name__ == '__main__':
             if result is not None and user_id in result:
                 log.km_info("User ID: " + user_id + " found")
                 display_profile_from_db(user_id)
-                info_correct = input(
-                    "Is all of this information correct? y/n: ")
+                info_correct = input(km_prompt(
+                    "Is all of this information correct? y/n: "))
                 if(info_correct.lower() == "y" or info_correct.lower() == "yes"):
                     km = Keylogger(user_id)
                     km.start_recording()
@@ -81,8 +81,8 @@ if __name__ == '__main__':
                 ydriver.print_as_table(
                     user_id_to_yaml_file_path(user_id))
                 while True:
-                    info_correct = input(
-                        "Is all of this information correct? y/n: ")
+                    info_correct = str(input(km_prompt(
+                        "Is all of this information correct? y/n: ")))
                     if(info_correct.lower() == "y" or info_correct.lower() == "yes"):
                         km = Keylogger(user_id)
                         km.start_recording()
@@ -94,13 +94,13 @@ if __name__ == '__main__':
                     else:
                         log.km_fatal("Invalid Input")
             else:
-                print("The result is empty")
+                log.km_info("User not found, creating a new user")
                 create_user(user_id)
                 ydriver.print_as_table(
                     user_id_to_yaml_file_path(user_id))
                 while True:
-                    info_correct = input(
-                        "Is all of this information correct? y/n: ")
+                    info_correct = str(input(km_prompt(
+                        "Is all of this information correct? y/n: ")))
                     if(info_correct.lower() == "y" or info_correct.lower() == "yes"):
                         km = Keylogger(user_id)
                         km.start_recording()

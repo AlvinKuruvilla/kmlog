@@ -79,5 +79,4 @@ class SQLDriver():
         """
         cursor = self.query("SELECT * FROM " + table_name, ())
         field_names = [i[0] for i in cursor.description]
-        print(field_names)
         return field_names

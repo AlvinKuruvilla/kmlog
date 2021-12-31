@@ -1,5 +1,6 @@
 from base.log import Logger
-from base.util import *
+from base.util import km_prompt
+from base.backends.sql import check_mysql_installed
 
 
 def verify_gender(gender_input: str) -> bool:
@@ -62,43 +63,67 @@ def expand_user_data(gender: str, handedness: str, education: str, platform: str
     """A function to expand specific user data before it gets committed to the database to make it easier to read
     For example, for gender this function would transform 'm' to 'Male'
     """
-
-    if gender.lower() == "m":
-        expanded_gender = "Male"
-    elif gender.lower() == "f":
-        expanded_gender = "Female"
-    if handedness.lower() == "l":
-        expanded_handedness = "Left"
-    elif handedness.lower() == "r":
-        expanded_handedness = "Reft"
-    elif handedness.lower() == "a":
-        expanded_handedness = "Ambidextrous"
-    if education.lower() == "b":
-        expanded_education = "Bachelors"
-    elif education.lower() == "m":
-        expanded_education = "Masters"
-    elif education.lower() == "d":
-        expanded_education = "Doctorate"
-    if platform.lower() == "f":
-        expanded_platform_name = "Facebook"
-    elif platform.lower() == "i":
-        expanded_platform_name = "Instagram"
-    elif platform.lower() == "t":
-        expanded_platform_name = "Twitter"
-    return (expanded_gender, expanded_handedness, expanded_education, expanded_platform_name)
+    if check_mysql_installed == True:
+        if gender.lower() == "m":
+            expanded_gender = "Male"
+        elif gender.lower() == "f":
+            expanded_gender = "Female"
+        if handedness.lower() == "l":
+            expanded_handedness = "Left"
+        elif handedness.lower() == "r":
+            expanded_handedness = "Right"
+        elif handedness.lower() == "a":
+            expanded_handedness = "Ambidextrous"
+        if education.lower() == "b":
+            expanded_education = "Bachelors"
+        elif education.lower() == "m":
+            expanded_education = "Masters"
+        elif education.lower() == "d":
+            expanded_education = "Doctorate"
+        if platform.lower() == "f":
+            expanded_platform_name = "Facebook"
+        elif platform.lower() == "i":
+            expanded_platform_name = "Instagram"
+        elif platform.lower() == "t":
+            expanded_platform_name = "Twitter"
+        return (expanded_gender, expanded_handedness, expanded_education, expanded_platform_name)
+    else:
+        if gender.lower() == "m":
+            expanded_gender = f'{"Male"}'
+        elif gender.lower() == "f":
+            expanded_gender = f'{"Female"}'
+        if handedness.lower() == "l":
+            expanded_handedness = f'{"Left"}'
+        elif handedness.lower() == "r":
+            expanded_handedness = f'{"Right"}'
+        elif handedness.lower() == "a":
+            expanded_handedness = f'{"Ambidextrous"}'
+        if education.lower() == "b":
+            expanded_education = f'{"Bachelors"}'
+        elif education.lower() == "m":
+            expanded_education = f'{"Masters"}'
+        elif education.lower() == "d":
+            expanded_education = f'{"Doctorate"}'
+        if platform.lower() == "f":
+            expanded_platform_name = f'{"Facebook"}'
+        elif platform.lower() == "i":
+            expanded_platform_name = f'{"Instagram"}'
+        elif platform.lower() == "t":
+            expanded_platform_name = f'{"Twitter"}'
+        return (expanded_gender, expanded_handedness, expanded_education, expanded_platform_name)
 
 
 def generic_create_user():
     vlog = Logger("add")
-    first = input(km_prompt("Please enter your first name: "))
-    last = input(km_prompt("Please enter your last name: "))
-    gender = input(
-        km_prompt("Gender (enter m for male, f for female, o for other): "))
+    first = str(input(km_prompt("Please enter your first name: ")))
+    last = str(input(km_prompt("Please enter your last name: ")))
+    gender = str(input(
+        km_prompt("Gender (enter m for male, f for female, o for other): ")))
     while True:
         if verify_gender(gender) == False:
             vlog.km_warn("Please enter a valid gender")
-            gender = input(
-                km_prompt("Gender (enter m for male, f for female, o for other): "))
+            gender = str(input(
+                km_prompt("Gender (enter m for male, f for female, o for other): ")))
         else:
             break
 
