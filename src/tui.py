@@ -9,7 +9,7 @@ from tools.env_verifier import verify_env_values
 from dotenv import load_dotenv
 
 if __name__ == '__main__':
-    log = Logger("cli")
+    log = Logger("tui")
     clear_screen()
     if(check_mysql_installed() == True):
         verify_env_values()
