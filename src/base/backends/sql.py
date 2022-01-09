@@ -17,6 +17,7 @@ def check_mysql_installed() -> bool:
             log.km_info("MySQL not installed, falling back to YAML system")
             return False
     except Exception:
+        log.km_info("MySQL not installed, falling back to YAML system")
         return False
 
 class SQLDriver():
