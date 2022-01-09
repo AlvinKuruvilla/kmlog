@@ -11,13 +11,13 @@ KMLog is an interactive cli application for interfacing with tools which collect
 **[License](#license)**<br>
 
 ## Rationale
-The goal of this project is to create a sleek and lightweight interface to collect specific typing dynamics data 
+The goal of this project is to create a sleek and lightweight interface to collect specific typing dynamics data from real people
 ## Code Breakdown
 ### The *"base"* folder
-This folder holds python files for the cli's core functionality:
+This folder holds python files for the project's core functionality:
 - csv_writer.py: A wrapper class that allows for writing data to a csv file 
 - log.py: This is a wrapper class of the native python 'logging' module for more colorful and expressive logging
-- util.py: This file holds some utility functions to make the cli prettier and more functional.
+- util.py: This file holds some utility functions to make the tui prettier and more functional.
 - backends: This folder hold files that wrap specific subsystems, one of which, the project uses (or could use) for operations (querying, storage, etc...)
   - sql_driver.py: This file holds a wrapper class to make some sql operations nicer
   - yaml_driver.py: This file holds a wrapper class to make yaml operations nicer
@@ -80,7 +80,7 @@ mysql -u [YOUR_USERNAME] -p
 ```
 ## User Information Storage in YAML
 The YAML backed system is a simpler local storage alternative to the MySQL database
-The YAML system uses the users inputted user-id to search through the "users" folder to see if a YAML file already exists with the same file name. If it does we know the user already exists in the "database" and we can just pull their information from the file. If such a file does not exist we can create one and add it to the "database"
+The YAML system uses the users inputted user-id to search through the "users" folder to see if a YAML file already exists with a matching file name. If it does we know the user already exists in the "database" and we can just pull their information from the file. If the file does not exist, we can create one and add it to the "database"
 The YAML file stores data in the following format:
 ```yaml
 user_id: Integer
@@ -94,10 +94,32 @@ platform: String
 ```
 See 123.yaml for more details
 ## Usage
-Clone this repository. After installing all necessary packages cd into the kmlog directory and run:
+1) Clone this repository.
 
 ```bash
-python3 cli.py
+git clone https://github.com/AlvinKuruvilla/kmlog.git
+
+OR
+
+git clone git@github.com:AlvinKuruvilla/kmlog.git
+```
+2) Install dependencies 
+
+```bash
+pip3 -r requirements.txt
+
+OR
+
+pip3 -r requirements/sql_requirements.txt
+
+OR
+
+pip3 -r requirements/yaml_requirements.txt
+```
+
+Run the main file
+```bash
+python3 tui.py
 ```
 
 ## License
