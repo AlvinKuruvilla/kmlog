@@ -1,7 +1,7 @@
 clint==0.5.1
 colorama==0.4.4
 colorlog==6.6.0
-mysql_connector_repackaged==0.3.1
+mysql-connector-python==8.0.27
 prettytable==3.0.0
 progressbar33==2.4
 pyautogui==0.9.53
