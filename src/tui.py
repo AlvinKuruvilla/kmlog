@@ -10,6 +10,10 @@ from dotenv import load_dotenv
 
 if __name__ == '__main__':
     log = Logger("tui")
+    if os.path.isdir(os.path.join(
+            os.getcwd(), "logs")) == False:
+            os.makedirs(os.path.join(
+            os.getcwd(), "logs"))
     clear_screen()
     if(check_mysql_installed() == True):
         verify_env_values()
