@@ -41,7 +41,7 @@ class Keylogger:
             os.getcwd(), "src", "logs", self.user_id + ".csv"))
 
     def __hotkey_shutdown(self):
-        hlog = Logger("hotkey")
+        hlog = Logger()
         hlog.km_info('Hotkey activated, shutting down keylogger')
         self.graceful_shutdown()
         exit()
@@ -106,10 +106,10 @@ class Keylogger:
         buffer. See also :func: `~tools.Keylogger.buffer_write`"""
         try:
             self.get_and_write_user_info()
-            klog = Logger("klog")
+            klog = Logger()
             animated_marker("Initializing keylogger....")
-            klog.km_log_color(
-                "WARNING! Anything you will type shall be recorded until you terminate this app manually!")
+            klog.km_custom(
+                "WARNING! Anything you will type shall be recorded until you terminate this app manually!", "<red>", "KEYLOGGER")
 
             def on_press(key) -> None:
                 self.buffer_write(f"P,{override_key(key)}, {time.time()}")

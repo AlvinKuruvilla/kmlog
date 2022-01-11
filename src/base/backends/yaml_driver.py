@@ -5,7 +5,7 @@ from prettytable import PrettyTable
 
 
 def path_is_valid(path: str) -> bool:
-    log = Logger("path")
+    log = Logger()
     is_file = os.path.isfile(path)
     if is_file:
         # Now check that the extension is YAML

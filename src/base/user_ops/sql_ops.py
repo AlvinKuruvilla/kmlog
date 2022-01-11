@@ -1,6 +1,5 @@
 from base.backends.sql import SQLDriver
 import os
-from base.util import km_prompt
 from dotenv import load_dotenv
 from prettytable import PrettyTable
 from base.log import Logger
@@ -48,7 +47,7 @@ def get_profile_info_as_dict(user_id: str):
 def display_profile_from_db(user_id: str) -> None:
     # TODO: We need to figure out a way to not rely on a specific number of fields or a specific ordering of them
     """Cleanly display user information in a table"""
-    dlog = Logger("display")
+    dlog = Logger()
     driver = SQLDriver()
     driver.try_connect()
     profile_info = query_profile_info_from_db(user_id)

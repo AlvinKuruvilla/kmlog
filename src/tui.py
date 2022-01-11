@@ -9,7 +9,7 @@ from tools.env_verifier import verify_env_values
 from dotenv import load_dotenv
 
 if __name__ == '__main__':
-    log = Logger("tui")
+    log = Logger()
     if os.path.isdir(os.path.join(
             os.getcwd(), "logs")) == False:
             os.makedirs(os.path.join(
@@ -44,6 +44,7 @@ if __name__ == '__main__':
             driver = SQLDriver()
             driver.try_connect()
         else:
+            log.km_info("MySQL not installed, falling back to YAML system")
             ydriver = YAMLDriver()
         user_id = input(km_prompt("Enter your user_id: "))
         # Step through of the reasoning behind the lines below:

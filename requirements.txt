@@ -9,3 +9,4 @@ pyfiglet==0.8.post1
 pynput==1.7.6
 python-dotenv==0.19.2
 PyYAML==6.0
+loguru==0.5.3

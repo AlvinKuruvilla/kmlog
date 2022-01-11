@@ -8,16 +8,13 @@ import subprocess
 
 
 def check_mysql_installed() -> bool:
-    log = Logger("sql_check")
     try:
         version = subprocess.run(["mysql", "-V"], stdout=subprocess.DEVNULL)
         if (version.returncode == 0):
             return True
         else:
-            log.km_info("MySQL not installed, falling back to YAML system")
             return False
     except Exception:
-        log.km_info("MySQL not installed, falling back to YAML system")
         return False
 
 class SQLDriver():
@@ -34,7 +31,7 @@ class SQLDriver():
     def try_connect(self) -> None:
         """This method attempts to connect to the database using the data from a
         .env file as the parameters"""
-        sql_log = Logger("sql")
+        sql_log = Logger()
         load_dotenv()
         try:
             self.connection = mysql.connector.connect(

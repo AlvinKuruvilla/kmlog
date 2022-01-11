@@ -6,7 +6,7 @@ from base.util import block_text
 import os
 from dotenv import dotenv_values
 
-log = Logger("env")
+log = Logger()
 
 
 def verify_env_values():

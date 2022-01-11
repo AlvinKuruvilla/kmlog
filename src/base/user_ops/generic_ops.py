@@ -23,7 +23,7 @@ def verify_handedness(hand_input: str) -> bool:
 
 def verify_age(age_str: str) -> bool:
     """A helper function to make verifying age strings easier"""
-    user_log = Logger("user")
+    user_log = Logger()
 
     # Check if the age is negative, has a decimal in it, or contains letters or some other invalid chars
 
@@ -114,7 +114,7 @@ def expand_user_data(gender: str, handedness: str, education: str, platform: str
 
 
 def generic_create_user():
-    vlog = Logger("add")
+    vlog = Logger()
     first = str(input(km_prompt("Please enter your first name: ")))
     last = str(input(km_prompt("Please enter your last name: ")))
     gender = str(input(
