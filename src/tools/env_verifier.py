@@ -1,6 +1,13 @@
+# Copyright 2021 - 2022, Alvin Kuruvilla <alvineasokuruvilla@gmail.com>, Dr. Rajesh Kumar <Rajesh.Kumar@hofstra.edu>
+
+# Use of this source code is governed by an MIT-style
+# license that can be found in the LICENSE file or at
+# https://opensource.org/licenses/MIT.
+
 # This is a small utility to help a user determine whether the environment
 # variable name(s) they provide in their .env file conflict with existing
 # variables
+
 from base.log import *
 from base.util import block_text
 import os

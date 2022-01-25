@@ -1,3 +1,9 @@
+# Copyright 2021 - 2022, Alvin Kuruvilla <alvineasokuruvilla@gmail.com>, Dr. Rajesh Kumar <Rajesh.Kumar@hofstra.edu>
+
+# Use of this source code is governed by an MIT-style
+# license that can be found in the LICENSE file or at
+# https://opensource.org/licenses/MIT.
+
 from base.backends.sql import SQLDriver, check_mysql_installed
 from base.backends.yaml_driver import YAMLDriver
 from base.user_ops.sql_ops import add_user_to_db, display_profile_from_db
