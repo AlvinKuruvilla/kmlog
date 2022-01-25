@@ -10,19 +10,20 @@ import subprocess
 def check_mysql_installed() -> bool:
     try:
         version = subprocess.run(["mysql", "-V"], stdout=subprocess.DEVNULL)
-        if (version.returncode == 0):
+        if version.returncode == 0:
             return True
         else:
             return False
     except Exception:
         return False
 
-class SQLDriver():
+
+class SQLDriver:
     """This is a wrapper class which provides a slightly nicer API for specific
-        MySQL operations:
-        - connecting to the database
-        - query the database
-        - insert into the database
+    MySQL operations:
+    - connecting to the database
+    - query the database
+    - insert into the database
     """
 
     def __init__(self) -> None:
@@ -35,7 +36,11 @@ class SQLDriver():
         load_dotenv()
         try:
             self.connection = mysql.connector.connect(
-                host=os.getenv("DB_HOST"), database=os.getenv("DB_NAME"), user=os.getenv("KM_USER"), password=os.getenv("PASSWORD"))
+                host=os.getenv("DB_HOST"),
+                database=os.getenv("DB_NAME"),
+                user=os.getenv("KM_USER"),
+                password=os.getenv("PASSWORD"),
+            )
             # if self.connection.is_connected():
             #   sql_log.km_info("Connected")
         except Error as e:
@@ -57,8 +62,8 @@ class SQLDriver():
         return id
 
     def fields_from_cursor(cursor) -> typing.Dict:
-        """ Given a DB API 2.0 cursor object that has been executed, returns a
-        dictionary that maps each field name to a column index; 0 and up. """
+        """Given a DB API 2.0 cursor object that has been executed, returns a
+        dictionary that maps each field name to a column index; 0 and up."""
         results = {}
         column = 0
         for d in cursor.description:

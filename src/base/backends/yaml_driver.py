@@ -19,7 +19,7 @@ def path_is_valid(path: str) -> bool:
         return False
 
 
-class YAMLDriver():
+class YAMLDriver:
     def __init__(self) -> None:
         return
 
@@ -32,8 +32,7 @@ class YAMLDriver():
         unique to each user) or just the user_id. If the file does not exist
         when calling thus function it will also create it
         """
-        file_path = os.path.join(
-            os.getcwd(), "src", "users", filename + ".yaml")
+        file_path = os.path.join(os.getcwd(), "src", "users", filename + ".yaml")
         with open(file_path, "w+") as file:
             yaml.dump(data, file, sort_keys=False)
 
@@ -41,8 +40,9 @@ class YAMLDriver():
         """Take in a path to a YAML file and display its contents as a table"""
         keys = self.get_yaml_keys_from_file(filepath)
         values = self.get_yaml_values_from_file(filepath)
-        assert(len(keys) == len(
-            values)), "Cannot create table if the number of rows (keys) != number of columns (values)!"
+        assert len(keys) == len(
+            values
+        ), "Cannot create table if the number of rows (keys) != number of columns (values)!"
         out = PrettyTable()
         out.field_names = keys
         out.add_row(values)
@@ -83,11 +83,11 @@ class YAMLDriver():
                     return ""
 
     def get_all_associated_values(self, key: str):
-        """A helper function to retrieve all values for a given key across all yaml files stored in the 'users' directory """
+        """A helper function to retrieve all values for a given key across all yaml files stored in the 'users' directory"""
         store = []
         directory = os.path.join(os.getcwd(), "src", "users")
         for file in os.scandir(directory):
-            if (file.path.endswith(".yaml") and file.is_file()):
+            if file.path.endswith(".yaml") and file.is_file():
                 value = self.get_value_from_key(file.path, key)
                 # Type cast is required here to make sure str to int comparisons don't fail
                 store.append(str(value))

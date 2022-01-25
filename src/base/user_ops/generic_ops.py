@@ -6,7 +6,11 @@ from base.backends.sql import check_mysql_installed
 def verify_gender(gender_input: str) -> bool:
     """A helper function to make verifying gender strings easier"""
 
-    if gender_input.lower() == "m" or gender_input.lower() == "f" or gender_input.lower() == "o":
+    if (
+        gender_input.lower() == "m"
+        or gender_input.lower() == "f"
+        or gender_input.lower() == "o"
+    ):
         return True
     else:
         return False
@@ -15,7 +19,11 @@ def verify_gender(gender_input: str) -> bool:
 def verify_handedness(hand_input: str) -> bool:
     """A helper function to make verifying handedness strings easier"""
 
-    if hand_input.lower() == "l" or hand_input.lower() == "r" or hand_input.lower() == "a":
+    if (
+        hand_input.lower() == "l"
+        or hand_input.lower() == "r"
+        or hand_input.lower() == "a"
+    ):
         return True
     else:
         return False
@@ -44,7 +52,11 @@ def verify_age(age_str: str) -> bool:
 def verify_education(education_str: str) -> bool:
     """A helper function to make verifying education strings easier"""
 
-    if education_str.lower() == "b" or education_str.lower() == "m" or education_str.lower() == "d":
+    if (
+        education_str.lower() == "b"
+        or education_str.lower() == "m"
+        or education_str.lower() == "d"
+    ):
         return True
     else:
         return False
@@ -53,13 +65,19 @@ def verify_education(education_str: str) -> bool:
 def verify_social_media_platform(platform_name: str) -> bool:
     """A helper function to make verifying social media platform strings easier"""
     print("The platform you inputted is", platform_name.lower())
-    if platform_name.lower() == "f" or platform_name.lower() == "t" or platform_name.lower() == "i":
+    if (
+        platform_name.lower() == "f"
+        or platform_name.lower() == "t"
+        or platform_name.lower() == "i"
+    ):
         return True
     else:
         return False
 
 
-def expand_user_data(gender: str, handedness: str, education: str, platform: str) -> tuple:
+def expand_user_data(
+    gender: str, handedness: str, education: str, platform: str
+) -> tuple:
     """A function to expand specific user data before it gets committed to the database to make it easier to read
     For example, for gender this function would transform 'm' to 'Male'
     """
@@ -86,7 +104,12 @@ def expand_user_data(gender: str, handedness: str, education: str, platform: str
             expanded_platform_name = "Instagram"
         elif platform.lower() == "t":
             expanded_platform_name = "Twitter"
-        return (expanded_gender, expanded_handedness, expanded_education, expanded_platform_name)
+        return (
+            expanded_gender,
+            expanded_handedness,
+            expanded_education,
+            expanded_platform_name,
+        )
     else:
         if gender.lower() == "m":
             expanded_gender = f'{"Male"}'
@@ -110,30 +133,45 @@ def expand_user_data(gender: str, handedness: str, education: str, platform: str
             expanded_platform_name = f'{"Instagram"}'
         elif platform.lower() == "t":
             expanded_platform_name = f'{"Twitter"}'
-        return (expanded_gender, expanded_handedness, expanded_education, expanded_platform_name)
+        return (
+            expanded_gender,
+            expanded_handedness,
+            expanded_education,
+            expanded_platform_name,
+        )
 
 
 def generic_create_user():
     vlog = Logger()
     first = str(input(km_prompt("Please enter your first name: ")))
     last = str(input(km_prompt("Please enter your last name: ")))
-    gender = str(input(
-        km_prompt("Gender (enter m for male, f for female, o for other): ")))
+    gender = str(
+        input(km_prompt("Gender (enter m for male, f for female, o for other): "))
+    )
     while True:
         if verify_gender(gender) == False:
             vlog.km_warn("Please enter a valid gender")
-            gender = str(input(
-                km_prompt("Gender (enter m for male, f for female, o for other): ")))
+            gender = str(
+                input(
+                    km_prompt("Gender (enter m for male, f for female, o for other): ")
+                )
+            )
         else:
             break
 
     handedness = input(
-        km_prompt("What is your dominant hand: (enter l for left, r for right, or a for ambidextrous): "))
+        km_prompt(
+            "What is your dominant hand: (enter l for left, r for right, or a for ambidextrous): "
+        )
+    )
     while True:
         if verify_handedness(handedness) == False:
             vlog.km_warn("Please enter a valid handedness")
             handedness = input(
-                km_prompt("What is your dominant hand: (enter l for left, r for right, or a for ambidextrous): "))
+                km_prompt(
+                    "What is your dominant hand: (enter l for left, r for right, or a for ambidextrous): "
+                )
+            )
         else:
             break
 
@@ -144,21 +182,33 @@ def generic_create_user():
         else:
             break
     education_level = input(
-        km_prompt("What is your education level?: (b for bachelor, m for master, d for doctor): "))
+        km_prompt(
+            "What is your education level?: (b for bachelor, m for master, d for doctor): "
+        )
+    )
     while True:
         if verify_education(education_level) == False:
             vlog.km_warn("Please enter a valid education level")
             education_level = input(
-                km_prompt("What is your education level?: (b for bachelor, m for master, d for doctor): "))
+                km_prompt(
+                    "What is your education level?: (b for bachelor, m for master, d for doctor): "
+                )
+            )
         else:
             break
     social_platform = input(
-        km_prompt("What social media platform you are going to use? (f for facebook, i for instagram, t for twitter): "))
+        km_prompt(
+            "What social media platform you are going to use? (f for facebook, i for instagram, t for twitter): "
+        )
+    )
     while True:
         if verify_social_media_platform(social_platform) == False:
             vlog.km_warn("Please enter a valid social media platform")
             social_platform = input(
-                km_prompt("What social media platform are you going to use? (f for facebook, i for instagram, t for twitter): "))
+                km_prompt(
+                    "What social media platform are you going to use? (f for facebook, i for instagram, t for twitter): "
+                )
+            )
         else:
             break
-    return(first, last, handedness, gender, age, education_level, social_platform)
+    return (first, last, handedness, gender, age, education_level, social_platform)

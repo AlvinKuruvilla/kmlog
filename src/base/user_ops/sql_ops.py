@@ -15,11 +15,32 @@ def add_user_to_db(user_defined_id: str) -> None:
     load_dotenv()
 
     driver = SQLDriver()
-    first, last, handedness, gender, age, education_level, social_platform = generic_create_user()
+    (
+        first,
+        last,
+        handedness,
+        gender,
+        age,
+        education_level,
+        social_platform,
+    ) = generic_create_user()
     expand_user_data(gender, handedness, education_level, social_platform)
     driver.try_connect()
-    driver.insert("INSERT INTO " + os.getenv("TABLE")+" VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
-                  (user_defined_id, first, last, handedness, gender, age, education_level, social_platform))
+    driver.insert(
+        "INSERT INTO "
+        + os.getenv("TABLE")
+        + " VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
+        (
+            user_defined_id,
+            first,
+            last,
+            handedness,
+            gender,
+            age,
+            education_level,
+            social_platform,
+        ),
+    )
 
 
 def query_profile_info_from_db(user_id: str) -> list:
@@ -28,8 +49,9 @@ def query_profile_info_from_db(user_id: str) -> list:
     res = []
     driver = SQLDriver()
     driver.try_connect()
-    cursor = driver.query("SELECT * FROM " +
-                          os.getenv("TABLE") + " WHERE user_id = " + str(user_id), ())
+    cursor = driver.query(
+        "SELECT * FROM " + os.getenv("TABLE") + " WHERE user_id = " + str(user_id), ()
+    )
     result = cursor.fetchone()
     for row in result:
         res.append(row)
@@ -112,10 +134,9 @@ def display_profile_from_db(user_id: str) -> None:
         platform = "Twitter"
 
     out = PrettyTable()
-# Old field names ["User ID", "First Name", "Last Name",
+    # Old field names ["User ID", "First Name", "Last Name",
     # "Handedness", "Gender", "Age", "Education", "Social Media Platform"]
     out.field_names = driver.fields_from_table_name(os.getenv("TABLE"))
 
-    out.add_row([uid, fname, lname, hand, gender,
-                 age, education_level, platform])
+    out.add_row([uid, fname, lname, hand, gender, age, education_level, platform])
     print(out)
