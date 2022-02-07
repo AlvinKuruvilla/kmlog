@@ -6,4 +6,5 @@ mouse_data_file.log
 src/logs
 ./env
 src/users/
-
+*.profile
+*.png
