@@ -53,6 +53,7 @@ class Keylogger:
         hlog = Logger()
         hlog.km_info("Hotkey activated, shutting down keylogger")
         self.graceful_shutdown()
+        exit()
         # view_output = str(
         #     input(km_prompt("Do you want to see the produced file? y/n "))
         # )
