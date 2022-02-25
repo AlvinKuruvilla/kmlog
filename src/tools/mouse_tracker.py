@@ -7,7 +7,9 @@
 import pyautogui
 
 if __name__ == "__main__":
-    """A simple program to constantly track current mouse position and store coordinates to file"""
+    """
+    A simple program to constantly track current mouse position and store coordinates to file
+    """
     buf = []
     while True:
         print(pyautogui.position())
