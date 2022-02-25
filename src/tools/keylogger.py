@@ -4,6 +4,7 @@
 # license that can be found in the LICENSE file or at
 # https://opensource.org/licenses/MIT.
 
+from prettytable import PrettyTable
 from base.backends.yaml_driver import YAMLDriver
 from base.user_ops.yml_ops import user_id_to_yaml_file_path
 from pynput.keyboard import Listener
@@ -13,17 +14,8 @@ from base.backends.sql import SQLDriver, check_mysql_installed
 from base.log import Logger
 from dotenv import load_dotenv
 import os
-from base.util import animated_marker
+from base.util import animated_marker, km_prompt
 from base.csv_writer import CSVWriter
-
-# FIXME: I am concerned that sometimes if I type too fast the keylogger may register press and reslease eventts to slowly and
-# end up mashing the press and reslease writes to file
-# For example from 123.csv:
-#     P,'o',1642213275.6065989
-#     P,'f',1642213275.746359
-#     R,'o',1642213275.770765
-#     R,'f',1642213275.858725
-# So we need to figure out a faster/better way to do this to avoid this issue as much as possible
 
 # TODO: Maybe we don't need this here and instead we can just make the hotkey Ctrl + c because the whole point was to allow the user to exit the keylogger without interrupting execution, which the new code kind of does anyway. I will keep this here in case we want an actual hotkey. But as it stands right now the below hotkey combo does not work (but shift works for some reason)
 SHUTDOWN = [
@@ -61,10 +53,26 @@ class Keylogger:
         hlog = Logger()
         hlog.km_info("Hotkey activated, shutting down keylogger")
         self.graceful_shutdown()
-        exit()
+        # view_output = str(
+        #     input(km_prompt("Do you want to see the produced file? y/n "))
+        # )
+        # if view_output.lower() == "y":
+        #     path = os.path.join(os.getcwd(), "src", "logs", self.user_id + ".csv")
+        #     print(path)
+        #     file = open(path, "r")
+        #     file = file.readlines()
+        #     l1 = file[0]
+        #     l1 = l1.split(",")
+
+        #     table = PrettyTable([l1[0], l1[1]])
+        #     for i in range(1, len(file)):
+        #         table.add_row(file[i].split(","))
+        #     print(table)
+        #     exit()
+        # elif view_output.lower() == "n":
+        #     exit()
 
     # We need this function to account for the edge case that there are stored key strings in the buffer when the keylogger is quit, so right before we quit we must write at the buffer and clear it
-
     def graceful_shutdown(self) -> None:
         """This function only runs when a KeyboardInterupt exception is
         received. This function will then write everything stored in the key
