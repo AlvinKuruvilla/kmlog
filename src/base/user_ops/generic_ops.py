@@ -74,6 +74,7 @@ def verify_social_media_platform(platform_name: str) -> bool:
         platform_name.lower() == "f"
         or platform_name.lower() == "t"
         or platform_name.lower() == "i"
+        or platform_name.lower() == "a"
     ):
         return True
     else:
@@ -109,6 +110,8 @@ def expand_user_data(
             expanded_platform_name = "Instagram"
         elif platform.lower() == "t":
             expanded_platform_name = "Twitter"
+        elif platform.lower() == "a":
+            expanded_platform_name = "All"
         return (
             expanded_gender,
             expanded_handedness,
@@ -138,6 +141,8 @@ def expand_user_data(
             expanded_platform_name = f'{"Instagram"}'
         elif platform.lower() == "t":
             expanded_platform_name = f'{"Twitter"}'
+        elif platform.lower() == "a":
+            expanded_platform_name = f'{"All"}'
         return (
             expanded_gender,
             expanded_handedness,
@@ -151,14 +156,14 @@ def generic_create_user():
     first = str(input(km_prompt("Please enter your first name: ")))
     last = str(input(km_prompt("Please enter your last name: ")))
     gender = str(
-        input(km_prompt("Gender (enter m for male, f for female, o for other): "))
+        input(km_prompt("Gender (enter m for Male, f for Female, o for Other): "))
     )
     while True:
         if verify_gender(gender) == False:
             vlog.km_warn("Please enter a valid gender")
             gender = str(
                 input(
-                    km_prompt("Gender (enter m for male, f for female, o for other): ")
+                    km_prompt("Gender (enter m for Male, f for Female, o for Other): ")
                 )
             )
         else:
@@ -166,7 +171,7 @@ def generic_create_user():
 
     handedness = input(
         km_prompt(
-            "What is your dominant hand: (enter l for left, r for right, or a for ambidextrous): "
+            "What is your dominant hand: (enter l for Left, r for Right, or a for Ambidextrous): "
         )
     )
     while True:
@@ -174,7 +179,7 @@ def generic_create_user():
             vlog.km_warn("Please enter a valid handedness")
             handedness = input(
                 km_prompt(
-                    "What is your dominant hand: (enter l for left, r for right, or a for ambidextrous): "
+                    "What is your dominant hand: (enter l for Left, r for Right, or a for Ambidextrous): "
                 )
             )
         else:
@@ -188,7 +193,7 @@ def generic_create_user():
             break
     education_level = input(
         km_prompt(
-            "What is your education level?: (b for bachelor, m for master, d for doctor): "
+            "What is your education level?: (b for Bachelor, m for Master, d for Doctorate): "
         )
     )
     while True:
@@ -196,14 +201,14 @@ def generic_create_user():
             vlog.km_warn("Please enter a valid education level")
             education_level = input(
                 km_prompt(
-                    "What is your education level?: (b for bachelor, m for master, d for doctor): "
+                    "What is your education level?: (b for Bachelor, m for Master, d for Doctorate): "
                 )
             )
         else:
             break
     social_platform = input(
         km_prompt(
-            "What social media platform you are going to use? (f for facebook, i for instagram, t for twitter): "
+            "What social media platform you are going to use? (f for Facebook, i for Instagram, t for Twitter, or a for All of them): "
         )
     )
     while True:
@@ -211,7 +216,7 @@ def generic_create_user():
             vlog.km_warn("Please enter a valid social media platform")
             social_platform = input(
                 km_prompt(
-                    "What social media platform are you going to use? (f for facebook, i for instagram, t for twitter): "
+                    "What social media platform are you going to use? (f for Facebook, i for Instagram, t for Twitter, or a for All): "
                 )
             )
         else:

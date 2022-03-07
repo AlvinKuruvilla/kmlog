@@ -138,6 +138,8 @@ def display_profile_from_db(user_id: str) -> None:
         platform = "Instagram"
     elif profile_info[7] == "t":
         platform = "Twitter"
+    elif profile_info[7] == "a":
+        platform = "All"
 
     out = PrettyTable()
     # Old field names ["User ID", "First Name", "Last Name",
