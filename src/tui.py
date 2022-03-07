@@ -14,12 +14,17 @@ from tools.keylogger import *
 from tools.env_verifier import verify_env_values
 from dotenv import load_dotenv
 
+from tools.pid_printer import print_pid
+
 if __name__ == "__main__":
     log = Logger()
     if os.path.isdir(os.path.join(os.getcwd(), "logs")) == False:
         os.makedirs(os.path.join(os.getcwd(), "logs"))
     if os.path.isdir(os.path.join(os.getcwd(), "users")) == False:
         os.makedirs(os.path.join(os.getcwd(), "users"))
+    clear_screen()
+    print_pid()
+    input(km_prompt("Press any key to continue "))
     clear_screen()
     if check_mysql_installed() == True:
         verify_env_values()
