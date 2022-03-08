@@ -8,3 +8,4 @@ src/logs
 src/users/
 *.profile
 *.png
+venv
