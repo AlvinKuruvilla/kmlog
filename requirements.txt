@@ -1,6 +1,6 @@
 clint>=0.5.1
 colorama>=0.4.4
-colorlog>=6.6.0
+colorlog>=6.0.0a1
 mysql-connector-python>=8.0.27
 prettytable>=3.0.0
 progressbar33>=2.4
