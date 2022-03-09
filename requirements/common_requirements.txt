@@ -7,3 +7,4 @@ pyautogui
 pyfiglet
 pynput
 loguru
+black

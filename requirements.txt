@@ -10,3 +10,4 @@ pynput
 python-dotenv
 PyYAML
 loguru
+black
