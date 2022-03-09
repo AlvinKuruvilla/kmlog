@@ -1,2 +1,2 @@
 -r common_requirements.txt
-PyYAML>=6.0
+PyYAML
