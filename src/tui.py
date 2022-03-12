@@ -1,32 +1,39 @@
+# pylint: disable=C0301
+# pylint: disable=E0401
+# pylint: disable=C0114
+# pylint: disable=C0412
+# pylint: disable=R1723
+# pylint: disable=C0103
 # Copyright 2021 - 2022, Alvin Kuruvilla <alvineasokuruvilla@gmail.com>, Dr. Rajesh Kumar <Rajesh.Kumar@hofstra.edu>
 
 # Use of this source code is governed by an MIT-style
 # license that can be found in the LICENSE file or at
 # https://opensource.org/licenses/MIT.
 
+import os
+import sys
+from dotenv import load_dotenv
 from base.backends.sql import SQLDriver, check_mysql_installed
 from base.backends.yaml_driver import YAMLDriver
 from base.user_ops.sql_ops import add_user_to_db, display_profile_from_db
-from base.user_ops.yml_ops import *
-from base.util import *
+from base.user_ops.yml_ops import create_user, user_id_to_yaml_file_path
+from base.util import clear_screen, banner, block_text, km_prompt
 from base.log import Logger
-from tools.keylogger import *
+from tools.keylogger import Keylogger
 from tools.env_verifier import verify_env_values
-from dotenv import load_dotenv
-
 from tools.pid_printer import print_pid
 
 if __name__ == "__main__":
     log = Logger()
-    if os.path.isdir(os.path.join(os.getcwd(), "logs")) == False:
+    if not os.path.isdir(os.path.join(os.getcwd(), "logs")):
         os.makedirs(os.path.join(os.getcwd(), "logs"))
-    if os.path.isdir(os.path.join(os.getcwd(), "users")) == False:
+    if not os.path.isdir(os.path.join(os.getcwd(), "users")):
         os.makedirs(os.path.join(os.getcwd(), "users"))
     clear_screen()
     print_pid()
     input(km_prompt("Press any key to continue "))
     clear_screen()
-    if check_mysql_installed() == True:
+    if check_mysql_installed():
         verify_env_values()
         input(km_prompt("Press any key to continue "))
         clear_screen()
@@ -41,7 +48,7 @@ if __name__ == "__main__":
     )
     while True:
         choice = int(input(km_prompt("Enter a choice: ")))
-        if choice == 1 or choice == 2:
+        if choice in (1, 2):
             break
         else:
             log.km_error("Invalid selection: choose 1 or 2")
@@ -49,7 +56,7 @@ if __name__ == "__main__":
     if choice == 1:
         clear_screen()
         block_text("Keylogger")
-        if check_mysql_installed() == True:
+        if check_mysql_installed():
             driver = SQLDriver()
             driver.try_connect()
         else:
@@ -65,7 +72,7 @@ if __name__ == "__main__":
         #     table and start the keylogger
         #   - If they are in the table, let them know that, and then start the
         #     keylogger
-        if check_mysql_installed() == True:
+        if check_mysql_installed():
             # NOTE: To understand this api look in the mysql package's cursor.py
             # file...According to that api the params argument as they have named it
             # defaults to an empty tuple
@@ -135,4 +142,4 @@ if __name__ == "__main__":
 
     if choice == 2:
         log.km_info("Exiting KMLogger")
-        exit()
+        sys.exit(0)
