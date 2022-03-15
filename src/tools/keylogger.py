@@ -1,20 +1,25 @@
+# pylint: disable=C0412
+# pylint: disable=C0301
+# pylint: disable=E0401
+# pylint: disable=C0114
+# pylint: disable=W0511
+
 # Copyright 2021 - 2022, Alvin Kuruvilla <alvineasokuruvilla@gmail.com>, Dr. Rajesh Kumar <Rajesh.Kumar@hofstra.edu>
 
 # Use of this source code is governed by an MIT-style
 # license that can be found in the LICENSE file or at
 # https://opensource.org/licenses/MIT.
 
-from prettytable import PrettyTable
-from base.backends.yaml_driver import YAMLDriver
-from base.user_ops.yml_ops import user_id_to_yaml_file_path
+import os
+import time
+from dotenv import load_dotenv
 from pynput.keyboard import Listener
 from pynput import keyboard
-import time
+from base.backends.yaml_driver import YAMLDriver
+from base.user_ops.yml_ops import user_id_to_yaml_file_path
 from base.backends.sql import SQLDriver, check_mysql_installed
 from base.log import Logger
-from dotenv import load_dotenv
-import os
-from base.util import animated_marker, km_prompt
+from base.util import animated_marker
 from base.csv_writer import CSVWriter
 
 # TODO: Maybe we don't need this here and instead we can just make the hotkey Ctrl + c because the whole point was to allow the user to exit the keylogger without interrupting execution, which the new code kind of does anyway. I will keep this here in case we want an actual hotkey. But as it stands right now the below hotkey combo does not work (but shift works for some reason)
@@ -54,30 +59,22 @@ class Keylogger:
         hlog.km_info("Hotkey activated, shutting down keylogger")
         self.graceful_shutdown()
         exit()
-        # view_output = str(
-        #     input(km_prompt("Do you want to see the produced file? y/n "))
-        # )
-        # if view_output.lower() == "y":
-        #     path = os.path.join(os.getcwd(), "src", "logs", self.user_id + ".csv")
-        #     print(path)
-        #     file = open(path, "r")
-        #     file = file.readlines()
-        #     l1 = file[0]
-        #     l1 = l1.split(",")
-
-        #     table = PrettyTable([l1[0], l1[1]])
-        #     for i in range(1, len(file)):
-        #         table.add_row(file[i].split(","))
-        #     print(table)
-        #     exit()
-        # elif view_output.lower() == "n":
-        #     exit()
 
     # We need this function to account for the edge case that there are stored key strings in the buffer when the keylogger is quit, so right before we quit we must write at the buffer and clear it
     def graceful_shutdown(self) -> None:
         """This function only runs when a KeyboardInterupt exception is
         received. This function will then write everything stored in the key
-        string buffer to the file and then clear the buffer before exiting"""
+        string buffer to the file and then clear the buffer before exiting
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        ----------
+        None
+
+        """
         if len(self.buffer) != 0:
             with open(self.log_file_path, "a") as file:
                 for string in self.buffer:
