@@ -3,6 +3,8 @@
 # pylint: disable=E0401
 # pylint: disable=C0114
 # pylint: disable=W0511
+# pylint: disable=C0103
+
 
 # Copyright 2021 - 2022, Alvin Kuruvilla <alvineasokuruvilla@gmail.com>, Dr. Rajesh Kumar <Rajesh.Kumar@hofstra.edu>
 
@@ -12,6 +14,7 @@
 
 import os
 import time
+import sys
 from dotenv import load_dotenv
 from pynput.keyboard import Listener
 from pynput import keyboard
@@ -36,15 +39,14 @@ def override_key(key) -> str:
         return "Key.fn"
     if str(key) == "'\\\\'":
         return "'\\'"
-    else:
-        return str(key)
+    return str(key)
 
 
 class Keylogger:
     """This keylogger stores the keys pressed by the user. It stores the keys pressed by the user to a named file, along with their names."""
 
-    def __init__(self, user_id: str) -> None:
-        self.user_id = user_id
+    def __init__(self, _user_id: str) -> None:
+        self.user_id = _user_id
         self.csv_writer = CSVWriter()
         self.buffer = []
         self.log_file_path = os.path.join(
@@ -58,7 +60,7 @@ class Keylogger:
         hlog = Logger()
         hlog.km_info("Hotkey activated, shutting down keylogger")
         self.graceful_shutdown()
-        exit()
+        sys.exit(0)
 
     # We need this function to account for the edge case that there are stored key strings in the buffer when the keylogger is quit, so right before we quit we must write at the buffer and clear it
     def graceful_shutdown(self) -> None:
@@ -76,7 +78,7 @@ class Keylogger:
 
         """
         if len(self.buffer) != 0:
-            with open(self.log_file_path, "a") as file:
+            with open(self.log_file_path, "a", encoding="utf8") as _:
                 for string in self.buffer:
                     self.buffer_write(f"R,{override_key(string)}, {time.time()}")
 
@@ -86,7 +88,7 @@ class Keylogger:
         if (
             len(self.buffer) >= 80
         ):  # 80 is the number of letters people type in one line, in general
-            with open(self.log_file_path, "a") as file:
+            with open(self.log_file_path, "a", encoding="utf8") as file:
                 for string in self.buffer:
                     file.write(string)
             self.buffer.clear()
@@ -97,7 +99,7 @@ class Keylogger:
         """Query the database for the first and last name associated with a
         particular user ID and write those to the log file with the that
         particular user ID in the name"""
-        if check_mysql_installed() == True:
+        if check_mysql_installed():
             load_dotenv()
             driver = SQLDriver()
             driver.try_connect()
@@ -110,11 +112,11 @@ class Keylogger:
             )
             first, last = cursor.fetchone()
 
-            if first == None:
+            if first is None:
                 first = "Unknown"
-            if last == None:
+            if last is None:
                 last = "Unknown"
-            with open(self.log_file_path, "a") as file:
+            with open(self.log_file_path, "a", encoding="utf8") as file:
                 file.write("\n" + first + " " + last + "\n")
                 file.write("**********************************" + "\n")
         else:
@@ -122,11 +124,11 @@ class Keylogger:
             path = user_id_to_yaml_file_path(self.user_id)
             f = yml.get_value_from_key(path, "first_name")
             l = yml.get_value_from_key(path, "last_name")
-            if f == None:
+            if f is None:
                 f = "Unknown"
-            if l == None:
+            if l is None:
                 l = "Unknown"
-            with open(self.log_file_path, "a") as file:
+            with open(self.log_file_path, "a", encoding="utf8") as file:
                 file.write("\n" + f + " " + l + "\n")
                 file.write("**********************************" + "\n")
 
