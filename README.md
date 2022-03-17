@@ -25,7 +25,7 @@ The goal of this project is to create a sleek and lightweight interface to colle
 This folder holds python files for the project's core functionality:
 
 - csv_writer.py: A wrapper class that allows for writing data to a csv file
-- log.py: This is a wrapper class of the native python 'logging' module for more colorful and expressive logging
+- log.py: This is a wrapper class of the loguru module for more colorful and expressive logging
 - util.py: This file holds some utility functions to make the tui prettier and more functional.
 - backends: This folder hold files that wrap specific subsystems, one of which, the project uses (or could use) for operations (querying, storage, etc...)
   - sql_driver.py: This file holds a wrapper class to make some sql operations nicer
