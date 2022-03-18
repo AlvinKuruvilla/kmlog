@@ -1,3 +1,10 @@
+# pylint: disable=C0301
+# pylint: disable=C0114
+# pylint: disable=E0401
+# pylint: disable=R1705
+# pylint: disable=R0912
+# pylint: disable=R0915
+
 # Copyright 2021 - 2022, Alvin Kuruvilla <alvineasokuruvilla@gmail.com>, Dr. Rajesh Kumar <Rajesh.Kumar@hofstra.edu>
 # Use of this source code is governed by an MIT-style
 # license that can be found in the LICENSE file or at
@@ -10,28 +17,21 @@ from base.backends.sql import check_mysql_installed
 
 def verify_gender(gender_input: str) -> bool:
     """A helper function to make verifying gender strings easier"""
-
-    if (
+    return bool(
         gender_input.lower() == "m"
         or gender_input.lower() == "f"
         or gender_input.lower() == "o"
-    ):
-        return True
-    else:
-        return False
+    )
 
 
 def verify_handedness(hand_input: str) -> bool:
     """A helper function to make verifying handedness strings easier"""
 
-    if (
+    return bool(
         hand_input.lower() == "l"
         or hand_input.lower() == "r"
         or hand_input.lower() == "a"
-    ):
-        return True
-    else:
-        return False
+    )
 
 
 def verify_age(age_str: str) -> bool:
@@ -40,45 +40,38 @@ def verify_age(age_str: str) -> bool:
 
     # Check if the age is negative, has a decimal in it, or contains letters or some other invalid chars
 
-    if age_str.isdecimal() == False:
+    if not age_str.isdecimal():
         user_log.km_warn("Age contains letters or invalid characters")
         return False
-    elif age_str.isdigit() == False:
+    elif not age_str.isdigit():
         user_log.km_warn("Age cannot be a decimal")
         return False
     age = int(age_str)
     if age < 0:
         user_log.km_warn("Age cannot be negative")
         return False
-    else:
-        return True
+    return True
 
 
 def verify_education(education_str: str) -> bool:
     """A helper function to make verifying education strings easier"""
 
-    if (
+    return bool(
         education_str.lower() == "b"
         or education_str.lower() == "m"
         or education_str.lower() == "d"
-    ):
-        return True
-    else:
-        return False
+    )
 
 
 def verify_social_media_platform(platform_name: str) -> bool:
     """A helper function to make verifying social media platform strings easier"""
     print("The platform you inputted is", platform_name.lower())
-    if (
+    return bool(
         platform_name.lower() == "f"
         or platform_name.lower() == "t"
         or platform_name.lower() == "i"
         or platform_name.lower() == "a"
-    ):
-        return True
-    else:
-        return False
+    )
 
 
 def expand_user_data(
@@ -87,7 +80,7 @@ def expand_user_data(
     """A function to expand specific user data before it gets committed to the database to make it easier to read
     For example, for gender this function would transform 'm' to 'Male'
     """
-    if check_mysql_installed == True:
+    if check_mysql_installed:
         if gender.lower() == "m":
             expanded_gender = "Male"
         elif gender.lower() == "f":
@@ -152,6 +145,7 @@ def expand_user_data(
 
 
 def generic_create_user():
+    """Function for users to input their information"""
     vlog = Logger()
     first = str(input(km_prompt("Please enter your first name: ")))
     last = str(input(km_prompt("Please enter your last name: ")))
@@ -159,7 +153,7 @@ def generic_create_user():
         input(km_prompt("Gender (enter m for Male, f for Female, o for Other): "))
     )
     while True:
-        if verify_gender(gender) == False:
+        if verify_gender(gender) is False:
             vlog.km_warn("Please enter a valid gender")
             gender = str(
                 input(
@@ -175,7 +169,7 @@ def generic_create_user():
         )
     )
     while True:
-        if verify_handedness(handedness) == False:
+        if verify_handedness(handedness) is False:
             vlog.km_warn("Please enter a valid handedness")
             handedness = input(
                 km_prompt(
@@ -187,7 +181,7 @@ def generic_create_user():
 
     age = input(km_prompt("What is your age (whole number): "))
     while True:
-        if verify_age(age) == False:
+        if verify_age(age) is False:
             age = input(km_prompt("What is your age (whole number): "))
         else:
             break
@@ -197,7 +191,7 @@ def generic_create_user():
         )
     )
     while True:
-        if verify_education(education_level) == False:
+        if verify_education(education_level) is False:
             vlog.km_warn("Please enter a valid education level")
             education_level = input(
                 km_prompt(
@@ -212,7 +206,7 @@ def generic_create_user():
         )
     )
     while True:
-        if verify_social_media_platform(social_platform) == False:
+        if verify_social_media_platform(social_platform) is False:
             vlog.km_warn("Please enter a valid social media platform")
             social_platform = input(
                 km_prompt(
