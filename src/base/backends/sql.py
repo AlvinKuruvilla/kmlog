@@ -1,27 +1,43 @@
+# pylint: disable=C0301
+# pylint: disable=E0401
+# pylint: disable=W0703
+# pylint: disable=E0401
+# pylint: disable=C0103
+# pylint: disable=C0114
+
 # Copyright 2021 - 2022, Alvin Kuruvilla <alvineasokuruvilla@gmail.com>, Dr. Rajesh Kumar <Rajesh.Kumar@hofstra.edu>
 
 # Use of this source code is governed by an MIT-style
 # license that can be found in the LICENSE file or at
 # https://opensource.org/licenses/MIT.
 
+import typing
+import os
+import subprocess
 import mysql.connector
 from mysql.connector import Error
 from dotenv import load_dotenv
 from base.log import Logger
-import typing
-import os
-import subprocess
 
 
 def check_mysql_installed() -> bool:
+    """Check if mysql is installed on the system"""
     try:
-        version = subprocess.run(["mysql", "-V"], stdout=subprocess.DEVNULL)
-        if version.returncode == 0:
-            return True
-        else:
-            return False
+        version = subprocess.run(["mysql", "-V"], stdout=subprocess.DEVNULL, check=True)
+        return bool(version.returncode == 0)
     except Exception:
         return False
+
+
+def fields_from_cursor(cursor) -> typing.Dict:
+    """Given a DB API 2.0 cursor object that has been executed, returns a
+    dictionary that maps each field name to a column index; 0 and up."""
+    results = {}
+    column = 0
+    for d in cursor.description:
+        results[d[0]] = column
+        column = column + 1
+    return results
 
 
 class SQLDriver:
@@ -62,20 +78,10 @@ class SQLDriver:
         """A wrapper function to take a sql statement string to insert into a
         database"""
         cursor = self.query(sql, args)
-        id = cursor.lastrowid
+        row_id = cursor.lastrowid
         self.connection.commit()
         cursor.close()
-        return id
-
-    def fields_from_cursor(cursor) -> typing.Dict:
-        """Given a DB API 2.0 cursor object that has been executed, returns a
-        dictionary that maps each field name to a column index; 0 and up."""
-        results = {}
-        column = 0
-        for d in cursor.description:
-            results[d[0]] = column
-            column = column + 1
-        return results
+        return row_id
 
     def fields_from_table_name(self, table_name: str) -> typing.List[str]:
         """A helper function to make getting column names of a specific table
