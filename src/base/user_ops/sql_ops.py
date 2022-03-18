@@ -1,15 +1,22 @@
+# pylint: disable=C0301
+# pylint: disable=C0114
+# pylint: disable=E0401
+# pylint: disable=C0412
+# pylint: disable=R0915
+# pylint: disable=R0912
+
 # Copyright 2021 - 2022, Alvin Kuruvilla <alvineasokuruvilla@gmail.com>, Dr. Rajesh Kumar <Rajesh.Kumar@hofstra.edu>
 
 # Use of this source code is governed by an MIT-style
 # license that can be found in the LICENSE file or at
 # https://opensource.org/licenses/MIT.
 
-from base.backends.sql import SQLDriver
 import os
 from dotenv import load_dotenv
 from prettytable import PrettyTable
+from base.backends.sql import SQLDriver
 from base.log import Logger
-from base.user_ops.generic_ops import *
+from base.user_ops.generic_ops import generic_create_user, expand_user_data
 
 
 def add_user_to_db(user_defined_id: str) -> None:
@@ -65,6 +72,7 @@ def query_profile_info_from_db(user_id: str) -> list:
 
 
 def get_profile_info_as_dict(user_id: str):
+    """Query the database for the user's profile information and return it as a dictionary"""
     driver = SQLDriver()
     driver.try_connect()
     keys = driver.fields_from_table_name(os.getenv("TABLE"))
@@ -80,24 +88,24 @@ def display_profile_from_db(user_id: str) -> None:
     driver.try_connect()
     profile_info = query_profile_info_from_db(user_id)
     print("Your user profile:")
-    if profile_info[0] != None:
+    if profile_info[0] is not None:
         uid = profile_info[0]
     else:
         # We should probably crash and error out if we reach any part where we get "None"
         uid = "None"
         dlog.km_warn("User ID not found")
-    if profile_info[1] != None:
+    if profile_info[1] is not None:
         fname = profile_info[1]
     else:
         fname = "None"
         dlog.km_warn("First name not found")
-    if profile_info[2] != None:
+    if profile_info[2] is not None:
         lname = profile_info[2]
     else:
         lname = "None"
         dlog.km_warn("Last name not found")
 
-    if profile_info[3] == None:
+    if profile_info[3] is None:
         hand = "None"
         dlog.km_warn("Handedness not found")
     elif profile_info[3] == "l":
@@ -105,7 +113,7 @@ def display_profile_from_db(user_id: str) -> None:
     elif profile_info[3] == "r":
         hand = "Right"
 
-    if profile_info[4] == None:
+    if profile_info[4] is None:
         gender = "None"
         dlog.km_warn("Gender not found")
     elif profile_info[4] == "m":
@@ -113,13 +121,13 @@ def display_profile_from_db(user_id: str) -> None:
     elif profile_info[4] == "f":
         gender = "Female"
 
-    if profile_info[5] == None:
+    if profile_info[5] is None:
         age = "None"
         dlog.km_warn("Age not found")
     else:
         age = profile_info[5]
 
-    if profile_info[6] == None:
+    if profile_info[6] is None:
         education_level = "None"
         dlog.km_warn("Education not found")
     elif profile_info[6] == "b":
@@ -129,7 +137,7 @@ def display_profile_from_db(user_id: str) -> None:
     elif profile_info[6] == "d":
         education_level = "Doctorate"
 
-    if profile_info[7] == None:
+    if profile_info[7] is None:
         platform = "None"
         dlog.km_warn("Social Media Platform not found")
     elif profile_info[7] == "f":
