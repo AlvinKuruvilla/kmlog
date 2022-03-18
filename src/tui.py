@@ -14,7 +14,7 @@ import os
 import sys
 from dotenv import load_dotenv
 from base.backends.sql import SQLDriver, check_mysql_installed
-from base.backends.yaml_driver import YAMLDriver
+from base.backends.yaml_driver import get_all_associated_values, print_as_table
 from base.user_ops.sql_ops import add_user_to_db, display_profile_from_db
 from base.user_ops.yml_ops import create_user, user_id_to_yaml_file_path
 from base.util import clear_screen, banner, block_text, km_prompt
@@ -61,7 +61,6 @@ if __name__ == "__main__":
             driver.try_connect()
         else:
             log.km_info("MySQL not installed, falling back to YAML system")
-            ydriver = YAMLDriver()
         user_id = input(km_prompt("Enter your user_id: "))
         # Step through of the reasoning behind the lines below:
         #   - Make the driver query the table for the user_id table
@@ -101,10 +100,10 @@ if __name__ == "__main__":
                 km.start_recording()
         else:
             # The yaml version of the above code
-            comp = ydriver.get_all_associated_values("user_id")
+            comp = get_all_associated_values("user_id")
             if user_id in comp:
                 log.km_info("User ID: " + user_id + " found")
-                ydriver.print_as_table(user_id_to_yaml_file_path(user_id))
+                print_as_table(user_id_to_yaml_file_path(user_id))
                 while True:
                     info_correct = str(
                         input(km_prompt("Is all of this information correct? y/n: "))
@@ -123,7 +122,7 @@ if __name__ == "__main__":
             else:
                 log.km_info("User not found, creating a new user")
                 create_user(user_id)
-                ydriver.print_as_table(user_id_to_yaml_file_path(user_id))
+                print_as_table(user_id_to_yaml_file_path(user_id))
                 while True:
                     info_correct = str(
                         input(km_prompt("Is all of this information correct? y/n: "))

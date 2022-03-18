@@ -18,7 +18,7 @@ import sys
 from dotenv import load_dotenv
 from pynput.keyboard import Listener
 from pynput import keyboard
-from base.backends.yaml_driver import YAMLDriver
+from base.backends.yaml_driver import get_value_from_key
 from base.user_ops.yml_ops import user_id_to_yaml_file_path
 from base.backends.sql import SQLDriver, check_mysql_installed
 from base.log import Logger
@@ -120,10 +120,9 @@ class Keylogger:
                 file.write("\n" + first + " " + last + "\n")
                 file.write("**********************************" + "\n")
         else:
-            yml = YAMLDriver()
             path = user_id_to_yaml_file_path(self.user_id)
-            f = yml.get_value_from_key(path, "first_name")
-            l = yml.get_value_from_key(path, "last_name")
+            f = get_value_from_key(path, "first_name")
+            l = get_value_from_key(path, "last_name")
             if f is None:
                 f = "Unknown"
             if l is None:

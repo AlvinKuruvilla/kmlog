@@ -11,7 +11,7 @@
 # https://opensource.org/licenses/MIT.
 
 import os
-from base.backends.yaml_driver import YAMLDriver
+from base.backends.yaml_driver import write_to_yaml_file
 from base.user_ops.generic_ops import generic_create_user, expand_user_data
 
 
@@ -73,5 +73,4 @@ def create_user(user_id: str):
     ]
 
     data = tuple_to_dict(t, labels)
-    yml = YAMLDriver()
-    yml.write_to_yaml_file(user_id, data)
+    write_to_yaml_file(user_id, data)
