@@ -16,7 +16,19 @@ from base.backends.sql import check_mysql_installed
 
 
 def verify_gender(gender_input: str) -> bool:
-    """A helper function to make verifying gender strings easier"""
+    """
+    A helper function to make verifying gender strings easier
+
+    Parameters
+    ----------
+    gender_input: str
+        The single letter gender string to be verified.
+        Valid inputs are: 'm', 'f', 'o'
+
+    Returns
+    ----------
+    bool: Returns true if the gender string is a valid gender
+    """
     return bool(
         gender_input.lower() == "m"
         or gender_input.lower() == "f"
@@ -25,7 +37,20 @@ def verify_gender(gender_input: str) -> bool:
 
 
 def verify_handedness(hand_input: str) -> bool:
-    """A helper function to make verifying handedness strings easier"""
+    """
+    A helper function to make verifying handedness strings easier
+
+    Parameters
+    ----------
+    hand_input: str
+        The single letter handedness string to be verified.
+        Valid inputs are: 'l', 'r', 'a'
+
+    Returns
+    ----------
+    bool: Returns true if the handedness string is a valid handedness
+
+    """
 
     return bool(
         hand_input.lower() == "l"
@@ -35,7 +60,17 @@ def verify_handedness(hand_input: str) -> bool:
 
 
 def verify_age(age_str: str) -> bool:
-    """A helper function to make verifying age strings easier"""
+    """A helper function to make verifying age strings easier
+
+    Parameters
+    ----------
+    age: str
+        The string representation of an age.
+
+    Returns
+    ----------
+    bool: Returns true if the age string is a valid age
+    """
     user_log = Logger()
 
     # Check if the age is negative, has a decimal in it, or contains letters or some other invalid chars
@@ -54,8 +89,19 @@ def verify_age(age_str: str) -> bool:
 
 
 def verify_education(education_str: str) -> bool:
-    """A helper function to make verifying education strings easier"""
+    """
+    A helper function to make verifying education strings easier
 
+    Parameters
+    ----------
+    education_str: str
+        The single letter education string to be verified.
+        Valid inputs are: 'b', 'm', 'd'
+
+    Returns
+    ----------
+    bool: Returns true if the education string is a valid education
+    """
     return bool(
         education_str.lower() == "b"
         or education_str.lower() == "m"
@@ -64,8 +110,20 @@ def verify_education(education_str: str) -> bool:
 
 
 def verify_social_media_platform(platform_name: str) -> bool:
-    """A helper function to make verifying social media platform strings easier"""
-    print("The platform you inputted is", platform_name.lower())
+    """
+    A helper function to make verifying social media platform strings easier
+
+    Parameters
+    ----------
+    platform_name: str
+        The name of the social media platform to be verified.
+        Valid inputs are: 'f', 't', 'i', 'a'
+
+    Returns
+    ----------
+    bool: Returns true if the provided social media platform is a valid social media platform
+
+    """
     return bool(
         platform_name.lower() == "f"
         or platform_name.lower() == "t"
@@ -77,8 +135,32 @@ def verify_social_media_platform(platform_name: str) -> bool:
 def expand_user_data(
     gender: str, handedness: str, education: str, platform: str
 ) -> tuple:
-    """A function to expand specific user data before it gets committed to the database to make it easier to read
+    """
+    A function to expand specific user data before it gets committed to the database,
+    written to file or displayed on screen to make it easier to read
+
     For example, for gender this function would transform 'm' to 'Male'
+
+    Parameters
+    ----------
+    gender: str
+        The shortened data string to be expanded
+        Valid inputs are: 'm', 'f', 'o'
+    handedness: str
+        The single letter handedness string to be expanded.
+        Valid inputs are: 'l', 'r', 'a'
+    education: str
+        The single letter education string to be expanded.
+        Valid inputs are: 'b', 'm', 'd'
+    platform: str
+        The name of the social media platform to be expanded.
+        Valid inputs are: 'f', 't', 'i', 'a'
+
+
+    Returns
+    ----------
+    tuple: Returns a tuple of all the expanded forms of the inputted parameters
+
     """
     if check_mysql_installed:
         if gender.lower() == "m":
@@ -145,7 +227,18 @@ def expand_user_data(
 
 
 def generic_create_user():
-    """Function for users to input their information"""
+    """
+    Function for users to input their information
+
+    Parameters
+    ----------
+    None
+
+    Returns
+    ----------
+    None
+
+    """
     vlog = Logger()
     first = str(input(km_prompt("Please enter your first name: ")))
     last = str(input(km_prompt("Please enter your last name: ")))
