@@ -20,10 +20,21 @@ from base.user_ops.generic_ops import generic_create_user, expand_user_data
 
 
 def add_user_to_db(user_defined_id: str) -> None:
-    """A function which takes a user ID as input and appends it to the database
+    """
+    A function which takes a user ID as input and appends it to the database
     along with information about the user such as their gender, their age, etc.
     This function should only be called during the initial enrollment phase,
-    i.e. the user is not in the database yet"""
+    i.e. the user is not in the database yet
+
+    Parameters
+    ----------
+    user_id: str
+        The user_id to add to the database
+
+    Returns
+    ----------
+    None
+    """
 
     load_dotenv()
 
@@ -57,7 +68,18 @@ def add_user_to_db(user_defined_id: str) -> None:
 
 
 def query_profile_info_from_db(user_id: str) -> list:
-    """Grab all the information stored on a particular user by their user ID"""
+    """
+    Grab all the information stored on a particular user by their user ID
+
+    Parameters
+    ----------
+    user_id: str
+        The id to query the database against
+
+    Returns
+    ----------
+    list: The list of information associated with the user
+    """
     load_dotenv()
     res = []
     driver = SQLDriver()
@@ -72,7 +94,20 @@ def query_profile_info_from_db(user_id: str) -> list:
 
 
 def get_profile_info_as_dict(user_id: str):
-    """Query the database for the user's profile information and return it as a dictionary"""
+    """
+    Query the database for the user's profile information and return it as a dictionary
+
+    Parameters
+    ----------
+    user_id: str
+        The id to query the database against
+
+    Returns
+    ----------
+    dict: The dictionary of information associated with the user
+
+
+    """
     driver = SQLDriver()
     driver.try_connect()
     keys = driver.fields_from_table_name(os.getenv("TABLE"))
@@ -82,7 +117,21 @@ def get_profile_info_as_dict(user_id: str):
 
 def display_profile_from_db(user_id: str) -> None:
     # TODO: We need to figure out a way to not rely on a specific number of fields or a specific ordering of them
-    """Cleanly display user information in a table"""
+    """
+    Cleanly display user information in a table
+
+    Parameters
+    ----------
+    user_id: str
+        The id to display the profile information for.
+
+    Returns
+    ----------
+    None
+
+
+
+    """
     dlog = Logger()
     driver = SQLDriver()
     driver.try_connect()
