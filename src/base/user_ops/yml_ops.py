@@ -16,7 +16,18 @@ from base.user_ops.generic_ops import generic_create_user, expand_user_data
 
 
 def user_id_to_yaml_file_path(user_id: str) -> str:
-    """Turn a user_id into a path to a YAML file"""
+    """
+    Turn a user_id into a path to a YAML file
+
+    Parameters
+    ----------
+    user_id: str
+        Convert a user_id to a YAML file path
+
+    Returns
+    ----------
+    str
+    """
     # NOTE: We have to deal with the edge case where part of a user_id can exist in another (eg the user_id 123 is in the user_id 1234)
     directory = os.path.join(os.getcwd(), "src", "users")
     for file in os.scandir(directory):
@@ -28,8 +39,21 @@ def user_id_to_yaml_file_path(user_id: str) -> str:
                 return os.path.join(directory, file_with_ext)
 
 
-def tuple_to_dict(data: tuple, labels: list):
-    """Combine 2 tuples to a single dictionary"""
+def tuple_to_dict(data: tuple, labels: list) -> dict:
+    """
+    Combine 2 tuples to a single dictionary
+
+    Parameters
+    ----------
+    labels: tuple
+        The tuple to use for dictionary keys
+    data: tuple
+        The tuple to use for dictionary values
+
+    Returns
+    ----------
+    dict
+    """
     assert len(data) == len(
         labels
     ), "Cannot create a dictionary from a tuple if the length of the tuple != length of the labels"
@@ -40,8 +64,18 @@ def tuple_to_dict(data: tuple, labels: list):
     return data_dict
 
 
-def create_user(user_id: str):
-    """Create a YAML user file from a provided user_id"""
+def create_user(user_id: str) -> None:
+    """
+    Create a YAML user file from a provided user_id
+    Parameters
+    ----------
+    user_id: str
+        A user_id to make a YAML file
+
+    Returns
+    ----------
+    None
+    """
     (
         first,
         last,
