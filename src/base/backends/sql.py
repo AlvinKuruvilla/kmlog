@@ -21,7 +21,19 @@ from base.log import Logger
 
 
 def check_mysql_installed() -> bool:
-    """Check if mysql is installed on the system"""
+    """
+    Check if mysql is installed on the system
+
+    Parameters
+    ----------
+    None
+
+    Returns
+    ----------
+    bool
+        If True, then mysql is installed in the system. If False then mysql is not installed
+    """
+    # TODO: check if there needs to be a different way to do this on Windows
     try:
         version = subprocess.run(["mysql", "-V"], stdout=subprocess.DEVNULL, check=True)
         return bool(version.returncode == 0)
@@ -30,8 +42,19 @@ def check_mysql_installed() -> bool:
 
 
 def fields_from_cursor(cursor) -> typing.Dict:
-    """Given a DB API 2.0 cursor object that has been executed, returns a
-    dictionary that maps each field name to a column index; 0 and up."""
+    """
+    Given a DB API 2.0 cursor object that has been executed, returns a
+    dictionary that maps each field name to a column index; 0 and up.
+
+    Parameters
+    ----------
+    Cursor object
+
+    Returns
+    ----------
+    dict
+        The dictionary mapping from field names to column indexes
+    """
     results = {}
     column = 0
     for d in cursor.description:
@@ -52,8 +75,18 @@ class SQLDriver:
         self.connection = None
 
     def try_connect(self) -> None:
-        """This method attempts to connect to the database using the data from a
-        .env file as the parameters"""
+        """
+        This method attempts to connect to the database using the data from a
+        .env file as the parameters
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        ----------
+        None
+        """
         sql_log = Logger()
         load_dotenv()
         try:
@@ -69,14 +102,42 @@ class SQLDriver:
             sql_log.km_fatal(e)
 
     def query(self, sql: str, args: tuple):
-        """Issue a particular query to the database with optional arguments"""
+        """
+        Issue a particular query to the database with optional arguments
+
+        Parameters
+        ----------
+        str:
+            The sql query, as a string to be executed
+            This query can also be filled in with prepared arguments
+        tuple:
+            A tuple of arguments to be passed to the sql statement
+            for prepared statements
+        Returns
+        ----------
+        Cursor
+        """
         cursor = self.connection.cursor()
         cursor.execute(sql, args)
         return cursor
 
     def insert(self, sql: str, args: tuple) -> typing.Optional[int]:
-        """A wrapper function to take a sql statement string to insert into a
-        database"""
+        """
+        Insert into a database through the SQL statement
+
+        Parameters
+        ----------
+        str:
+            The sql query, as a string to be executed
+            This query can also be filled in with prepared arguments
+        tuple:
+            A tuple of arguments to be passed to the sql statement
+            for prepared statements
+        Returns
+        ----------
+        typing.Optional[int]
+            The row of the inserted data, if the insert was successful
+        """
         cursor = self.query(sql, args)
         row_id = cursor.lastrowid
         self.connection.commit()
@@ -84,11 +145,26 @@ class SQLDriver:
         return row_id
 
     def fields_from_table_name(self, table_name: str) -> typing.List[str]:
-        """A helper function to make getting column names of a specific table
+        """
+        A helper function to make getting column names of a specific table
         easier so we can be more dynamic with how we support displaying table
         data
-        Example usage:
 
+        Parameters
+        ----------
+        str:
+            The sql query, as a string to be executed
+            This query can also be filled in with prepared arguments
+        tuple:
+            A tuple of arguments to be passed to the sql statement
+            for prepared statements
+        Returns
+        ----------
+        typing.Optional[list]
+            A list of the names of the columns of a table, if successful
+
+        Example
+        --------
         driver = SQLDriver()
         driver.try_connect()
         The last line returns a list of all the field names for a table name
