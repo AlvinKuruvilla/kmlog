@@ -12,4 +12,4 @@ from base.util import block_text
 
 def print_pid():
     block_text("PID")
-    print(os.getpid())
+    print("The pid is:", os.getpid())

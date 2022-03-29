@@ -1,3 +1,5 @@
+# A fuzzer based on https://www.fuzzingbook.org/html/Fuzzer.html
+
 import random
 from typing import List, Tuple, Any
 import subprocess
