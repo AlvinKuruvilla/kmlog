@@ -77,7 +77,7 @@ def km_prompt(text):
           The prompt text.
     Returns
     -------
-    tuple
+    None
     """
     if text == "":
         return (
