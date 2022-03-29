@@ -21,7 +21,9 @@ from base.util import clear_screen, banner, block_text, km_prompt
 from base.log import Logger
 from tools.keylogger import Keylogger
 from tools.env_verifier import verify_env_values
-from tools.pid_printer import print_pid
+
+if __debug__:
+    from tools.pid_printer import print_pid
 
 
 class TUI:
@@ -34,9 +36,10 @@ class TUI:
             os.makedirs(os.path.join(os.getcwd(), "logs"))
         if not os.path.isdir(os.path.join(os.getcwd(), "users")):
             os.makedirs(os.path.join(os.getcwd(), "users"))
-        clear_screen()
-        print_pid()
-        input(km_prompt("Press any key to continue "))
+        if __debug__:
+            clear_screen()
+            print_pid()
+            input(km_prompt("Press any key to continue "))
         clear_screen()
         if check_mysql_installed():
             verify_env_values()
