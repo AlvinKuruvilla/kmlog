@@ -27,6 +27,7 @@ def user_id_to_yaml_file_path(user_id: str) -> str:
     Returns
     ----------
     str
+        The created YAML file path
     """
     # NOTE: We have to deal with the edge case where part of a user_id can exist in another (eg the user_id 123 is in the user_id 1234)
     directory = os.path.join(os.getcwd(), "src", "users")
@@ -53,6 +54,7 @@ def tuple_to_dict(data: tuple, labels: list) -> dict:
     Returns
     ----------
     dict
+        The resulting dictionary of combinding the two tuples
     """
     assert len(data) == len(
         labels

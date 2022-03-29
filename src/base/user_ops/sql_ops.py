@@ -128,9 +128,6 @@ def display_profile_from_db(user_id: str) -> None:
     Returns
     ----------
     None
-
-
-
     """
     dlog = Logger()
     driver = SQLDriver()

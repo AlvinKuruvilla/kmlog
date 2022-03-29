@@ -237,7 +237,6 @@ def generic_create_user():
     Returns
     ----------
     None
-
     """
     vlog = Logger()
     first = str(input(km_prompt("Please enter your first name: ")))
