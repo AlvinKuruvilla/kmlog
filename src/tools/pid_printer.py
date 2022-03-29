@@ -11,5 +11,16 @@ from base.util import block_text
 
 
 def print_pid():
+    """
+    Print the PID of the currently executing version of KMLog.
+
+    Parameters
+    ----------
+    None
+
+    Returns
+    -------
+    None
+    """
     block_text("PID")
     print("The pid is:", os.getpid())
