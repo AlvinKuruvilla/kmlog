@@ -34,6 +34,8 @@ class PrintRunner(Runner):
 class Fuzzer:
     """Base class for fuzzers."""
 
+    Outcome = str
+
     def __init__(self) -> None:
         """Constructor"""
         pass
@@ -42,13 +44,15 @@ class Fuzzer:
         """Return fuzz input"""
         return ""
 
-    def run(self, runner: Runner = Runner()) -> Tuple[subprocess.CompletedProcess, Any]:
+    def run(
+        self, runner: Runner = Runner()
+    ) -> Tuple[subprocess.CompletedProcess, Outcome]:
         """Run `runner` with fuzz input"""
         return runner.run(self.fuzz())
 
     def runs(
         self, runner: Runner = PrintRunner(), trials: int = 10
-    ) -> List[Tuple[subprocess.CompletedProcess, Any]]:
+    ) -> List[Tuple[subprocess.CompletedProcess, Outcome]]:
         """Run `runner` with fuzz input, `trials` times"""
         return [self.run(runner) for i in range(trials)]
 
