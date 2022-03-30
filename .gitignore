@@ -9,3 +9,4 @@ src/users/
 *.profile
 *.png
 venv
+.DS_Store
