@@ -12,7 +12,7 @@ import os
 import time
 import progressbar
 from clint.textui import colored
-from pyfiglet import Figlet
+from art import text2art
 from colorama import Fore, Style
 
 
@@ -63,8 +63,7 @@ def block_text(text) -> None:
     -------
     None
     """
-    result = Figlet()
-    print(colored.cyan(result.renderText(text)))
+    print(colored.cyan(text2art(text)))
 
 
 def km_prompt(text):

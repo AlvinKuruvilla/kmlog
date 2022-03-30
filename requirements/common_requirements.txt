@@ -4,7 +4,7 @@ colorlog
 prettytable
 progressbar33
 pyautogui
-pyfiglet
+art
 pynput
 loguru
 black
