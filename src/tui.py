@@ -20,9 +20,10 @@ from base.user_ops.yml_ops import create_user, user_id_to_yaml_file_path
 from base.util import clear_screen, banner, block_text, km_prompt
 from base.log import Logger
 from tools.keylogger import Keylogger
+from initalizer import is_debug, make_logs_directory, make_user_directory
 from tools.env_verifier import verify_env_values
 
-if __debug__:
+if is_debug():
     from tools.pid_printer import print_pid
 
 
@@ -32,11 +33,9 @@ class TUI:
 
     def run(self):
         log = Logger()
-        if not os.path.isdir(os.path.join(os.getcwd(), "logs")):
-            os.makedirs(os.path.join(os.getcwd(), "logs"))
-        if not os.path.isdir(os.path.join(os.getcwd(), "users")):
-            os.makedirs(os.path.join(os.getcwd(), "users"))
-        if __debug__:
+        make_logs_directory
+        make_user_directory()
+        if is_debug():
             clear_screen()
             print_pid()
             input(km_prompt("Press any key to continue "))

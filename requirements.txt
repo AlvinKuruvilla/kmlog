@@ -5,7 +5,7 @@ mysql-connector-python
 prettytable
 progressbar33
 pyautogui
-pyfiglet
+art
 pynput
 python-dotenv
 PyYAML

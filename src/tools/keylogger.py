@@ -49,11 +49,9 @@ class Keylogger:
         self.user_id = _user_id
         self.csv_writer = CSVWriter()
         self.buffer = []
-        self.log_file_path = os.path.join(
-            os.getcwd(), "src", "logs", self.user_id + ".log"
-        )
+        self.log_file_path = os.path.join(os.getcwd(), "logs", self.user_id + ".log")
         self.csv_writer.write_header(
-            os.path.join(os.getcwd(), "src", "logs", self.user_id + ".csv")
+            os.path.join(os.getcwd(), "logs", self.user_id + ".csv")
         )
 
     def __hotkey_shutdown(self):
@@ -148,7 +146,7 @@ class Keylogger:
                 self.buffer_write(f"P,{override_key(key)}, {time.time()}")
                 data = ["P", override_key(key), time.time()]
                 self.csv_writer.write_data_to_csv(
-                    os.path.join(os.getcwd(), "src", "logs", self.user_id + ".csv"),
+                    os.path.join(os.getcwd(), "logs", self.user_id + ".csv"),
                     data,
                 )
                 # See hotkey todo above
@@ -161,7 +159,7 @@ class Keylogger:
                 self.buffer_write(f"R,{override_key(key)}, {time.time()}")
                 data = ["R", override_key(key), time.time()]
                 self.csv_writer.write_data_to_csv(
-                    os.path.join(os.getcwd(), "src", "logs", self.user_id + ".csv"),
+                    os.path.join(os.getcwd(), "logs", self.user_id + ".csv"),
                     data,
                 )
                 # See hotkey todo above
