@@ -9,3 +9,4 @@ users/
 *.profile
 *.png
 ven
+.DS_Store
