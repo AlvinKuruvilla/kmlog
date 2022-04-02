@@ -8,7 +8,4 @@ logs
 users/
 *.profile
 *.png
-venv
-.DS_Store
-dist/
-build/
+ven
