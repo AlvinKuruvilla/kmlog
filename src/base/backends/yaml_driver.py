@@ -70,7 +70,7 @@ def get_yaml_keys_from_file(filepath) -> list:
 def get_all_associated_values(key: str):
     """A helper function to retrieve all values for a given key across all yaml files stored in the 'users' directory"""
     store = []
-    directory = os.path.join(os.getcwd(), "src", "users")
+    directory = os.path.join(os.getcwd(), "users")
     for file in os.scandir(directory):
         if file.path.endswith(".yaml") and file.is_file():
             value = get_value_from_key(file.path, key)
@@ -88,7 +88,7 @@ def write_to_yaml_file(filename: str, data: dict) -> None:
     unique to each user) or just the user_id. If the file does not exist
     when calling thus function it will also create it
     """
-    file_path = os.path.join(os.getcwd(), "src", "users", filename + ".yaml")
+    file_path = os.path.join(os.getcwd(), "users", filename + ".yaml")
     with open(file_path, "w+", encoding="utf8") as file:
         yaml.dump(data, file, sort_keys=False)
 

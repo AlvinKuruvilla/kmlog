@@ -3,10 +3,12 @@ __pycache__/
 .env
 keylog.log
 mouse_data_file.log
-src/logs
+logs
 ./env
-src/users/
+users/
 *.profile
 *.png
 venv
 .DS_Store
+dist/
+build/

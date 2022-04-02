@@ -30,7 +30,7 @@ def user_id_to_yaml_file_path(user_id: str) -> str:
         The created YAML file path
     """
     # NOTE: We have to deal with the edge case where part of a user_id can exist in another (eg the user_id 123 is in the user_id 1234)
-    directory = os.path.join(os.getcwd(), "src", "users")
+    directory = os.path.join(os.getcwd(), "users")
     for file in os.scandir(directory):
         if file.path.endswith(".yaml") and file.is_file:
             # Trim the extension from the file path and see if it matches the user_id given
