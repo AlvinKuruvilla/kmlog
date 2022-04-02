@@ -60,9 +60,10 @@ def tuple_to_dict(data: tuple, labels: list) -> dict:
         labels
     ), "Cannot create a dictionary from a tuple if the length of the tuple != length of the labels"
     data_list = list(data)
+    labels_list = list(labels)
     data_dict = {}
-    for i in enumerate(data_list):
-        data_dict[labels[i]] = data_list[i]
+    for i in range(len((data_list))):
+        data_dict[labels_list[i]] = data_list[i]
     return data_dict
 
 
@@ -108,5 +109,5 @@ def create_user(user_id: str) -> None:
         "platform",
     ]
 
-    data = tuple_to_dict(t, labels)
+    data = tuple_to_dict(t, tuple(labels))
     write_to_yaml_file(user_id, data)
