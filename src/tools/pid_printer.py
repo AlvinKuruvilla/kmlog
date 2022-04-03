@@ -7,7 +7,7 @@
 # This is a small debug utility to print the pid KMLogger is
 # running on to help with profiling
 import os
-from base.util import block_text
+from base.displayer import block_text
 
 
 def print_pid():
