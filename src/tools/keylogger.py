@@ -22,7 +22,7 @@ from base.backends.yaml_driver import get_value_from_key
 from base.user_ops.yml_ops import user_id_to_yaml_file_path
 from base.backends.sql import SQLDriver, check_mysql_installed
 from base.log import Logger
-from base.util import animated_marker
+from base.displayer import animated_marker, display_credentials, CredentialType
 from base.csv_writer import CSVWriter
 
 # TODO: Maybe we don't need this here and instead we can just make the hotkey Ctrl + c because the whole point was to allow the user to exit the keylogger without interrupting execution, which the new code kind of does anyway. I will keep this here in case we want an actual hotkey. But as it stands right now the below hotkey combo does not work (but shift works for some reason)
@@ -53,9 +53,24 @@ class Keylogger:
         self.csv_writer.write_header(
             os.path.join(os.getcwd(), "logs", self.user_id + ".csv")
         )
+        self.platform_count = 1
+
+    def get_platform_count(self):
+        return self.platform_count
+
+    def update_platform_count(self):
+        self.platform_count = self.platform_count + 1
 
     def __hotkey_shutdown(self):
         hlog = Logger()
+        if self.get_platform_count() == 1:
+            display_credentials(CredentialType.INSTAGRAM)
+            self.update_platform_count()
+            return
+        elif self.get_platform_count() == 2:
+            display_credentials(CredentialType.TWITTER)
+            self.update_platform_count()
+
         hlog.km_info("Hotkey activated, shutting down keylogger")
         self.graceful_shutdown()
         sys.exit(0)

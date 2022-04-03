@@ -14,6 +14,18 @@ import progressbar
 from clint.textui import colored
 from art import text2art
 from colorama import Fore, Style
+from enum import Enum
+
+
+class CredentialType(Enum):
+    FACEBOOK = 0
+    INSTAGRAM = 1
+    TWITTER = 2
+
+
+class DisplayColors(Enum):
+    BLUE = "\033[1;32m"
+    YELLOW = "\033[1;34m"
 
 
 text_color = {
@@ -134,3 +146,34 @@ def animated_marker(text: str):
     for i in range(10):
         time.sleep(0.1)
         progress_bar.update(i)
+
+
+def dprint(d, key_format="\033[1;32m", value_format="\033[1;34m"):
+    for key in d.keys():
+        print(key_format, key + ":", value_format, d[key])
+
+
+def start_menu():
+    print("\nChoose service you want to use : ")
+    print(
+        """
+            1:  Start KMLogger
+            2:  Exit
+            """
+    )
+
+
+def display_credentials(cred_type: CredentialType):
+    if cred_type == CredentialType.FACEBOOK:
+        facebook_credentials = {
+            "Username": "fpd1social@gmail.com",
+            "Password": "Social@2022",
+        }
+        dprint(facebook_credentials)
+        return
+    elif cred_type == CredentialType.INSTAGRAM:
+        print("Instagram Unimplemented")
+        return
+    elif cred_type == CredentialType.TWITTER:
+        print("Twitter Unimplemented")
+        return

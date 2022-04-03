@@ -173,3 +173,8 @@ class SQLDriver:
         cursor = self.query("SELECT * FROM " + table_name, ())
         field_names = [i[0] for i in cursor.description]
         return field_names
+
+    def display_user_info_table():
+        # ? This may need to be moved to the yaml_ops and sql_ops files respectively to replace our current PrettyTable
+        # implementation
+        pass

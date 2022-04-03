@@ -17,7 +17,15 @@ from base.backends.sql import SQLDriver, check_mysql_installed
 from base.backends.yaml_driver import get_all_associated_values, print_as_table
 from base.user_ops.sql_ops import add_user_to_db, display_profile_from_db
 from base.user_ops.yml_ops import create_user, user_id_to_yaml_file_path
-from base.util import clear_screen, banner, block_text, km_prompt
+from base.displayer import (
+    clear_screen,
+    banner,
+    block_text,
+    km_prompt,
+    start_menu,
+    display_credentials,
+    CredentialType,
+)
 from base.log import Logger
 from tools.keylogger import Keylogger
 from initalizer import is_debug, make_logs_directory, make_user_directory
@@ -46,13 +54,7 @@ class TUI:
             clear_screen()
         banner("KMLogger")
         load_dotenv()
-        print("\nChoose service you want to use : ")
-        print(
-            """
-            1:  Start KMLogger
-            2:  Exit
-            """
-        )
+        start_menu()
         while True:
             choice = int(input(km_prompt("Enter a choice: ")))
             if choice in (1, 2):
@@ -119,6 +121,10 @@ class TUI:
                         )
                         if info_correct.lower() == "y" or info_correct.lower() == "yes":
                             km = Keylogger(user_id)
+                            print(
+                                "Please sign in to the corresponding social media platform using the following credentials:"
+                            )
+                            display_credentials(CredentialType.FACEBOOK)
                             km.start_recording()
                             break
                         elif (

@@ -11,7 +11,7 @@
 # https://opensource.org/licenses/MIT.
 
 from base.log import Logger
-from base.util import km_prompt
+from base.displayer import km_prompt
 from base.backends.sql import check_mysql_installed
 
 

@@ -9,7 +9,7 @@
 # variables
 
 from base.log import *
-from base.util import block_text
+from base.displayer import block_text
 import os
 from dotenv import dotenv_values
 
