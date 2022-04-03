@@ -27,6 +27,7 @@ from base.displayer import (
     CredentialType,
 )
 from base.log import Logger
+from shell.shell import Shell
 from tools.keylogger import Keylogger
 from initalizer import is_debug, make_logs_directory, make_user_directory
 from tools.env_verifier import verify_env_values
@@ -57,7 +58,7 @@ class TUI:
         start_menu()
         while True:
             choice = int(input(km_prompt("Enter a choice: ")))
-            if choice in (1, 2):
+            if choice in (1, 2, 3):
                 break
             else:
                 log.km_error("Invalid selection: choose 1 or 2")
@@ -159,8 +160,12 @@ class TUI:
                             break
                         else:
                             log.km_fatal("Invalid Input")
-
-        if choice == 2:
+        elif choice == 2:
+            clear_screen()
+            banner("KMLogger")
+            shell = Shell()
+            shell.start()
+        elif choice == 3:
             log.km_info("Exiting KMLogger")
             sys.exit(0)
 

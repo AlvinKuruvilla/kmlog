@@ -94,7 +94,7 @@ def km_prompt(text):
         return (
             background_colors["UNDERL"]
             + background_colors["DARKCYAN"]
-            + "set"
+            + "km"
             + background_colors["ENDC"]
             + "> "
         )
@@ -158,7 +158,8 @@ def start_menu():
     print(
         """
             1:  Start KMLogger
-            2:  Exit
+            2:  Start Interactive Shell
+            3:  Exit
             """
     )
 
