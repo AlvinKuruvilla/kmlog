@@ -101,7 +101,7 @@ def km_prompt(text):
           The prompt text.
     Returns
     -------
-    None
+    str
     """
     if text == "":
         return (
