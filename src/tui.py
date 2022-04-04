@@ -123,7 +123,7 @@ class TUI:
                         if info_correct.lower() == "y" or info_correct.lower() == "yes":
                             km = Keylogger(user_id)
                             print(
-                                "Please sign in to the corresponding social media platform using the following credentials:"
+                                "Please sign in to Facebook using the following credentials:"
                             )
                             display_credentials(CredentialType.FACEBOOK)
                             km.start_recording()

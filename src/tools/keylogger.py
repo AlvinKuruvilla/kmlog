@@ -63,14 +63,6 @@ class Keylogger:
 
     def __hotkey_shutdown(self):
         hlog = Logger()
-        if self.get_platform_count() == 1:
-            display_credentials(CredentialType.INSTAGRAM)
-            self.update_platform_count()
-            return
-        elif self.get_platform_count() == 2:
-            display_credentials(CredentialType.TWITTER)
-            self.update_platform_count()
-
         hlog.km_info("Hotkey activated, shutting down keylogger")
         self.graceful_shutdown()
         sys.exit(0)
@@ -151,11 +143,16 @@ class Keylogger:
             self.get_and_write_user_info()
             klog = Logger()
             animated_marker("Initializing keylogger....")
-            klog.km_custom(
-                "WARNING! Anything you will type shall be recorded until you terminate this app manually!",
-                "<red>",
-                "KEYLOGGER",
-            )
+            if self.get_platform_count() == 1:
+                klog.km_custom(
+                    "WARNING! Anything you will type shall be recorded until you terminate this app manually!",
+                    "<red>",
+                    "KEYLOGGER",
+                )
+            if self.get_platform_count() > 1:
+                print(
+                    "\033[0;31m KEYLOGGER | WARNING! Anything you will type shall be recorded until you terminate this app manually\033[00m"
+                )
 
             def on_press(key) -> None:
                 self.buffer_write(f"P,{override_key(key)}, {time.time()}")
@@ -185,7 +182,18 @@ class Keylogger:
                 listener.join()
         except KeyboardInterrupt:
             self.graceful_shutdown()
-            self.__hotkey_shutdown()
+            if self.get_platform_count() == 1:
+                print("Please sign in to Instagram using the following credentials:")
+                display_credentials(CredentialType.INSTAGRAM)
+                self.update_platform_count()
+                self.start_recording()
+            elif self.get_platform_count() == 2:
+                print("Please sign in to Twitter using the following credentials:")
+                display_credentials(CredentialType.TWITTER)
+                self.update_platform_count()
+                self.start_recording()
+            elif self.get_platform_count() > 2:
+                self.__hotkey_shutdown()
 
 
 if __name__ == "__main__":
