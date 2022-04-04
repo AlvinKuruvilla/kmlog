@@ -164,7 +164,7 @@ class TUI:
             clear_screen()
             banner("KMLogger")
             shell = Shell()
-            shell.start()
+            shell.cmdloop()
         elif choice == 3:
             log.km_info("Exiting KMLogger")
             sys.exit(0)
