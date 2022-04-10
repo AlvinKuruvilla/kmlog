@@ -7,6 +7,9 @@
 import sys
 import os
 
+USERS_DIR = os.path.join(os.getcwd(), "users")
+LOGS_DIR = os.path.join(os.getcwd(), "logs")
+
 
 def is_debug():
     gettrace = getattr(sys, "gettrace", None)
@@ -31,5 +34,7 @@ def make_user_directory():
         os.makedirs(os.path.join(os.getcwd(), "users"))
 
 
-USERS_DIR = os.path.join(os.getcwd(), "users")
-LOGS_DIR = os.path.join(os.getcwd(), "logs")
+def make_user_data_folder(user_id: str):
+    path = os.path.join(LOGS_DIR, user_id)
+    if not os.path.isdir(path):
+        os.mkdir(path)

@@ -29,7 +29,12 @@ from base.displayer import (
 from base.log import Logger
 from shell.shell import Shell
 from tools.keylogger import Keylogger
-from initalizer import is_debug, make_logs_directory, make_user_directory
+from initalizer import (
+    is_debug,
+    make_logs_directory,
+    make_user_data_folder,
+    make_user_directory,
+)
 from tools.env_verifier import verify_env_values
 
 if is_debug():
@@ -126,6 +131,7 @@ class TUI:
                                 "Please sign in to Facebook using the following credentials:"
                             )
                             display_credentials(CredentialType.FACEBOOK)
+                            make_user_data_folder(user_id)
                             km.start_recording()
                             break
                         elif (
@@ -149,6 +155,7 @@ class TUI:
                         )
                         if info_correct.lower() == "y" or info_correct.lower() == "yes":
                             km = Keylogger(user_id)
+                            make_user_data_folder(user_id)
                             km.start_recording()
                             break
                         elif (
