@@ -22,14 +22,8 @@ class Shell(cmd.Cmd):
             greeting = "hello"
         print(greeting)
 
-    def complete_greet(self, text, line, begidx, endidx):
-        if not text:
-            completions = self.FRIENDS[:]
-        else:
-            completions = [f for f in self.FRIENDS if f.startswith(text)]
-        return completions
-
-    def do_EOF(self, line):
+    def do_exit(self):
+        """Exit the shell and return to the main menu"""
         return True
 
 
