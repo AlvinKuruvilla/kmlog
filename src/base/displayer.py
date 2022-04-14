@@ -177,7 +177,32 @@ def start_menu():
     )
 
 
-def display_credentials(cred_type: CredentialType):
+def display_account(account_number: int):
+    if account_number == 1:
+        acct = {
+            "Name": "Jake Smith",
+            "Email": "fpd1social@gmail.com",
+            "Password": "Social@2022",
+        }
+        dprint(acct)
+    if account_number == 2:
+        acct = {
+            "Name": "Jessica Coleman",
+            "Email": "fpd2social@gmail.com",
+            "Password": "Social@2022!",
+        }
+        dprint(acct)
+    if account_number == 3:
+        acct = {
+            "Name": "Liam Williams",
+            "Email": "fpd3social@gmail.com",
+            "Password": "Social@2022!",
+        }
+        dprint(acct)
+
+
+def display_credentials(cred_type: CredentialType, account_number: int):
+    display_account(account_number)
     if cred_type == CredentialType.FACEBOOK:
         facebook_credentials = {
             "Username": "fpd1social@gmail.com",
