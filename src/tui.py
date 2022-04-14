@@ -4,14 +4,13 @@
 # pylint: disable=C0412
 # pylint: disable=R1723
 # pylint: disable=C0103
-# Copyright 2021 - 2022, Alvin Kuruvilla <alvineasokuruvilla@gmail.com>, Dr. Rajesh Kumar <Rajesh.Kumar@hofstra.edu>
 
+# Copyright 2021 - 2022, Alvin Kuruvilla <alvineasokuruvilla@gmail.com>, Dr. Rajesh Kumar <Rajesh.Kumar@hofstra.edu>
 # Use of this source code is governed by an MIT-style
 # license that can be found in the LICENSE file or at
 # https://opensource.org/licenses/MIT.
-# TODO: When starting the kmlogger to record keystrokes, we should pass in the social media platform so that it
-# generates files for each platform
-
+# TODO: MAYBE start_recording should take the account_number instead on line 134-135 ????
+# TODO: A worst case scenario alternative is to have the heading display the account information like which email and platform
 import os
 import sys
 from dotenv import load_dotenv
@@ -103,7 +102,7 @@ class TUI:
                     )
                     if info_correct.lower() == "y" or info_correct.lower() == "yes":
                         km = Keylogger(user_id)
-                        km.start_recording()
+                        km.start_recording(CredentialType.FACEBOOK)
                     elif info_correct.lower() == "n" or info_correct.lower() == "no":
                         log.km_fatal(
                             "Please let the researchers know that this information is incorrect and it will be addressed"
@@ -114,7 +113,7 @@ class TUI:
                     log.km_info("ID not found")
                     km = Keylogger(user_id)
                     add_user_to_db(user_id)
-                    km.start_recording()
+                    km.start_recording(CredentialType.FACEBOOK)
             else:
                 # The yaml version of the above code
                 comp = get_all_associated_values("user_id")
@@ -128,13 +127,13 @@ class TUI:
                             )
                         )
                         if info_correct.lower() == "y" or info_correct.lower() == "yes":
-                            km = Keylogger(user_id)
                             print(
                                 "Please sign in to Facebook using the following credentials:"
                             )
-                            display_credentials(CredentialType.FACEBOOK)
                             make_user_data_folder(user_id)
-                            km.start_recording()
+                            km = Keylogger(user_id)
+                            display_credentials(CredentialType.FACEBOOK)
+                            km.start_recording(CredentialType.FACEBOOK)
                             break
                         elif (
                             info_correct.lower() == "n" or info_correct.lower() == "no"
@@ -156,9 +155,9 @@ class TUI:
                             )
                         )
                         if info_correct.lower() == "y" or info_correct.lower() == "yes":
-                            km = Keylogger(user_id)
                             make_user_data_folder(user_id)
-                            km.start_recording()
+                            km = Keylogger(user_id)
+                            km.start_recording(CredentialType.FACEBOOK)
                             break
                         elif (
                             info_correct.lower() == "n" or info_correct.lower() == "no"

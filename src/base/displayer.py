@@ -201,8 +201,8 @@ def display_account(account_number: int):
         dprint(acct)
 
 
-def display_credentials(cred_type: CredentialType, account_number: int):
-    display_account(account_number)
+def display_credentials(cred_type: CredentialType, account_number: int = None):
+    # display_account(account_number)
     if cred_type == CredentialType.FACEBOOK:
         facebook_credentials = {
             "Username": "fpd1social@gmail.com",

@@ -203,6 +203,7 @@ class Keylogger:
                 )
                 with open(_social_platform_path, "a", encoding="utf8") as file:
                     file.write("\n" + first + " " + last + "\n")
+                    file.write("Facebook")
                     file.write("**********************************" + "\n")
             elif platform_type == CredentialType.TWITTER:
                 _social_platform_path = os.path.join(
@@ -210,6 +211,7 @@ class Keylogger:
                 )
                 with open(_social_platform_path, "a", encoding="utf8") as file:
                     file.write("\n" + first + " " + last + "\n")
+                    file.write("Twitter")
                     file.write("**********************************" + "\n")
             elif platform_type == CredentialType.INSTAGRAM:
                 _social_platform_path = os.path.join(
@@ -217,6 +219,7 @@ class Keylogger:
                 )
                 with open(_social_platform_path, "a", encoding="utf8") as file:
                     file.write("\n" + first + " " + last + "\n")
+                    file.write("Instagram")
                     file.write("**********************************" + "\n")
 
     def start_recording(self, platform_type=None) -> None:
@@ -344,12 +347,12 @@ class Keylogger:
                 print("Please sign in to Instagram using the following credentials:")
                 display_credentials(CredentialType.INSTAGRAM)
                 self.update_platform_count()
-                self.start_recording()
+                self.start_recording(CredentialType.INSTAGRAM)
             elif self.get_platform_count() == 2:
                 print("Please sign in to Twitter using the following credentials:")
                 display_credentials(CredentialType.TWITTER)
                 self.update_platform_count()
-                self.start_recording()
+                self.start_recording(CredentialType.TWITTER)
             elif self.get_platform_count() > 2:
                 self.__hotkey_shutdown()
 
