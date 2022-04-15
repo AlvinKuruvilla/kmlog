@@ -224,3 +224,26 @@ def display_credentials(cred_type: CredentialType, account_number: int = None):
         }
         dprint(twitter_credentials)
         return
+
+
+def select_account():
+    print("\Which account do you want to use: ")
+    print(
+        """
+            1:  fpd1social@gmail.com
+            2:  fpd2social@gmail.com
+            3:  fpd3social@gmail.com
+            """
+    )
+
+
+def account_number_to_email_fragment(account_number: int):
+    if account_number == 1:
+        frag = "fpd1"
+        return frag
+    elif account_number == 2:
+        frag = "fpd2"
+        return frag
+    elif account_number == 3:
+        frag = "fpd3"
+        return frag

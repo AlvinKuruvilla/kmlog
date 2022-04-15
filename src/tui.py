@@ -23,6 +23,7 @@ from base.displayer import (
     banner,
     block_text,
     km_prompt,
+    select_account,
     start_menu,
     display_credentials,
     CredentialType,
@@ -127,14 +128,22 @@ class TUI:
                             )
                         )
                         if info_correct.lower() == "y" or info_correct.lower() == "yes":
-                            print(
-                                "Please sign in to Facebook using the following credentials:"
-                            )
-                            make_user_data_folder(user_id)
-                            km = Keylogger(user_id)
-                            display_credentials(CredentialType.FACEBOOK)
-                            km.start_recording(CredentialType.FACEBOOK)
-                            break
+                            select_account()
+                            while True:
+                                account_choice = int(
+                                    input(km_prompt("Enter a choice: "))
+                                )
+                                if account_choice in (1, 2, 3):
+                                    print(
+                                        "Please sign in to Facebook using the following credentials:"
+                                    )
+                                    make_user_data_folder(user_id)
+                                    km = Keylogger(user_id)
+                                    display_credentials(CredentialType.FACEBOOK)
+                                    km.start_recording(CredentialType.FACEBOOK)
+                                    break
+                                else:
+                                    log.km_fatal("Invalid Input")
                         elif (
                             info_correct.lower() == "n" or info_correct.lower() == "no"
                         ):
@@ -155,10 +164,16 @@ class TUI:
                             )
                         )
                         if info_correct.lower() == "y" or info_correct.lower() == "yes":
-                            make_user_data_folder(user_id)
-                            km = Keylogger(user_id)
-                            km.start_recording(CredentialType.FACEBOOK)
-                            break
+                            select_account()
+                            while True:
+                                account_choice = int(
+                                    input(km_prompt("Enter a choice: "))
+                                )
+                                if account_choice in (1, 2, 3):
+                                    make_user_data_folder(user_id)
+                                    km = Keylogger(user_id)
+                                    km.start_recording(CredentialType.FACEBOOK)
+                                    break
                         elif (
                             info_correct.lower() == "n" or info_correct.lower() == "no"
                         ):

@@ -22,7 +22,12 @@ from base.backends.yaml_driver import get_value_from_key
 from base.user_ops.yml_ops import user_id_to_yaml_file_path
 from base.backends.sql import SQLDriver, check_mysql_installed
 from base.log import Logger
-from base.displayer import animated_marker, display_credentials, CredentialType
+from base.displayer import (
+    account_number_to_email_fragment,
+    animated_marker,
+    display_credentials,
+    CredentialType,
+)
 from base.csv_writer import CSVWriter
 from initalizer import LOGS_DIR
 from pathlib import Path
@@ -222,7 +227,7 @@ class Keylogger:
                     file.write("Instagram")
                     file.write("**********************************" + "\n")
 
-    def start_recording(self, platform_type=None) -> None:
+    def start_recording(self, platform_type=None, account_number: int = None) -> None:
         """This function reccords all the key presses to the file and the
         buffer. See also :func: `~tools.Keylogger.buffer_write`"""
         try:
@@ -241,16 +246,22 @@ class Keylogger:
                 )
 
             def on_press(key) -> None:
-                if platform_type is None:
+                if platform_type is None or account_number is None:
                     self.buffer_write(f"P,{override_key(key)}, {time.time()}")
                     data = ["P", override_key(key), time.time()]
                     self.csv_writer.write_data_to_csv(
                         os.path.join(LOGS_DIR, self.user_id, self.user_id + ".csv"),
                         data,
                     )
+                    account_email_fragment = account_number_to_email_fragment(
+                        account_number
+                    )
                 elif platform_type == CredentialType.FACEBOOK:
+
                     _social_platform_path = os.path.join(
-                        LOGS_DIR, self.user_id, "f" + self.user_id + ".csv"
+                        LOGS_DIR,
+                        self.user_id,
+                        "f_" + self.user_id + "_" + account_email_fragment + ".csv",
                     )
                     self.buffer_write(
                         f"P,{override_key(key)}, {time.time()}", platform_type
@@ -262,7 +273,9 @@ class Keylogger:
                     )
                 elif platform_type == CredentialType.TWITTER:
                     _social_platform_path = os.path.join(
-                        LOGS_DIR, self.user_id, "t" + self.user_id + ".csv"
+                        LOGS_DIR,
+                        self.user_id,
+                        "t_" + self.user_id + "_" + account_email_fragment + ".csv",
                     )
                     self.buffer_write(
                         f"P,{override_key(key)}, {time.time()}", platform_type
@@ -274,7 +287,9 @@ class Keylogger:
                     )
                 elif platform_type == CredentialType.INSTAGRAM:
                     _social_platform_path = os.path.join(
-                        LOGS_DIR, self.user_id, "i" + self.user_id + ".csv"
+                        LOGS_DIR,
+                        self.user_id,
+                        "i_" + self.user_id + "_" + account_email_fragment + ".csv",
                     )
                     self.buffer_write(
                         f"P,{override_key(key)}, {time.time()}", platform_type
@@ -298,9 +313,14 @@ class Keylogger:
                         os.path.join(LOGS_DIR, self.user_id, self.user_id + ".csv"),
                         data,
                     )
+                    account_email_fragment = account_number_to_email_fragment(
+                        account_number
+                    )
                 elif platform_type == CredentialType.FACEBOOK:
                     _social_platform_path = os.path.join(
-                        LOGS_DIR, self.user_id, "f" + self.user_id + ".csv"
+                        LOGS_DIR,
+                        self.user_id,
+                        "f_" + self.user_id + "_" + account_email_fragment + ".csv",
                     )
                     self.buffer_write(
                         f"R,{override_key(key)}, {time.time()}", platform_type
@@ -312,7 +332,9 @@ class Keylogger:
                     )
                 elif platform_type == CredentialType.TWITTER:
                     _social_platform_path = os.path.join(
-                        LOGS_DIR, self.user_id, "t" + self.user_id + ".csv"
+                        LOGS_DIR,
+                        self.user_id,
+                        "t_" + self.user_id + "_" + account_email_fragment + ".csv",
                     )
                     self.buffer_write(
                         f"R,{override_key(key)}, {time.time()}", platform_type
@@ -324,7 +346,9 @@ class Keylogger:
                     )
                 elif platform_type == CredentialType.INSTAGRAM:
                     _social_platform_path = os.path.join(
-                        LOGS_DIR, self.user_id, "i" + self.user_id + ".csv"
+                        LOGS_DIR,
+                        self.user_id,
+                        "i_" + self.user_id + "_" + account_email_fragment + ".csv",
                     )
                     self.buffer_write(
                         f"R,{override_key(key)}, {time.time()}", platform_type
