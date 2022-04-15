@@ -9,8 +9,7 @@
 # Use of this source code is governed by an MIT-style
 # license that can be found in the LICENSE file or at
 # https://opensource.org/licenses/MIT.
-# TODO: MAYBE start_recording should take the account_number instead on line 134-135 ????
-# TODO: A worst case scenario alternative is to have the heading display the account information like which email and platform
+# TODO: Fix file name bug in the keylogger .log file. see previous commit
 import os
 import sys
 from dotenv import load_dotenv
