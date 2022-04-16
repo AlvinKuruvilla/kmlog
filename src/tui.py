@@ -9,7 +9,7 @@
 # Use of this source code is governed by an MIT-style
 # license that can be found in the LICENSE file or at
 # https://opensource.org/licenses/MIT.
-# TODO: Fix file name bug in the keylogger .log file. see previous commit
+
 import os
 import sys
 from dotenv import load_dotenv

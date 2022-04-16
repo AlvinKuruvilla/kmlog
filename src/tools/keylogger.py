@@ -32,7 +32,7 @@ from base.csv_writer import CSVWriter
 from initalizer import LOGS_DIR
 from pathlib import Path
 
-# TODO: Maybe we don't need this here and instead we can just make the hotkey Ctrl + c because the whole point was to allow the user to exit the keylogger without interrupting execution, which the new code kind of does anyway. I will keep this here in case we want an actual hotkey. But as it stands right now the below hotkey combo does not work (but shift works for some reason)
+# TODO: Write csv headers to each generated file
 SHUTDOWN = [
     {keyboard.Key.ctrl, keyboard.KeyCode(char="a")},
     {keyboard.Key.ctrl, keyboard.KeyCode(char="A")},
@@ -56,7 +56,9 @@ class Keylogger:
         self.user_id = _user_id
         self.csv_writer = CSVWriter()
         self.buffer = []
-        self.log_file_path = os.path.join(LOGS_DIR, self.user_id, self.user_id + ".log")
+        self.log_file_path = os.path.join(
+            LOGS_DIR, self.user_id, self.user_id + ".log"
+        )  # Create a global log file
         self.csv_writer.write_header(
             os.path.join(os.path.join(LOGS_DIR, self.user_id, self.user_id + ".csv"))
         )
