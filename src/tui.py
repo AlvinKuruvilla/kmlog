@@ -101,8 +101,14 @@ class TUI:
                         km_prompt("Is all of this information correct? y/n: ")
                     )
                     if info_correct.lower() == "y" or info_correct.lower() == "yes":
-                        km = Keylogger(user_id)
-                        km.start_recording(CredentialType.FACEBOOK)
+                        select_account()
+                        while True:
+                            account_choice = int(input(km_prompt("Enter a choice: ")))
+                            if account_choice in (1, 2, 3):
+                                km = Keylogger(user_id)
+                                km.start_recording(
+                                    CredentialType.FACEBOOK, account_choice
+                                )
                     elif info_correct.lower() == "n" or info_correct.lower() == "no":
                         log.km_fatal(
                             "Please let the researchers know that this information is incorrect and it will be addressed"
@@ -111,9 +117,15 @@ class TUI:
                         log.km_fatal("Invalid Input")
                 else:
                     log.km_info("ID not found")
-                    km = Keylogger(user_id)
-                    add_user_to_db(user_id)
-                    km.start_recording(CredentialType.FACEBOOK)
+                    select_account()
+                    while True:
+                        account_choice = int(input(km_prompt("Enter a choice: ")))
+                        if account_choice in (1, 2, 3):
+                            km = Keylogger(user_id)
+                            add_user_to_db(user_id)
+                            km.start_recording(CredentialType.FACEBOOK, account_choice)
+                        else:
+                            log.km_fatal("Invalid Input")
             else:
                 # The yaml version of the above code
                 comp = get_all_associated_values("user_id")
@@ -139,7 +151,9 @@ class TUI:
                                     make_user_data_folder(user_id)
                                     km = Keylogger(user_id)
                                     display_credentials(CredentialType.FACEBOOK)
-                                    km.start_recording(CredentialType.FACEBOOK)
+                                    km.start_recording(
+                                        CredentialType.FACEBOOK, account_choice
+                                    )
                                     break
                                 else:
                                     log.km_fatal("Invalid Input")
@@ -171,7 +185,9 @@ class TUI:
                                 if account_choice in (1, 2, 3):
                                     make_user_data_folder(user_id)
                                     km = Keylogger(user_id)
-                                    km.start_recording(CredentialType.FACEBOOK)
+                                    km.start_recording(
+                                        CredentialType.FACEBOOK, account_choice
+                                    )
                                     break
                         elif (
                             info_correct.lower() == "n" or info_correct.lower() == "no"

