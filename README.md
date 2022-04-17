@@ -132,34 +132,44 @@ See 123.yaml for more details
 
 ## Usage
 
+### Build with pip
+
 1. Clone this repository.
 
 ```bash
 git clone https://github.com/AlvinKuruvilla/kmlog.git
-
-OR
-
-git clone git@github.com:AlvinKuruvilla/kmlog.git
 ```
 
 2. Install dependencies
 
 ```bash
 pip3 -r requirements.txt
-
-OR
-
-pip3 -r requirements/sql_requirements.txt
-
-OR
-
-pip3 -r requirements/yaml_requirements.txt
 ```
 
-Run the main file
+3. Run the main file
 
 ```bash
 python3 tui.py
+```
+
+### Automated Build
+
+1. Clone this repository.
+
+```bash
+git clone https://github.com/AlvinKuruvilla/kmlog.git
+```
+
+2. Install dependencies
+
+```bash
+pip3 -r requirements.txt
+```
+
+3. Run the shell command
+
+```bash
+./build.sh
 ```
 
 ## License
