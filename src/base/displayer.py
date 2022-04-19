@@ -232,28 +232,7 @@ def display_credentials(cred_type: CredentialType, account_number: int):
             }
             dprint(twitter_credentials)
             return
-    elif account_number == 2:
-        if cred_type == CredentialType.FACEBOOK:
-            facebook_credentials = {
-                "Username": "fpd2social@gmail.com",
-                "Password": "Social@2022",
-            }
-            dprint(facebook_credentials)
-            return
-        elif cred_type == CredentialType.INSTAGRAM:
-            insta_credentials = {
-                "Username": "fpd2social@gmail.com",
-                "Password": "Social@2022",
-            }
-            dprint(insta_credentials)
-            return
-        elif cred_type == CredentialType.TWITTER:
-            twitter_credentials = {
-                "Username": "fpd2social@gmail.com",
-                "Password": "Social@2022",
-            }
-            dprint(twitter_credentials)
-            return
+
     elif account_number == 3:
         if cred_type == CredentialType.FACEBOOK:
             facebook_credentials = {
@@ -279,14 +258,8 @@ def display_credentials(cred_type: CredentialType, account_number: int):
 
 
 def select_account():
-    print("\Which account do you want to use: ")
-    print(
-        """
-            1:  fpd1social@gmail.com
-            2:  fpd2social@gmail.com
-            3:  fpd3social@gmail.com
-            """
-    )
+    print("Which account do you want to use: ")
+    print("""1:  fpd1social@gmail.com""")
 
 
 def account_number_to_email_fragment(account_number: int):
