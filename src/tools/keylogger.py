@@ -118,7 +118,7 @@ class Keylogger:
             if platform_type is None:
                 with open(self.log_file_path, "a", encoding="utf8") as file:
                     for string in self.buffer:
-                        file.write(string)
+                        file.write(string + "\n")
                 self.buffer.clear()
             elif platform_type == CredentialType.FACEBOOK:
                 _social_platform_path = os.path.join(
@@ -126,7 +126,7 @@ class Keylogger:
                 )
                 with open(_social_platform_path, "a", encoding="utf8") as file:
                     for string in self.buffer:
-                        file.write(string)
+                        file.write(string + "\n")
                 self.buffer.clear()
             elif platform_type == CredentialType.TWITTER:
                 _social_platform_path = os.path.join(
@@ -134,7 +134,7 @@ class Keylogger:
                 )
                 with open(_social_platform_path, "a", encoding="utf8") as file:
                     for string in self.buffer:
-                        file.write(string)
+                        file.write(string + "\n")
                 self.buffer.clear()
             elif platform_type == CredentialType.INSTAGRAM:
                 _social_platform_path = os.path.join(
@@ -142,7 +142,7 @@ class Keylogger:
                 )
                 with open(_social_platform_path, "a", encoding="utf8") as file:
                     for string in self.buffer:
-                        file.write(string)
+                        file.write(string + "\n")
                 self.buffer.clear()
         else:
             self.buffer.append(to_add)
@@ -178,6 +178,7 @@ class Keylogger:
                 )
                 with open(_social_platform_path, "a", encoding="utf8") as file:
                     file.write("\n" + first + " " + last + "\n")
+                    file.write(platform_type + "\n")
                     file.write("**********************************" + "\n")
             elif platform_type == CredentialType.TWITTER:
                 _social_platform_path = os.path.join(
@@ -185,6 +186,7 @@ class Keylogger:
                 )
                 with open(_social_platform_path, "a", encoding="utf8") as file:
                     file.write("\n" + first + " " + last + "\n")
+                    file.write(platform_type + "\n")
                     file.write("**********************************" + "\n")
             elif platform_type == CredentialType.INSTAGRAM:
                 _social_platform_path = os.path.join(
@@ -192,6 +194,7 @@ class Keylogger:
                 )
                 with open(_social_platform_path, "a", encoding="utf8") as file:
                     file.write("\n" + first + " " + last + "\n")
+                    file.write(platform_type + "\n")
                     file.write("**********************************" + "\n")
 
         else:
@@ -212,7 +215,7 @@ class Keylogger:
                 )
                 with open(_social_platform_path, "a", encoding="utf8") as file:
                     file.write("\n" + first + " " + last + "\n")
-                    file.write("Facebook")
+                    file.write(platform_type.to_str() + "\n")
                     file.write("**********************************" + "\n")
             elif platform_type == CredentialType.TWITTER:
                 _social_platform_path = os.path.join(
@@ -220,7 +223,7 @@ class Keylogger:
                 )
                 with open(_social_platform_path, "a", encoding="utf8") as file:
                     file.write("\n" + first + " " + last + "\n")
-                    file.write("Twitter")
+                    file.write(platform_type.to_str() + "\n")
                     file.write("**********************************" + "\n")
             elif platform_type == CredentialType.INSTAGRAM:
                 _social_platform_path = os.path.join(
@@ -228,14 +231,17 @@ class Keylogger:
                 )
                 with open(_social_platform_path, "a", encoding="utf8") as file:
                     file.write("\n" + first + " " + last + "\n")
-                    file.write("Instagram")
+                    file.write(platform_type.to_str() + "\n")
                     file.write("**********************************" + "\n")
 
     def start_recording(self, platform_type=None, account_number: int = None) -> None:
         """This function reccords all the key presses to the file and the
         buffer. See also :func: `~tools.Keylogger.buffer_write`"""
         try:
+            # input("Check platform")
+            # print(platform_type)
             self.get_and_write_user_info()
+            self.get_and_write_user_info(platform_type)
             klog = Logger()
             animated_marker("Initializing keylogger....")
             if self.get_platform_count() == 1:
@@ -250,6 +256,8 @@ class Keylogger:
                 )
 
             def on_press(key) -> None:
+                # print(platform_type)
+                # input("Check platform")
                 if platform_type is None or account_number is None:
                     self.buffer_write(f"P,{override_key(key)}, {time.time()}")
                     data = ["P", override_key(key), time.time()]
@@ -259,6 +267,7 @@ class Keylogger:
                     )
 
                 elif platform_type == CredentialType.FACEBOOK:
+                    # input("Hit here - Facebook")
                     account_email_fragment = account_number_to_email_fragment(
                         account_number
                     )
@@ -276,6 +285,7 @@ class Keylogger:
                         data,
                     )
                 elif platform_type == CredentialType.TWITTER:
+                    # input("Hit here - Twitter")
                     account_email_fragment = account_number_to_email_fragment(
                         account_number
                     )
@@ -293,6 +303,7 @@ class Keylogger:
                         data,
                     )
                 elif platform_type == CredentialType.INSTAGRAM:
+                    # input("Hit here - Instagram")
                     account_email_fragment = account_number_to_email_fragment(
                         account_number
                     )
@@ -316,6 +327,9 @@ class Keylogger:
                 # _        self.__hotkey_shutdown()
 
             def on_release(key) -> None:
+                # print(platform_type)
+                # input("Check platform")
+
                 if platform_type is None or account_number is None:
                     self.buffer_write(f"R,{override_key(key)}, {time.time()}")
                     data = ["R", override_key(key), time.time()]
@@ -341,6 +355,7 @@ class Keylogger:
                         data,
                     )
                 elif platform_type == CredentialType.TWITTER:
+                    # input("Hit here - Twitter")
                     account_email_fragment = account_number_to_email_fragment(
                         account_number
                     )
@@ -358,6 +373,7 @@ class Keylogger:
                         data,
                     )
                 elif platform_type == CredentialType.INSTAGRAM:
+                    # input("Hit here - Instagram")
                     account_email_fragment = account_number_to_email_fragment(
                         account_number
                     )
@@ -383,6 +399,8 @@ class Keylogger:
                 listener.join()
         except KeyboardInterrupt:
             self.graceful_shutdown()
+            if platform_type is None:
+                self.__hotkey_shutdown()
             if self.get_platform_count() == 1:
                 print("Please sign in to Instagram using the following credentials:")
                 display_credentials(CredentialType.INSTAGRAM)
