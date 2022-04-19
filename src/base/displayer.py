@@ -22,6 +22,12 @@ class CredentialType(Enum):
     INSTAGRAM = 1
     TWITTER = 2
 
+    def __str__(self):
+        return "%s" % self.name
+
+    def to_str(self):
+        return self.name
+
 
 class DisplayColors(Enum):
     BLACK = "\033[0;30m"
