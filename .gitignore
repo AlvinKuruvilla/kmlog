@@ -10,3 +10,5 @@ users/
 *.png
 ven
 .DS_Store
+*.stderr.*
+*.stderr
