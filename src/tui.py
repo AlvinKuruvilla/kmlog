@@ -67,7 +67,7 @@ class TUI:
             if choice in (1, 2, 3):
                 break
             else:
-                log.km_error("Invalid selection: choose 1 or 2")
+                log.km_error("Invalid selection: choose 1, 2, or 3")
                 continue
         if choice == 1:
             clear_screen()
@@ -115,7 +115,7 @@ class TUI:
                             "Please let the researchers know that this information is incorrect and it will be addressed"
                         )
                     else:
-                        log.km_fatal("Invalid Input")
+                        log.km_eror("Invalid Input")
                 else:
                     log.km_info("ID not found")
                     select_account()
@@ -127,7 +127,7 @@ class TUI:
                             km.set_account_number(account_choice)
                             km.start_recording(CredentialType.FACEBOOK, account_choice)
                         else:
-                            log.km_fatal("Invalid Input")
+                            log.km_error("Invalid Input")
             else:
                 # The yaml version of the above code
                 comp = get_all_associated_values("user_id")
@@ -161,7 +161,7 @@ class TUI:
                                     )
                                     break
                                 else:
-                                    log.km_fatal("Invalid Input")
+                                    log.km_error("Invalid Input")
                         elif (
                             info_correct.lower() == "n" or info_correct.lower() == "no"
                         ):
@@ -170,7 +170,7 @@ class TUI:
                             )
                             break
                         else:
-                            log.km_fatal("Invalid Input")
+                            log.km_error("Invalid Input")
                 else:
                     log.km_info("User not found, creating a new user")
                     create_user(user_id)
@@ -203,7 +203,7 @@ class TUI:
                             )
                             break
                         else:
-                            log.km_fatal("Invalid Input")
+                            log.km_error("Invalid Input")
         elif choice == 2:
             clear_screen()
             banner("KMLogger")
