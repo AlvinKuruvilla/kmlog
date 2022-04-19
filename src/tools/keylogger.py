@@ -65,9 +65,16 @@ class Keylogger:
             os.path.join(os.path.join(LOGS_DIR, self.user_id, self.user_id + ".csv"))
         )
         self.platform_count = 1
+        self.account_number = 1
 
     def get_platform_count(self):
         return self.platform_count
+
+    def set_account_number(self, account_number: int):
+        self.account_number = account_number
+
+    def get_account_number(self):
+        return self.account_number
 
     def update_platform_count(self):
         self.platform_count = self.platform_count + 1
@@ -403,14 +410,16 @@ class Keylogger:
                 self.__hotkey_shutdown()
             if self.get_platform_count() == 1:
                 print("Please sign in to Instagram using the following credentials:")
-                display_credentials(CredentialType.INSTAGRAM)
+                display_credentials(CredentialType.INSTAGRAM, self.get_account_number())
                 self.update_platform_count()
-                self.start_recording(CredentialType.INSTAGRAM)
+                self.start_recording(
+                    CredentialType.INSTAGRAM, self.get_account_number()
+                )
             elif self.get_platform_count() == 2:
                 print("Please sign in to Twitter using the following credentials:")
-                display_credentials(CredentialType.TWITTER)
+                display_credentials(CredentialType.TWITTER, self.get_account_number())
                 self.update_platform_count()
-                self.start_recording(CredentialType.TWITTER)
+                self.start_recording(CredentialType.TWITTER, self.get_account_number())
             elif self.get_platform_count() > 2:
                 self.__hotkey_shutdown()
 

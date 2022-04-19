@@ -106,6 +106,7 @@ class TUI:
                             account_choice = int(input(km_prompt("Enter a choice: ")))
                             if account_choice in (1, 2, 3):
                                 km = Keylogger(user_id)
+                                km.set_account_number(account_choice)
                                 km.start_recording(
                                     CredentialType.FACEBOOK, account_choice
                                 )
@@ -123,6 +124,7 @@ class TUI:
                         if account_choice in (1, 2, 3):
                             km = Keylogger(user_id)
                             add_user_to_db(user_id)
+                            km.set_account_number(account_choice)
                             km.start_recording(CredentialType.FACEBOOK, account_choice)
                         else:
                             log.km_fatal("Invalid Input")
@@ -150,7 +152,10 @@ class TUI:
                                     )
                                     make_user_data_folder(user_id)
                                     km = Keylogger(user_id)
-                                    display_credentials(CredentialType.FACEBOOK)
+                                    km.set_account_number(account_choice)
+                                    display_credentials(
+                                        CredentialType.FACEBOOK, account_choice
+                                    )
                                     km.start_recording(
                                         CredentialType.FACEBOOK, account_choice
                                     )
@@ -185,6 +190,7 @@ class TUI:
                                 if account_choice in (1, 2, 3):
                                     make_user_data_folder(user_id)
                                     km = Keylogger(user_id)
+                                    km.set_account_number(account_choice)
                                     km.start_recording(
                                         CredentialType.FACEBOOK, account_choice
                                     )

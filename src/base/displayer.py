@@ -207,29 +207,75 @@ def display_account(account_number: int):
         dprint(acct)
 
 
-def display_credentials(cred_type: CredentialType, account_number: int = None):
+def display_credentials(cred_type: CredentialType, account_number: int):
     # display_account(account_number)
-    if cred_type == CredentialType.FACEBOOK:
-        facebook_credentials = {
-            "Username": "fpd1social@gmail.com",
-            "Password": "Social@2022",
-        }
-        dprint(facebook_credentials)
-        return
-    elif cred_type == CredentialType.INSTAGRAM:
-        insta_credentials = {
-            "Username": "fpd1social@gmail.com",
-            "Password": "Social@2022",
-        }
-        dprint(insta_credentials)
-        return
-    elif cred_type == CredentialType.TWITTER:
-        twitter_credentials = {
-            "Username": "fpd1social@gmail.com",
-            "Password": "Social@2022",
-        }
-        dprint(twitter_credentials)
-        return
+    # FIXME: A lot of this duplicated conditional code can be trimed down if we just do an update on the username key depending on the account number
+    if account_number == 1:
+        if cred_type == CredentialType.FACEBOOK:
+            facebook_credentials = {
+                "Username": "fpd1social@gmail.com",
+                "Password": "Social@2022",
+            }
+            dprint(facebook_credentials)
+            return
+        elif cred_type == CredentialType.INSTAGRAM:
+            insta_credentials = {
+                "Username": "fpd1social@gmail.com",
+                "Password": "Social@2022",
+            }
+            dprint(insta_credentials)
+            return
+        elif cred_type == CredentialType.TWITTER:
+            twitter_credentials = {
+                "Username": "fpd1social@gmail.com",
+                "Password": "Social@2022",
+            }
+            dprint(twitter_credentials)
+            return
+    elif account_number == 2:
+        if cred_type == CredentialType.FACEBOOK:
+            facebook_credentials = {
+                "Username": "fpd2social@gmail.com",
+                "Password": "Social@2022",
+            }
+            dprint(facebook_credentials)
+            return
+        elif cred_type == CredentialType.INSTAGRAM:
+            insta_credentials = {
+                "Username": "fpd2social@gmail.com",
+                "Password": "Social@2022",
+            }
+            dprint(insta_credentials)
+            return
+        elif cred_type == CredentialType.TWITTER:
+            twitter_credentials = {
+                "Username": "fpd2social@gmail.com",
+                "Password": "Social@2022",
+            }
+            dprint(twitter_credentials)
+            return
+    elif account_number == 3:
+        if cred_type == CredentialType.FACEBOOK:
+            facebook_credentials = {
+                "Username": "fpd3social@gmail.com",
+                "Password": "Social@2022",
+            }
+            dprint(facebook_credentials)
+            return
+        elif cred_type == CredentialType.INSTAGRAM:
+            insta_credentials = {
+                "Username": "fpd3social@gmail.com",
+                "Password": "Social@2022",
+            }
+            dprint(insta_credentials)
+            return
+        elif cred_type == CredentialType.TWITTER:
+            twitter_credentials = {
+                "Username": "fpd3social@gmail.com",
+                "Password": "Social@2022",
+            }
+            dprint(twitter_credentials)
+            return
 
 
 def select_account():
