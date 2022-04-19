@@ -50,3 +50,6 @@ class CSVWriter:
             writer = csv.writer(csvfile)
             writer.writerow(data)
             # print("Wrote data to file: ", file_path)
+
+    def get_headers(self):
+        return self.headers
