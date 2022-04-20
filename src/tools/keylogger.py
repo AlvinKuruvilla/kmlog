@@ -112,49 +112,21 @@ class Keylogger:
         if len(self.buffer) != 0:
             with open(self.log_file_path, "a", encoding="utf8") as _:
                 for string in self.buffer:
-                    self.buffer_write(
-                        f"R,{override_key(string)}, {time.time()}", platform_type
-                    )
+                    self.buffer_write(f"R,{override_key(string)}, {time.time()}")
 
-    def buffer_write(self, to_add: str, platform_type=None) -> None:
+    def buffer_write(self, to_add: str) -> None:
         """This function writes to the buffer and if it exceeds the size it
         takes everything from the buffer to the file and clears it"""
-        if (
-            len(self.buffer) >= 80
-        ):  # 80 is the number of letters people type in one line, in general
-            if platform_type is None:
-                with open(self.log_file_path, "a", encoding="utf8") as file:
-                    for string in self.buffer:
-                        file.write(string + "\n")
-                self.buffer.clear()
-            elif platform_type == CredentialType.FACEBOOK:
-                _social_platform_path = os.path.join(
-                    LOGS_DIR, self.user_id, "f" + self.user_id + ".log"
-                )
-                with open(_social_platform_path, "a", encoding="utf8") as file:
-                    for string in self.buffer:
-                        file.write(string + "\n")
-                self.buffer.clear()
-            elif platform_type == CredentialType.TWITTER:
-                _social_platform_path = os.path.join(
-                    LOGS_DIR, self.user_id, "t" + self.user_id + ".log"
-                )
-                with open(_social_platform_path, "a", encoding="utf8") as file:
-                    for string in self.buffer:
-                        file.write(string + "\n")
-                self.buffer.clear()
-            elif platform_type == CredentialType.INSTAGRAM:
-                _social_platform_path = os.path.join(
-                    LOGS_DIR, self.user_id, "i" + self.user_id + ".log"
-                )
-                with open(_social_platform_path, "a", encoding="utf8") as file:
-                    for string in self.buffer:
-                        file.write(string + "\n")
-                self.buffer.clear()
+        # 80 is the number of letters people type in one line, in general
+        if len(self.buffer) >= 80:
+            with open(self.log_file_path, "a", encoding="utf8") as file:
+                for string in self.buffer:
+                    file.write(string + "\n")
+            self.buffer.clear()
         else:
             self.buffer.append(to_add)
 
-    def get_and_write_user_info(self, platform_type=None) -> None:
+    def get_and_write_user_info(self) -> None:
         """Query the database for the first and last name associated with a
         particular user ID and write those to the log file with the that
         particular user ID in the name"""
@@ -175,35 +147,9 @@ class Keylogger:
                 first = "Unknown"
             if last is None:
                 last = "Unknown"
-            if platform_type is None:
-                with open(self.log_file_path, "a", encoding="utf8") as file:
-                    file.write("\n" + first + " " + last + "\n")
-                    file.write("**********************************" + "\n")
-            elif platform_type == CredentialType.FACEBOOK:
-                _social_platform_path = os.path.join(
-                    LOGS_DIR, self.user_id, "f" + self.user_id + ".log"
-                )
-                with open(_social_platform_path, "a", encoding="utf8") as file:
-                    file.write("\n" + first + " " + last + "\n")
-                    file.write(platform_type + "\n")
-                    file.write("**********************************" + "\n")
-            elif platform_type == CredentialType.TWITTER:
-                _social_platform_path = os.path.join(
-                    LOGS_DIR, self.user_id, "t" + self.user_id + ".log"
-                )
-                with open(_social_platform_path, "a", encoding="utf8") as file:
-                    file.write("\n" + first + " " + last + "\n")
-                    file.write(platform_type + "\n")
-                    file.write("**********************************" + "\n")
-            elif platform_type == CredentialType.INSTAGRAM:
-                _social_platform_path = os.path.join(
-                    LOGS_DIR, self.user_id, "i" + self.user_id + ".log"
-                )
-                with open(_social_platform_path, "a", encoding="utf8") as file:
-                    file.write("\n" + first + " " + last + "\n")
-                    file.write(platform_type + "\n")
-                    file.write("**********************************" + "\n")
-
+            with open(self.log_file_path, "a", encoding="utf8") as file:
+                file.write("\n" + first + " " + last + "\n")
+                file.write("**********************************" + "\n")
         else:
             path = user_id_to_yaml_file_path(self.user_id)
             first = get_value_from_key(path, "first_name")
@@ -212,34 +158,9 @@ class Keylogger:
                 first = "Unknown"
             if last is None:
                 last = "Unknown"
-            if platform_type is None:
-                with open(self.log_file_path, "a", encoding="utf8") as file:
-                    file.write("\n" + first + " " + last + "\n")
-                    file.write("**********************************" + "\n")
-            elif platform_type == CredentialType.FACEBOOK:
-                _social_platform_path = os.path.join(
-                    LOGS_DIR, self.user_id, "f" + self.user_id + ".log"
-                )
-                with open(_social_platform_path, "a", encoding="utf8") as file:
-                    file.write("\n" + first + " " + last + "\n")
-                    file.write(platform_type.to_str() + "\n")
-                    file.write("**********************************" + "\n")
-            elif platform_type == CredentialType.TWITTER:
-                _social_platform_path = os.path.join(
-                    LOGS_DIR, self.user_id, "t" + self.user_id + ".log"
-                )
-                with open(_social_platform_path, "a", encoding="utf8") as file:
-                    file.write("\n" + first + " " + last + "\n")
-                    file.write(platform_type.to_str() + "\n")
-                    file.write("**********************************" + "\n")
-            elif platform_type == CredentialType.INSTAGRAM:
-                _social_platform_path = os.path.join(
-                    LOGS_DIR, self.user_id, "i" + self.user_id + ".log"
-                )
-                with open(_social_platform_path, "a", encoding="utf8") as file:
-                    file.write("\n" + first + " " + last + "\n")
-                    file.write(platform_type.to_str() + "\n")
-                    file.write("**********************************" + "\n")
+            with open(self.log_file_path, "a", encoding="utf8") as file:
+                file.write("\n" + first + " " + last + "\n")
+                file.write("**********************************" + "\n")
 
     def start_recording(self, platform_type=None, account_number: int = None) -> None:
         """This function reccords all the key presses to the file and the
@@ -248,7 +169,6 @@ class Keylogger:
             # input("Check platform")
             # print(platform_type)
             self.get_and_write_user_info()
-            self.get_and_write_user_info(platform_type)
             klog = Logger()
             animated_marker("Initializing keylogger....")
             if self.get_platform_count() == 1:
@@ -283,9 +203,7 @@ class Keylogger:
                         self.user_id,
                         "f_" + self.user_id + "_" + account_email_fragment + ".csv",
                     )
-                    self.buffer_write(
-                        f"P,{override_key(key)}, {time.time()}", platform_type
-                    )
+                    self.buffer_write(f"P,{override_key(key)}, {time.time()}")
                     data = ["P", override_key(key), time.time()]
                     self.csv_writer.write_data_to_csv(
                         _social_platform_path,
@@ -301,9 +219,7 @@ class Keylogger:
                         self.user_id,
                         "t_" + self.user_id + "_" + account_email_fragment + ".csv",
                     )
-                    self.buffer_write(
-                        f"P,{override_key(key)}, {time.time()}", platform_type
-                    )
+                    self.buffer_write(f"P,{override_key(key)}, {time.time()}")
                     data = ["P", override_key(key), time.time()]
                     self.csv_writer.write_data_to_csv(
                         _social_platform_path,
@@ -319,9 +235,7 @@ class Keylogger:
                         self.user_id,
                         "i_" + self.user_id + "_" + account_email_fragment + ".csv",
                     )
-                    self.buffer_write(
-                        f"P,{override_key(key)}, {time.time()}", platform_type
-                    )
+                    self.buffer_write(f"P,{override_key(key)}, {time.time()}")
                     data = ["P", override_key(key), time.time()]
                     self.csv_writer.write_data_to_csv(
                         _social_platform_path,
@@ -353,9 +267,7 @@ class Keylogger:
                         self.user_id,
                         "f_" + self.user_id + "_" + account_email_fragment + ".csv",
                     )
-                    self.buffer_write(
-                        f"R,{override_key(key)}, {time.time()}", platform_type
-                    )
+                    self.buffer_write(f"R,{override_key(key)}, {time.time()}")
                     data = ["R", override_key(key), time.time()]
                     self.csv_writer.write_data_to_csv(
                         _social_platform_path,
@@ -371,9 +283,7 @@ class Keylogger:
                         self.user_id,
                         "t_" + self.user_id + "_" + account_email_fragment + ".csv",
                     )
-                    self.buffer_write(
-                        f"R,{override_key(key)}, {time.time()}", platform_type
-                    )
+                    self.buffer_write(f"R,{override_key(key)}, {time.time()}")
                     data = ["R", override_key(key), time.time()]
                     self.csv_writer.write_data_to_csv(
                         _social_platform_path,
@@ -389,9 +299,7 @@ class Keylogger:
                         self.user_id,
                         "i_" + self.user_id + "_" + account_email_fragment + ".csv",
                     )
-                    self.buffer_write(
-                        f"R,{override_key(key)}, {time.time()}", platform_type
-                    )
+                    self.buffer_write(f"R,{override_key(key)}, {time.time()}")
                     data = ["R", override_key(key), time.time()]
                     self.csv_writer.write_data_to_csv(
                         _social_platform_path,
