@@ -2,6 +2,10 @@
 
 KMLog is an interactive cli application for interfacing with tools which collect typing dynamics
 
+## ⚠️ Disclaimer ⚠️
+
+I am very much aware that KMLogger can be used for nefarious purposes. This project is used solely for controlled data collection purposes. Do not use this for illegal purposes, period. Please read the LICENSE for licensing information
+
 ### Table of Contents
 
 **[Rationale](#rationale)**<br>
