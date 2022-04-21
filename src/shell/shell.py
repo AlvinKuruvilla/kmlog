@@ -6,6 +6,7 @@
 
 from base.displayer import km_prompt
 import cmd
+import sys
 
 
 class Shell(cmd.Cmd):
@@ -24,8 +25,8 @@ class Shell(cmd.Cmd):
 
     def do_exit(self):
         """Exit the shell and return to the main menu"""
-        return True
+        sys.exit(0)
 
 
 if __name__ == "__main__":
-    Shell().cmdloop()
+    pass
