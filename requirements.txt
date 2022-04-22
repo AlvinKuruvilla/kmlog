@@ -11,3 +11,4 @@ python-dotenv
 PyYAML
 loguru
 black
+rich

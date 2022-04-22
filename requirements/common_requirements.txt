@@ -8,3 +8,4 @@ art
 pynput
 loguru
 black
+rich
