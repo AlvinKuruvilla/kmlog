@@ -2,7 +2,6 @@ clint
 colorama
 colorlog
 prettytable
-progressbar33
 pyautogui
 art
 pynput

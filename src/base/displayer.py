@@ -10,11 +10,11 @@
 
 import os
 import time
-import progressbar
 from clint.textui import colored
 from art import text2art
 from colorama import Fore, Style
 from enum import Enum
+from rich.progress import track
 
 
 class CredentialType(Enum):
@@ -159,12 +159,8 @@ def animated_marker(text: str):
     -------
     None
     """
-    widgets = [text, progressbar.AnimatedMarker()]
-    progress_bar = progressbar.ProgressBar(widgets=widgets).start()
-
-    for i in range(10):
-        time.sleep(0.1)
-        progress_bar.update(i)
+    for _ in track(range(100), description="[green]%s" % (text)):
+        time.sleep(0.02)
 
 
 def dprint(d, key_format="\033[1;32m", value_format="\033[1;34m"):

@@ -3,7 +3,6 @@ colorama
 colorlog
 mysql-connector-python
 prettytable
-progressbar33
 pyautogui
 art
 pynput
