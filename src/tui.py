@@ -12,6 +12,7 @@
 
 import os
 import sys
+import re
 from dotenv import load_dotenv
 from base.backends.sql import SQLDriver, check_mysql_installed
 from base.backends.yaml_driver import get_all_associated_values, print_as_table
@@ -63,7 +64,12 @@ class TUI:
         load_dotenv()
         start_menu()
         while True:
-            choice = int(input(km_prompt("Enter a choice: ")))
+            choice_str = str(input(km_prompt("Enter a choice: ")))
+            res = bool(re.search(r"\s", choice_str))
+            if res or choice_str == "":
+                log.km_error("Invalid selection: choose 1, 2, or 3")
+                continue
+            choice = int(choice_str)
             if choice in (1, 2, 3):
                 break
             else:
