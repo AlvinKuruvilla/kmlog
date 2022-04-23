@@ -83,7 +83,16 @@ class TUI:
                 driver.try_connect()
             else:
                 log.km_info("MySQL not installed, falling back to YAML system")
-            user_id = input(km_prompt("Enter your user_id: "))
+            while True:
+                user_id = input(km_prompt("Enter your user_id: "))
+                if user_id == "":
+                    log.km_error("User ID cannot be empty")
+                    continue
+                res = bool(re.search(r"\s", user_id))
+                if res:
+                    log.km_error("User ID cannot contains whitespace")
+                else:
+                    break
             # Step through of the reasoning behind the lines below:
             #   - Make the driver query the table for the user_id table
             #   - Fetch and store the result of that call
