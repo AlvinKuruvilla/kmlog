@@ -4,7 +4,6 @@
 # license that can be found in the LICENSE file or at
 # https://opensource.org/licenses/MIT.
 
-import sys
 import os
 
 USERS_DIR = os.path.join(os.getcwd(), "users")
@@ -12,11 +11,7 @@ LOGS_DIR = os.path.join(os.getcwd(), "logs")
 
 
 def is_debug():
-    gettrace = getattr(sys, "gettrace", None)
-    if gettrace is None:
-        print("No sys.gettrace")
-        return
-    elif gettrace():
+    if __debug__:
         print("Debug build")
         return True
     else:
