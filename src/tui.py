@@ -40,7 +40,8 @@ from initalizer import (
 from tools.env_verifier import verify_env_values
 
 if is_debug():
-    from tools.pid_printer import print_pid
+    from tools.process_utilities import print_pid
+from tools.process_utilities import set_process_title
 
 
 class TUI:
@@ -51,6 +52,7 @@ class TUI:
         log = Logger()
         make_logs_directory
         make_user_directory()
+        set_process_title("KMLogger")
         if is_debug():
             clear_screen()
             print_pid()

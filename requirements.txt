@@ -11,3 +11,4 @@ PyYAML
 loguru
 black
 rich
+setproctitle
