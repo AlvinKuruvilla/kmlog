@@ -5,8 +5,7 @@
 # https://opensource.org/licenses/MIT.
 
 import pandas as pd
-from rich.panel import Panel
-from rich import print
+from colorama import init, Fore
 
 
 def print_csv(path: str):
@@ -17,5 +16,7 @@ def print_csv(path: str):
 
 # TODO: Verify that the value for invalid_frame_index is the correct row index
 def dump_invalid_time_frame(data: pd.DataFrame, invalid_frame_index: int):
-    print(Panel(str(data.iloc[[invalid_frame_index]])))
-    pass
+    init(autoreset=True)
+    print((str(data.iloc[[invalid_frame_index - 1]])))
+    print((Fore.RED + str(data.iloc[[invalid_frame_index]])))
+    print((str(data.iloc[[invalid_frame_index + 1]])))

@@ -31,14 +31,21 @@ class IntegrityChecker:
         if not is_csv_file(file_path):
             return
         df = pd.read_csv(file_path)
-        print(df.columns)
         # FIXME: We should only increment once if the csv file has a header, otherwise don't increment
         df.index += 1
-        return df
+        previous = df.loc[1, "Time"]
+        print(previous)
+        remaining = df[2:]
+        for index, row in remaining.iterrows():
+            time = row["Time"]
+            # print(time)
+            if time <= previous:
+                dump_invalid_time_frame(remaining, index)
+            previous = time
 
 
 if __name__ == "__main__":
     integrity = IntegrityChecker()
     path = os.path.join(os.getcwd(), "integrity", "test.csv")
     data = integrity.check_integrity(path)
-    dump_invalid_time_frame(data, 2)
+    # dump_invalid_time_frame(data, 2)
