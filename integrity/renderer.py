@@ -14,9 +14,45 @@ def print_csv(path: str):
     print(df)
 
 
+#! FIXME: Crashes
+def find_invalid_time_indices(df):
+    try:
+        data = df["Time"].tolist()
+    except KeyError:
+        data = df.iloc[:, 2].tolist()
+    # print(data)
+    # input("HOLD")
+    current_max = data[0]
+    invalids = [current_max]
+    for k in range(0, len(data) - 2):
+        current_max = data[k]
+        if data[k] < current_max:
+            invalids.append(k)
+        current_max = data[k]
+    return invalids
+
+
+def duplicate_events(df):
+    try:
+        data = df["Time"].tolist()
+    except KeyError:
+        data = df.iloc[:, 0].tolist()
+    indices = []
+    for i in range(0, len(data) - 2):
+        if (data[i] == "P" and data[i + 1] == "P") or (
+            data[i] == "R" and data[i + 1] == "R"
+        ):
+            indices.append(i)
+    return indices
+
+
 # TODO: Verify that the value for invalid_frame_index is the correct row index
-def dump_invalid_time_frame(data: pd.DataFrame, invalid_frame_index: int):
+def dump_invalid_time_frame(data: pd.DataFrame):
     init(autoreset=True)
-    print((str(data.iloc[[invalid_frame_index - 1]])))
-    print((Fore.RED + str(data.iloc[[invalid_frame_index]])))
-    print((str(data.iloc[[invalid_frame_index + 1]])))
+    invalids = find_invalid_time_indices(data)
+    print(invalids)
+    input("HOLD")
+    for invalid_frame_index in invalids:
+        print((str(data.iloc[[invalid_frame_index - 1]])))
+        print((Fore.RED + str(data.iloc[[invalid_frame_index]])))
+        print((str(data.iloc[[invalid_frame_index + 1]])))

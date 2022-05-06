@@ -4,9 +4,12 @@
 # license that can be found in the LICENSE file or at
 # https://opensource.org/licenses/MIT.
 import os
-from renderer import dump_invalid_time_frame
+from renderer import *
 from logger import Logger
 import pandas as pd
+from rich.traceback import install
+
+install()
 
 
 def is_csv_file(filename: str) -> bool:
@@ -33,15 +36,9 @@ class IntegrityChecker:
         df = pd.read_csv(file_path)
         # FIXME: We should only increment once if the csv file has a header, otherwise don't increment
         df.index += 1
-        previous = df.loc[1, "Time"]
-        print(previous)
-        remaining = df[2:]
-        for index, row in remaining.iterrows():
-            time = row["Time"]
-            # print(time)
-            if time <= previous:
-                dump_invalid_time_frame(remaining, index)
-            previous = time
+        # previous = df.loc[1, "Time"]
+        # print(previous)
+        print(duplicate_events(df))
 
 
 if __name__ == "__main__":
