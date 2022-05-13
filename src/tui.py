@@ -50,7 +50,7 @@ class TUI:
 
     def run(self):
         log = Logger()
-        make_logs_directory
+        make_logs_directory()
         make_user_directory()
         set_process_title("KMLogger")
         if is_debug():
