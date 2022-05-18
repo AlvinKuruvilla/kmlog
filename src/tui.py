@@ -13,6 +13,7 @@
 import os
 import sys
 import re
+import argparse
 from dotenv import load_dotenv
 from base.backends.sql import SQLDriver, check_mysql_installed
 from base.backends.yaml_driver import get_all_associated_values, print_as_table
@@ -32,16 +33,12 @@ from base.log import Logger
 from shell.shell import Shell
 from tools.keylogger import Keylogger
 from initalizer import (
-    is_debug,
     make_logs_directory,
     make_user_data_folder,
     make_user_directory,
 )
 from tools.env_verifier import verify_env_values
-
-if is_debug():
-    from tools.process_utilities import print_pid
-from tools.process_utilities import set_process_title
+from tools.process_utilities import set_process_title, print_pid
 
 
 class TUI:
@@ -50,10 +47,14 @@ class TUI:
 
     def run(self):
         log = Logger()
+
+        parser = argparse.ArgumentParser()
+        parser.add_argument("--debug", "-d", action="store_true")
+        args = parser.parse_args()
         make_logs_directory()
         make_user_directory()
         set_process_title("KMLogger")
-        if is_debug():
+        if args.debug:
             clear_screen()
             print_pid()
             input(km_prompt("Press any key to continue "))

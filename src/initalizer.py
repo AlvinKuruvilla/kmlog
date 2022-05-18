@@ -10,15 +10,6 @@ USERS_DIR = os.path.join(os.getcwd(), "users")
 LOGS_DIR = os.path.join(os.getcwd(), "logs")
 
 
-def is_debug():
-    if __debug__:
-        print("Debug build")
-        return True
-    else:
-        print("Release build")
-        return False
-
-
 def make_logs_directory():
     if not os.path.isdir(os.path.join(os.getcwd(), "logs")):
         os.makedirs(os.path.join(os.getcwd(), "logs"))
