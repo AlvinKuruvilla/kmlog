@@ -28,6 +28,7 @@ from base.displayer import (
     start_menu,
     display_credentials,
     CredentialType,
+    graceful_exit,
 )
 from base.log import Logger
 from shell.shell import Shell
@@ -241,4 +242,7 @@ class TUI:
 
 if __name__ == "__main__":
     tui = TUI()
-    tui.run()
+    try:
+        tui.run()
+    except KeyboardInterrupt:
+        graceful_exit()

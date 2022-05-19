@@ -10,11 +10,14 @@
 
 import os
 import time
+import sys
 from clint.textui import colored
 from art import text2art
 from colorama import Fore, Style
 from enum import Enum
 from rich.progress import track
+
+from base.log import Logger
 
 
 class CredentialType(Enum):
@@ -268,3 +271,9 @@ def account_number_to_email_fragment(account_number: int):
     elif account_number == 3:
         frag = "fpd3"
         return frag
+
+
+def graceful_exit():
+    hlog = Logger()
+    hlog.km_info("Exiting KMLogger")
+    sys.exit(0)

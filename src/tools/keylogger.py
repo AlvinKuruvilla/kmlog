@@ -86,7 +86,7 @@ class Keylogger:
         sys.exit(0)
 
     # We need this function to account for the edge case that there are stored key strings in the buffer when the keylogger is quit, so right before we quit we must write at the buffer and clear it
-    def graceful_shutdown(self, platform_type=None) -> None:
+    def graceful_shutdown(self) -> None:
         """This function only runs when a KeyboardInterupt exception is
         received. This function will then write everything stored in the key
         string buffer to the file and then clear the buffer before exiting
