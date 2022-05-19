@@ -104,9 +104,3 @@ def print_as_table(filepath):
     out.field_names = keys
     out.add_row(values)
     print(out)
-
-
-def display_user_info_table():
-    # ? This may need to be moved to the yaml_ops and sql_ops files respectively to replace our current PrettyTable
-    # implementation
-    pass
