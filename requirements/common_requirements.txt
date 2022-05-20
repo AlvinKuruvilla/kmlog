@@ -10,3 +10,4 @@ black
 rich
 setproctitle
 psutil
+watchdog
