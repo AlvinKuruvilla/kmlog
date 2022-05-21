@@ -1,6 +1,5 @@
 clint
 colorama
-colorlog
 mysql-connector-python
 prettytable
 pyautogui
