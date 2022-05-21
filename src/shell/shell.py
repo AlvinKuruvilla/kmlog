@@ -5,26 +5,22 @@
 # https://opensource.org/licenses/MIT.
 
 from base.displayer import km_prompt
-import cmd
 import sys
 
+from base.log import Logger
 
-class Shell(cmd.Cmd):
-    FRIENDS = ["Alice", "Adam", "Barbara", "Bob"]
-    prompt = km_prompt("")
 
-    def do_greet(self, person):
-        "Greet the person"
-        if person and person in self.FRIENDS:
-            greeting = "hi, %s!" % person
-        elif person:
-            greeting = "hello, " + person
-        else:
-            greeting = "hello"
-        print(greeting)
+class Shell:
+    def run(self):
+        while True:
+            prompt = input(km_prompt(""))
+            if prompt == "exit":
+                exit()
 
-    def do_exit(self):
+    def exit(self):
         """Exit the shell and return to the main menu"""
+        log = Logger()
+        log.km_info("Exiting KMLogger")
         sys.exit(0)
 
 
