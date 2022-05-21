@@ -40,7 +40,8 @@ class IntegrityChecker:
         # FIXME: We should only increment once if the csv file has a header, otherwise don't increment
         # previous = df.loc[1, "Time"]
         # print(previous)
-        display_duplicate_events(df)
+        # display_duplicate_events(df)
+        dump_invalid_time_frame(df)
 
 
 if __name__ == "__main__":

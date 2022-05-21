@@ -20,15 +20,12 @@ def print_csv(path: str):
 def dump_invalid_time_frame(data: pd.DataFrame):
     init(autoreset=True)
     invalids = find_invalid_time_indices(data)
-    print(invalids)
-    input("HOLD")
     for invalid_frame_index in invalids:
-        print((str(data.iloc[[invalid_frame_index - 1]])))
         print((Fore.RED + str(data.iloc[[invalid_frame_index]])))
-        print((str(data.iloc[[invalid_frame_index + 1]])))
 
 
 def display_duplicate_events(data):
+    init(autoreset=True)
     event_indices = duplicate_events(data)
     for index in event_indices:
         print((Fore.RED + str(data.loc[index].values.tolist())))
