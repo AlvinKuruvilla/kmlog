@@ -35,10 +35,9 @@ class IntegrityChecker:
             return
         df = pd.read_csv(file_path)
         # FIXME: We should only increment once if the csv file has a header, otherwise don't increment
-        df.index += 1
         # previous = df.loc[1, "Time"]
         # print(previous)
-        print(duplicate_events(df))
+        display_duplicate_events(df)
 
 
 if __name__ == "__main__":
