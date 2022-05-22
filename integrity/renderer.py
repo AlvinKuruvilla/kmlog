@@ -11,7 +11,6 @@ from processor import duplicate_events, find_invalid_time_indices
 
 
 def print_csv(path: str):
-    # path = os.path.join(os.getcwd(), "logs", "123.csv")
     df = pd.read_csv(path)
     print(df)
 

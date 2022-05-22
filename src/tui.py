@@ -232,7 +232,6 @@ class TUI:
                             log.km_error("Invalid Input")
         elif choice == 2:
             clear_screen()
-            banner("KMLogger")
             shell = Shell()
             shell.run()
         elif choice == 3:
