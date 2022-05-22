@@ -22,13 +22,13 @@ class Shell:
                 cmd_help()
             elif prompt.__contains__("render"):
                 parameters = grab_args(prompt)
-                print(parameters)
+                # print(parameters)
                 if parameters == None or parameters == "":
                     log.km_error("Invalid number of parameters")
                     continue
-                if not verify_file_path(parameters[0]):
+                if not verify_file_path(parameters):
                     continue
-                show_csv(parameters[0])
+                show_csv(parameters)
             else:
                 log.km_error("Invalid command %s" % prompt)
 
