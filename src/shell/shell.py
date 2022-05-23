@@ -6,8 +6,8 @@
 
 from base.displayer import km_prompt
 from base.log import Logger
-from shell.commands import show_banner, cmd_help, show_csv
-from shell.utils import grab_args, verify_file_path
+from shell.commands import show_banner, cmd_help, show_csv, show_yaml
+from shell.utils import FileType, grab_args, verify_file_path
 
 
 class Shell:
@@ -26,9 +26,12 @@ class Shell:
                 if parameters == None or parameters == "":
                     log.km_error("Invalid number of parameters")
                     continue
-                if not verify_file_path(parameters):
+                if verify_file_path(parameters) == FileType.NotAFile:
                     continue
-                show_csv(parameters)
+                elif verify_file_path(parameters) == FileType.CSV:
+                    show_csv(parameters)
+                elif verify_file_path(parameters) == FileType.YAML:
+                    show_yaml(parameters)
             else:
                 log.km_error("Invalid command %s" % prompt)
 

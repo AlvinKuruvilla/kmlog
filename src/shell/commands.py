@@ -1,7 +1,7 @@
 from rich.console import Console
 from rich.theme import Theme
 from base.log import Logger
-from shell.utils import render_csv, OptionHighlighter
+from shell.utils import command_table, render_csv, OptionHighlighter, render_yaml
 import sys
 
 
@@ -42,7 +42,12 @@ def cmd_help():
         highlighter=highlighter,
     )
     console.print("Usage: [b][COMMAND][/b] [b cyan]<ARGUMENTS>\n")
+    command_table()
 
 
 def show_csv(filename):
     render_csv(filename)
+
+
+def show_yaml(filename):
+    render_yaml(filename)
