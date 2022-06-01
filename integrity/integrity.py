@@ -4,12 +4,15 @@
 # license that can be found in the LICENSE file or at
 # https://opensource.org/licenses/MIT.
 import os
+import argparse
 from renderer import *
 from logger import Logger
 import pandas as pd
+from pathlib import Path
 from rich.traceback import install
 
 install()
+parser = argparse.ArgumentParser()
 
 
 def is_csv_file(filename: str) -> bool:
@@ -35,14 +38,21 @@ class IntegrityChecker:
             return
         df = pd.read_csv(file_path)
         # FIXME: We should only increment once if the csv file has a header, otherwise don't increment
-        df.index += 1
         # previous = df.loc[1, "Time"]
         # print(previous)
-        print(duplicate_events(df))
+        # display_duplicate_events(df)
+        dump_invalid_time_frame(df)
 
 
 if __name__ == "__main__":
     integrity = IntegrityChecker()
-    path = os.path.join(os.getcwd(), "integrity", "test.csv")
+    log = Logger()
+    parser.add_argument(
+        "path", help="path to the CSV file (Can be absolute or relative)"
+    )
+    args = parser.parse_args()
+    if not os.path.exists(args.path):
+        log.km_error("Cannot find path: ", args.path)
+    path = str(Path(args.path))
     data = integrity.check_integrity(path)
     # dump_invalid_time_frame(data, 2)

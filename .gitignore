@@ -13,3 +13,5 @@ ven
 *.stderr.*
 *.stderr
 integrity/*.csv
+build/
+dist/

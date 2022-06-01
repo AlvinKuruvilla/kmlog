@@ -1,6 +1,5 @@
 clint
 colorama
-colorlog
 prettytable
 pyautogui
 art

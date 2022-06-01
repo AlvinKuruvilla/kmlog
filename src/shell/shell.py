@@ -5,27 +5,38 @@
 # https://opensource.org/licenses/MIT.
 
 from base.displayer import km_prompt
-import cmd
-import sys
+from base.log import Logger
+from shell.commands import show_banner, cmd_help, show_csv, show_yaml, exit
+from shell.utils import FileType, grab_args, verify_file_path
 
 
-class Shell(cmd.Cmd):
-    FRIENDS = ["Alice", "Adam", "Barbara", "Bob"]
-    prompt = km_prompt("")
-
-    def do_greet(self, person):
-        "Greet the person"
-        if person and person in self.FRIENDS:
-            greeting = "hi, %s!" % person
-        elif person:
-            greeting = "hello, " + person
-        else:
-            greeting = "hello"
-        print(greeting)
-
-    def do_exit(self):
-        """Exit the shell and return to the main menu"""
-        sys.exit(0)
+class Shell:
+    def run(self):
+        log = Logger()
+        show_banner()
+        log.km_warn(
+            "NOTE: This is still a Work in Progress. There is still a lot of functionality missing"
+        )
+        while True:
+            prompt = input(km_prompt(""))
+            if prompt == "exit":
+                exit()
+            elif prompt == "help" or prompt == "?":
+                cmd_help()
+            elif prompt.__contains__("render"):
+                parameters = grab_args(prompt)
+                # print(parameters)
+                if parameters == None or parameters == "":
+                    log.km_error("Invalid number of parameters")
+                    continue
+                if verify_file_path(parameters) == FileType.NotAFile:
+                    continue
+                elif verify_file_path(parameters) == FileType.CSV:
+                    show_csv(parameters)
+                elif verify_file_path(parameters) == FileType.YAML:
+                    show_yaml(parameters)
+            else:
+                log.km_error("Invalid command %s" % prompt)
 
 
 if __name__ == "__main__":
