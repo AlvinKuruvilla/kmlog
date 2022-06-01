@@ -5,11 +5,10 @@ from shell.utils import command_table, render_csv, OptionHighlighter, render_yam
 import sys
 
 
-def exit(show_output=True):
+def exit():
     """Exit the shell and return to the main menu"""
-    if show_output == True:
-        log = Logger()
-        log.km_info("Exiting KMLogger")
+    log = Logger()
+    log.km_info("Exiting KMLogger")
     sys.exit(0)
 
 

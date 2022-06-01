@@ -6,7 +6,7 @@
 
 from base.displayer import km_prompt
 from base.log import Logger
-from shell.commands import show_banner, cmd_help, show_csv, show_yaml
+from shell.commands import show_banner, cmd_help, show_csv, show_yaml, exit
 from shell.utils import FileType, grab_args, verify_file_path
 
 
