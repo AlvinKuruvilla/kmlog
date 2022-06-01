@@ -14,6 +14,9 @@ class Shell:
     def run(self):
         log = Logger()
         show_banner()
+        log.km_warn(
+            "NOTE: This is still a Work in Progress. There is still a lot of functionality missing"
+        )
         while True:
             prompt = input(km_prompt(""))
             if prompt == "exit":
