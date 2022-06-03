@@ -203,7 +203,3 @@ pip3 -r requirements.txt
 ## Contributing
 
 See [Contributing](CONTRIBUTING.md)
-
-```
-
-```
