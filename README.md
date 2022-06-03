@@ -194,7 +194,7 @@ pip3 -r requirements.txt
      chmod 777 kmlog
    ```
 
-3. If your shell kills the executable when trying to run it, this is because Apple does not allow programs to run which are from unidentifiable developers. To fix this, navigate to System Prefrences > Go to Privacy and Security > Go to the General tab > Click Run Anyway
+3. If your shell kills the executable when trying to run it, this is because Apple does not allow programs to run which are from unidentifiable developers. To fix this, navigate to System Preferences > Go to Privacy and Security > Go to the General tab > Click Run Anyway
 
 ## License
 
