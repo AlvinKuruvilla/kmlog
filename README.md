@@ -170,11 +170,31 @@ git clone https://github.com/AlvinKuruvilla/kmlog.git
 pip3 -r requirements.txt
 ```
 
-3. Run the shell command
+3. Build the executable
 
 ```bash
 ./build.sh
 ```
+
+4. Run kmlog
+
+```bash
+./kmlog
+```
+
+### Running from Github release
+
+1. Download the binary from the release page.
+
+2. Change the permissions of the binary file so it is executable
+
+   - This could be done with a command like:
+
+   ```bash
+     chmod 777 kmlog
+   ```
+
+3. If your shell kills the executable when trying to run it, this is because Apple does not allow programs to run which are from unidentifiable developers. To fix this, navigate to System Prefrences > Go to Privacy and Security > Go to the General tab > Click Run Anyway
 
 ## License
 
@@ -183,3 +203,7 @@ pip3 -r requirements.txt
 ## Contributing
 
 See [Contributing](CONTRIBUTING.md)
+
+```
+
+```
