@@ -43,7 +43,7 @@ from tools.process_utilities import set_process_title, print_pid
 
 
 def print_help():
-    print("kmlog 1.0.1")
+    print("kmlog 1.1.0")
     print("A TUI app to collect typing dynamics data from real people")
     print("USAGE:")
     print("     kmlog [FLAGS] ")
