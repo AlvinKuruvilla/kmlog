@@ -29,7 +29,7 @@ from base.displayer import (
     CredentialType,
 )
 from base.csv_writer import CSVWriter
-from initalizer import LOGS_DIR
+from initializer import LOGS_DIR
 from pathlib import Path
 from rich.traceback import install
 

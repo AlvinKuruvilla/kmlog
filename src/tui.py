@@ -33,7 +33,7 @@ from base.displayer import (
 from base.log import Logger
 from shell.shell import Shell
 from tools.keylogger import Keylogger
-from initalizer import (
+from initializer import (
     make_logs_directory,
     make_user_data_folder,
     make_user_directory,
