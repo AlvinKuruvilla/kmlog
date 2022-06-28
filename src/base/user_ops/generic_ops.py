@@ -167,6 +167,8 @@ def expand_user_data(
             expanded_gender = "Male"
         elif gender.lower() == "f":
             expanded_gender = "Female"
+        elif gender.lower() == "o":
+            expanded_gender = "Other"
         if handedness.lower() == "l":
             expanded_handedness = "Left"
         elif handedness.lower() == "r":
@@ -198,6 +200,8 @@ def expand_user_data(
             expanded_gender = f'{"Male"}'
         elif gender.lower() == "f":
             expanded_gender = f'{"Female"}'
+        elif gender.lower() == "o":
+            expanded_gender = f'{"Other"}'
         if handedness.lower() == "l":
             expanded_handedness = f'{"Left"}'
         elif handedness.lower() == "r":
