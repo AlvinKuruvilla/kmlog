@@ -18,6 +18,7 @@ from enum import Enum
 from rich.progress import track
 
 from base.log import Logger
+from simple_term_menu import TerminalMenu
 
 
 class CredentialType(Enum):
@@ -172,14 +173,15 @@ def dprint(d, key_format="\033[1;32m", value_format="\033[1;34m"):
 
 
 def start_menu():
-    print("\nChoose service you want to use : ")
-    print(
-        """
-            1:  Start KMLogger
-            2:  Start Interactive Shell
-            3:  Exit
-            """
+    options = ["1:  Start KMLogger", "2:  Start Interactive Shell", "3:  Exit"]
+    # NOTE: For menu_highlight_style, the comma after "bg_black" is needed
+    terminal_menu = TerminalMenu(
+        options,
+        title="Choose service you want to use :",
+        menu_highlight_style=("bg_black",),
     )
+    menu_entry_index = terminal_menu.show()
+    return menu_entry_index
 
 
 def display_account(account_number: int):

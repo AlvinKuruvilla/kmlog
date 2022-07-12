@@ -80,20 +80,15 @@ class TUI:
             clear_screen()
         banner("KMLogger")
         load_dotenv()
-        start_menu()
+        choice = start_menu()
         while True:
-            choice_str = str(input(km_prompt("Enter a choice: ")))
-            res = bool(re.search(r"\s", choice_str))
-            if res or choice_str == "":
-                log.km_error("Invalid selection: choose 1, 2, or 3")
-                continue
-            choice = int(choice_str)
-            if choice in (1, 2, 3):
+            if choice in (0, 1, 2):
                 break
             else:
                 log.km_error("Invalid selection: choose 1, 2, or 3")
+                choice = start_menu()
                 continue
-        if choice == 1:
+        if choice == 0:
             clear_screen()
             block_text("Keylogger")
             if check_mysql_installed():
@@ -244,11 +239,11 @@ class TUI:
                             break
                         else:
                             log.km_error("Invalid Input")
-        elif choice == 2:
+        elif choice == 1:
             clear_screen()
             shell = Shell()
             shell.run()
-        elif choice == 3:
+        elif choice == 2:
             log.km_info("Exiting KMLogger")
             sys.exit(0)
 
