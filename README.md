@@ -19,6 +19,7 @@ I am very much aware that KMLogger can be used for nefarious purposes. This proj
 **[References](#refs)**<br>
 **[License](#license)**<br>
 **[Contributing](#contributing)**<br>
+**[Media](#media)**<br>
 
 ## Rationale
 
@@ -205,3 +206,7 @@ pip3 -r requirements.txt
 ## Contributing
 
 See [Contributing](CONTRIBUTING.md)
+
+## Media
+
+The logo was designed from [Hatchful by Shopify](https://hatchful.shopify.com)
