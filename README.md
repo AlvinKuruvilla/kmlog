@@ -1,3 +1,5 @@
+![KM_Icon](assets/logo_transparent.png)
+
 # KMLog
 
 KMLog is an interactive cli application for interfacing with tools which collect typing dynamics
