@@ -7,7 +7,6 @@ logs
 ./env
 users/
 *.profile
-*.png
 ven
 .DS_Store
 *.stderr.*

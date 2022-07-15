@@ -1,4 +1,4 @@
-![KM_Icon](assets/logo_transparent.png)
+![KM_Icon](media/logo_transparent.png)
 
 # KMLog
 
