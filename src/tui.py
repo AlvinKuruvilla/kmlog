@@ -146,7 +146,7 @@ class TUI:
                             "Please let the researchers know that this information is incorrect and it will be addressed"
                         )
                     else:
-                        log.km_eror("Invalid Input")
+                        log.km_error("Invalid Input")
                 else:
                     log.km_info("ID not found")
                     select_account()
