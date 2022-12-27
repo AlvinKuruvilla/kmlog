@@ -41,6 +41,9 @@ def check_mysql_installed() -> bool:
         return False
 
 
+# TODO: Add an extra check if the tables are properly setup
+
+
 def fields_from_cursor(cursor) -> typing.Dict:
     """
     Given a DB API 2.0 cursor object that has been executed, returns a
