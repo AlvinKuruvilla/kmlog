@@ -16,7 +16,7 @@ import os
 import subprocess
 import mysql.connector
 from mysql.connector import Error
-from dotenv import load_dotenv
+from dotenv import load_dotenv, dotenv_values
 from base.log import Logger
 
 
@@ -36,7 +36,14 @@ def check_mysql_installed() -> bool:
     # TODO: check if there needs to be a different way to do this on Windows
     try:
         version = subprocess.run(["mysql", "-V"], stdout=subprocess.DEVNULL, check=True)
-        return bool(version.returncode == 0)
+        c = []
+        log = Logger()
+        config = dotenv_values(".env")
+        for k in config.keys():
+            c.append(k)
+        if len(c) == 0:
+            log.km_fatal("No env file found")
+        return bool(bool(version.returncode == 0) and (not len(c) == 0))
     except Exception:
         return False
 

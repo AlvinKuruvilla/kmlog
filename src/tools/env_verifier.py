@@ -23,6 +23,9 @@ def verify_env_values():
     config = dotenv_values(".env")
     for k in config.keys():
         c.append(k)
+    if len(c) == 0:
+        log.km_warn("No env file found")
+        exit()
     current_env = os.environ
     for key, _ in current_env.items():
         c2.append(key)
