@@ -41,8 +41,6 @@ def check_mysql_installed() -> bool:
         config = dotenv_values(".env")
         for k in config.keys():
             c.append(k)
-        if len(c) == 0:
-            log.km_fatal("No env file found")
         return bool(bool(version.returncode == 0) and (not len(c) == 0))
     except Exception:
         return False
