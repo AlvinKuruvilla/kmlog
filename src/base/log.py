@@ -80,9 +80,7 @@ class Logger:
         ----------
         None
         """
-        logger.level("FATAL", no=33, color="<fg #FFA500>")
-        logger.__class__.km_fatal = partialmethod(logger.__class__.log, "FATAL")
-        logger.km_fatal(msg)
+        logger.critical(msg)
 
     def km_custom(self, msg: str, markup_tag: str, heading: str = "CUSTOM") -> None:
         """

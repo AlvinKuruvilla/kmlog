@@ -197,7 +197,7 @@ class TUI:
                         elif (
                             info_correct.lower() == "n" or info_correct.lower() == "no"
                         ):
-                            log.km_error(
+                            log.km_fatal(
                                 "Please let the researchers know that this information is incorrect and it will be addressed"
                             )
                             break
