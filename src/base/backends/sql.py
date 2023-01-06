@@ -37,7 +37,6 @@ def check_mysql_installed() -> bool:
     try:
         version = subprocess.run(["mysql", "-V"], stdout=subprocess.DEVNULL, check=True)
         c = []
-        log = Logger()
         config = dotenv_values(".env")
         for k in config.keys():
             c.append(k)
@@ -182,7 +181,3 @@ class SQLDriver:
         field_names = [i[0] for i in cursor.description]
         return field_names
 
-    def display_user_info_table():
-        # ? This may need to be moved to the yaml_ops and sql_ops files respectively to replace our current PrettyTable
-        # implementation
-        pass
