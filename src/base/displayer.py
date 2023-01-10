@@ -11,14 +11,14 @@
 import os
 import time
 import sys
+from enum import Enum
+from typing import Any, Dict
 from clint.textui import colored
 from art import text2art
 from colorama import Fore, Style
-from enum import Enum
 from rich.progress import track
-
-from base.log import Logger
 from simple_term_menu import TerminalMenu
+from base.log import Logger
 
 
 class CredentialType(Enum):
@@ -26,11 +26,8 @@ class CredentialType(Enum):
     INSTAGRAM = 1
     TWITTER = 2
 
-    def __str__(self):
+    def __str__(self) -> str:
         return "%s" % self.name
-
-    def to_str(self):
-        return self.name
 
 
 class DisplayColors(Enum):
@@ -59,7 +56,7 @@ text_color = {
 background_colors = {"UNDERL": "\033[4m", "DARKCYAN": "\033[36m", "ENDC": "\033[0m"}
 
 
-def banner(text) -> None:
+def banner(text: str) -> None:
     """
     Stylizes text reminiscent to a banner.
 
@@ -86,7 +83,7 @@ def banner(text) -> None:
     print("A Keylogger and mouse tracker for research purposes ")
 
 
-def block_text(text) -> None:
+def block_text(text: str) -> None:
     """
     Block text.
 
@@ -101,7 +98,7 @@ def block_text(text) -> None:
     print(colored.cyan(text2art(text)))
 
 
-def km_prompt(text):
+def km_prompt(text: str) -> str:
     """
     Create a custom user input prompt.
 
@@ -132,7 +129,7 @@ def km_prompt(text):
     )
 
 
-def clear_screen():
+def clear_screen() -> None:
     """
     Platform specific clear screen function.
 
@@ -151,7 +148,7 @@ def clear_screen():
         _ = os.system("cls")
 
 
-def animated_marker(text: str):
+def animated_marker(text: str) -> None:
     """
     Create an animated progress bar marker.
 
@@ -167,12 +164,12 @@ def animated_marker(text: str):
         time.sleep(0.02)
 
 
-def dprint(d, key_format="\033[1;32m", value_format="\033[1;34m"):
+def dprint(d: Dict[str, str], key_format: str="\033[1;32m", value_format: str="\033[1;34m") -> None:
     for key in d.keys():
         print(key_format, key + ":", value_format, d[key])
 
 
-def start_menu():
+def start_menu() -> Any:
     options = ["1:  Start KMLogger", "2:  Start Interactive Shell", "3:  Exit"]
     # NOTE: For menu_highlight_style, the comma after "bg_black" is needed
     terminal_menu = TerminalMenu(
@@ -184,7 +181,7 @@ def start_menu():
     return menu_entry_index
 
 
-def display_account(account_number: int):
+def display_account(account_number: int) -> None:
     if account_number == 1:
         acct = {
             "Name": "Jake Smith",
@@ -208,7 +205,7 @@ def display_account(account_number: int):
         dprint(acct)
 
 
-def display_credentials(cred_type: CredentialType, account_number: int):
+def display_credentials(cred_type: CredentialType, account_number: int) -> None:
     # display_account(account_number)
     # FIXME: A lot of this duplicated conditional code can be trimed down if we just do an update on the username key depending on the account number
     if account_number == 1:
@@ -258,12 +255,12 @@ def display_credentials(cred_type: CredentialType, account_number: int):
             return
 
 
-def select_account():
+def select_account() -> None:
     print("Which account do you want to use: ")
     print("""1:  fpd1social@gmail.com""")
 
 
-def account_number_to_email_fragment(account_number: int):
+def account_number_to_email_fragment(account_number: int) -> str:
     if account_number == 1:
         frag = "fpd1"
         return frag
@@ -273,9 +270,11 @@ def account_number_to_email_fragment(account_number: int):
     elif account_number == 3:
         frag = "fpd3"
         return frag
+    else:
+        raise ValueError("Invalid account number")
 
 
-def graceful_exit():
+def graceful_exit() -> None:
     hlog = Logger()
     hlog.km_info("Exiting KMLogger")
     sys.exit(0)

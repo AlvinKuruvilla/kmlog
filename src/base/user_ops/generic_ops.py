@@ -10,6 +10,7 @@
 # license that can be found in the LICENSE file or at
 # https://opensource.org/licenses/MIT.
 
+from typing import Tuple
 from base.log import Logger
 from base.displayer import km_prompt
 from base.backends.sql import check_mysql_installed
@@ -134,7 +135,7 @@ def verify_social_media_platform(platform_name: str) -> bool:
 
 def expand_user_data(
     gender: str, handedness: str, education: str, platform: str
-) -> tuple:
+) -> Tuple[str, str, str, str]:
     """
     A function to expand specific user data before it gets committed to the database,
     written to file or displayed on screen to make it easier to read
@@ -159,7 +160,7 @@ def expand_user_data(
 
     Returns
     ----------
-    tuple: Returns a tuple of all the expanded forms of the inputted parameters
+    Tuple[str, str, str, str]: Returns a tuple of all the expanded forms of the inputted parameters
 
     """
     if check_mysql_installed:
@@ -230,7 +231,7 @@ def expand_user_data(
         )
 
 
-def generic_create_user():
+def generic_create_user() -> Tuple[str, str, str, str, str, str, str]:
     """
     Function for users to input their information
 
@@ -240,7 +241,7 @@ def generic_create_user():
 
     Returns
     ----------
-    None
+    Tuple[str, str, str, str, str, str, str]
     """
     vlog = Logger()
     first = str(input(km_prompt("Please enter your first name: ")))

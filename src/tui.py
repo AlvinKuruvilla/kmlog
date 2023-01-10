@@ -42,7 +42,7 @@ from tools.env_verifier import verify_env_values
 from tools.process_utilities import set_process_title, print_pid
 
 
-def print_help():
+def print_help() -> None:
     print("kmlog 1.1.0")
     print("A TUI app to collect typing dynamics data from real people")
     print("USAGE:")
@@ -53,7 +53,7 @@ def print_help():
 
 
 class TUI:
-    def __init__(self):
+    def __init__(self) -> None:
         pass
 
     def run(self):
