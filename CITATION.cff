@@ -3,11 +3,12 @@
 
 cff-version: 1.2.0
 title: >-
-  Spotting Fake Profiles in Social Networks via Keystroke
-  Dynamics
+  KMLog: A sleek and lightweight Python TUI application to
+  collect typing dynamics data from real people
 message: >-
-  This software was made as part of the above mentioned
-  paper. If you use this software, please cite it
+  This software was made as part of the paper "Spotting Fake
+  Profiles in Social Networks via Keystroke Dynamics". If
+  you use this software, please cite it
 type: software
 authors:
   - given-names: Alvin
