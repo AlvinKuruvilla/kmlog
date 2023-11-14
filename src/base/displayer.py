@@ -164,13 +164,15 @@ def animated_marker(text: str) -> None:
         time.sleep(0.02)
 
 
-def dprint(d: Dict[str, str], key_format: str="\033[1;32m", value_format: str="\033[1;34m") -> None:
+def dprint(
+    d: Dict[str, str], key_format: str = "\033[1;32m", value_format: str = "\033[1;34m"
+) -> None:
     for key in d.keys():
         print(key_format, key + ":", value_format, d[key])
 
 
 def start_menu() -> Any:
-    options = ["1:  Start KMLogger", "2:  Start Interactive Shell", "3:  Exit"]
+    options = ["1:  Start KMLogger", "2:  Exit"]
     # NOTE: For menu_highlight_style, the comma after "bg_black" is needed
     terminal_menu = TerminalMenu(
         options,

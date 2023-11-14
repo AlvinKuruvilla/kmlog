@@ -31,7 +31,6 @@ from base.displayer import (
     graceful_exit,
 )
 from base.log import Logger
-from shell.shell import Shell
 from tools.keylogger import Keylogger
 from initializer import (
     make_logs_directory,
@@ -82,7 +81,7 @@ class TUI:
         load_dotenv()
         choice = start_menu()
         while True:
-            if choice in (0, 1, 2):
+            if choice in (0, 1):
                 break
             else:
                 log.km_error("Invalid selection: choose 1, 2, or 3")
@@ -240,10 +239,6 @@ class TUI:
                         else:
                             log.km_error("Invalid Input")
         elif choice == 1:
-            clear_screen()
-            shell = Shell()
-            shell.run()
-        elif choice == 2:
             log.km_info("Exiting KMLogger")
             sys.exit(0)
 

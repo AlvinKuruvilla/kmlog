@@ -324,7 +324,6 @@ class Keylogger:
 
 
 if __name__ == "__main__":
-
     user_id = input("Enter the user id to start data collection:")
     NewUser = Keylogger(user_id)
     NewUser.start_recording()
