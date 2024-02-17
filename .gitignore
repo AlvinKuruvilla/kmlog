@@ -14,4 +14,4 @@ ven
 integrity/*.csv
 build/
 dist/
-Demographics.csv
+kmlog.spec
