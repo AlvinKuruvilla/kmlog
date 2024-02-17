@@ -1,4 +1,7 @@
 #!/bin/bash
 
+echo "Creating spec file..."
+pyi-makespec src/kmlog.py
+
 echo "Building executable..."
-pyinstaller -F --clean --onefile kmlog.spec                                                              
+pyinstaller --clean kmlog.spec

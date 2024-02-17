@@ -1,4 +1,4 @@
-# Copyright 2021 - 2022, Alvin Kuruvilla <alvineasokuruvilla@gmail.com>, Dr. Rajesh Kumar <Rajesh.Kumar@hofstra.edu>
+# Copyright 2021 - 2023, Alvin Kuruvilla <alvineasokuruvilla@gmail.com>, Dr. Rajesh Kumar <Rajesh.Kumar@hofstra.edu>
 
 # Use of this source code is governed by an MIT-style
 # license that can be found in the LICENSE file or at
@@ -7,9 +7,9 @@
 # This is a small debug utility to print the pid KMLogger is
 # running on to help with profiling
 import os
-from base.displayer import block_text
 from setproctitle import setproctitle, getproctitle
 import psutil
+from base.displayer import block_text
 
 
 def set_process_title(title: str):

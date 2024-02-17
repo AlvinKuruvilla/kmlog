@@ -64,7 +64,7 @@ The .env file contains the following variables:
 See sample.env for an example .env configuration
 
 ```diff
-- NOTE: If you decide to change the names of the environment variables make sure that they do not conflict with an Operating System specific predefined variables. For example USER in MacOS and USERNAME in Windows -
+NOTE: If you decide to change the names of the environment variables make sure that they do not conflict with an Operating System specific predefined variables. For example USER in MacOS and USERNAME in Windows -
 ```
 
 ## MySQL Installation
@@ -173,17 +173,22 @@ git clone https://github.com/AlvinKuruvilla/kmlog.git
 pip3 -r requirements.txt
 ```
 
-3. Build the executable
+3. Create the kmlog.spec file and build the executable
 
 ```bash
 ./build.sh
 ```
+> This puts the executable in the dist/ folder
 
 4. Run kmlog
 
 ```bash
 ./kmlog
 ```
+
+To fix any problems with input recording, give your terminal or the executable Input Monitoring access
+
+On Apple devices, navigate to System Preferences > Go to Privacy and Security > Go to the Input Monitoring tab > Select your terminal application or kmlog executable (if they are not already there) and then toggle one of them on.
 
 ### Running from Github release
 
