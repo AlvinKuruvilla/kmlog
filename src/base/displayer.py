@@ -11,13 +11,13 @@
 import os
 import time
 import sys
+import inquirer
 from enum import Enum
 from typing import Any, Dict
 from clint.textui import colored
 from art import text2art
 from colorama import Fore, Style
 from rich.progress import track
-from simple_term_menu import TerminalMenu
 from base.log import Logger
 
 
@@ -173,14 +173,15 @@ def dprint(
 
 def start_menu() -> Any:
     options = ["1:  Start KMLogger", "2:  Exit"]
-    # NOTE: For menu_highlight_style, the comma after "bg_black" is needed
-    terminal_menu = TerminalMenu(
-        options,
-        title="Choose service you want to use :",
-        menu_highlight_style=("bg_black",),
-    )
-    menu_entry_index = terminal_menu.show()
-    return menu_entry_index
+    questions = [
+        inquirer.List(
+            "choice",
+            message="Choose the service you want to use :",
+            choices=options,
+        ),
+    ]
+    answers = inquirer.prompt(questions)
+    return int(answers["choice"][0] - 1)
 
 
 def display_account(account_number: int) -> None:

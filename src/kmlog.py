@@ -84,7 +84,7 @@ class TUI:
             if choice in (0, 1):
                 break
             else:
-                log.km_error("Invalid selection: choose 1, 2, or 3")
+                log.km_error("Invalid selection: choose 1 or 2")
                 choice = start_menu()
                 continue
         if choice == 0:
