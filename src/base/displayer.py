@@ -11,9 +11,8 @@
 import os
 import time
 import sys
-import inquirer
 from enum import Enum
-from typing import Any, Dict
+from typing import Dict
 from clint.textui import colored
 from art import text2art
 from colorama import Fore, Style
@@ -171,17 +170,35 @@ def dprint(
         print(key_format, key + ":", value_format, d[key])
 
 
-def start_menu() -> Any:
-    options = ["1:  Start KMLogger", "2:  Exit"]
-    questions = [
-        inquirer.List(
-            "choice",
-            message="Choose the service you want to use :",
-            choices=options,
-        ),
-    ]
-    answers = inquirer.prompt(questions)
-    return int(answers["choice"][0] - 1)
+def display_menu(options):
+    for index, option in enumerate(options, start=1):
+        print(f"{index}:. {option}")
+
+
+def get_user_choice(options):
+    max_choice = len(options)
+    choice = 0
+    log = Logger()
+    while True:
+        display_menu(options)
+        try:
+            choice_input = input(
+                km_prompt("Enter your choice (number) and press Enter: ")
+            )
+            choice = int(choice_input)
+            if 1 <= choice <= max_choice:
+                break
+            else:
+                log.km_error(f"Please enter a number between 1 and {max_choice}.\n")
+        except ValueError:
+            log.km_error("Invalid input. Please enter a number.\n")
+    return choice - 1  # Adjust for 0-indexing
+
+
+def start_menu():
+    options = ["Start KMLogger", "Exit"]
+    choice = get_user_choice(options)
+    return choice
 
 
 def display_account(account_number: int) -> None:

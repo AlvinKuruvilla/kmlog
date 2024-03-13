@@ -12,6 +12,5 @@ black
 rich
 setproctitle
 psutil
-inquirer
 protobuf>=3.20.2 # not directly required, pinned by Snyk to avoid a vulnerability
 pillow>=10.2.0 # not directly required, pinned by Snyk to avoid a vulnerability
