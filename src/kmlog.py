@@ -137,9 +137,11 @@ class TUI:
                                 display_credentials(
                                     CredentialType.FACEBOOK, account_choice
                                 )
-                                km.start_recording(
-                                    CredentialType.FACEBOOK, account_choice
-                                )
+                                # XXX: TEMP
+                                # km.start_recording(
+                                #     CredentialType.FACEBOOK, account_choice
+                                # )
+                                km.windows_start_recording(account_choice)
                     elif info_correct.lower() == "n" or info_correct.lower() == "no":
                         log.km_fatal(
                             "Please let the researchers know that this information is incorrect and it will be addressed"
@@ -156,7 +158,9 @@ class TUI:
                             add_user_to_db(user_id)
                             km.set_account_number(account_choice)
                             display_credentials(CredentialType.FACEBOOK, account_choice)
-                            km.start_recording(CredentialType.FACEBOOK, account_choice)
+                            # XXX: TEMP
+                            km.windows_start_recording(account_choice)
+                            # km.start_recording(CredentialType.FACEBOOK, account_choice)
                         else:
                             log.km_error("Invalid Input")
             else:
@@ -187,9 +191,11 @@ class TUI:
                                     display_credentials(
                                         CredentialType.FACEBOOK, account_choice
                                     )
-                                    km.start_recording(
-                                        CredentialType.FACEBOOK, account_choice
-                                    )
+                                    # XXX: TEMP
+                                    km.windows_start_recording(account_choice)
+                                    # km.start_recording(
+                                    #     CredentialType.FACEBOOK, account_choice
+                                    # )
                                     break
                                 else:
                                     log.km_error("Invalid Input")
@@ -225,9 +231,12 @@ class TUI:
                                     display_credentials(
                                         CredentialType.FACEBOOK, account_choice
                                     )
-                                    km.start_recording(
-                                        CredentialType.FACEBOOK, account_choice
-                                    )
+                                    # XXX: TEMP
+                                    km.windows_start_recording(account_choice)
+
+                                    # km.start_recording(
+                                    #     CredentialType.FACEBOOK, account_choice
+                                    # )
                                     break
                         elif (
                             info_correct.lower() == "n" or info_correct.lower() == "no"

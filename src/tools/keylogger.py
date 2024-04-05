@@ -27,10 +27,10 @@ from base.displayer import (
     animated_marker,
     display_credentials,
     CredentialType,
+    windows_only_platform_menu,
 )
 from base.csv_writer import CSVWriter
 from initializer import LOGS_DIR
-from pathlib import Path
 from rich.traceback import install
 
 install()
@@ -232,11 +232,6 @@ class Keylogger:
                         _social_platform_path,
                         data,
                     )
-                # See hotkey todo above
-                # if any([key in COMBO for COMBO in SHUTDOWN]):
-                #     current.add(key)
-                #     if any(all(k in current for k in COMBO) for COMBO in SHUTDOWN):
-                # _        self.__hotkey_shutdown()
 
             def on_release(key) -> None:
                 # print(platform_type)
@@ -321,6 +316,133 @@ class Keylogger:
                 self.start_recording(CredentialType.TWITTER, self.get_account_number())
             elif self.get_platform_count() > 2:
                 self.__hotkey_shutdown()
+
+    def windows_start_recording(self, account_number: int = None) -> None:
+        """This function reccords all the key presses to the file and the
+        buffer. See also :func: `~tools.Keylogger.buffer_write`"""
+        # XXX: When the user is done they must physically exit the terminal
+        self.get_and_write_user_info()
+        klog = Logger()
+        choice = windows_only_platform_menu()
+        while True:
+            if choice in (0, 1, 2):
+                break
+            else:
+                klog.km_error("Invalid selection: choose 1, 2, 3")
+                choice = windows_only_platform_menu()
+                continue
+        print(choice)
+        input("WAIT")
+        if choice == 0:
+
+            def on_press(key) -> None:
+                # input("Hit here - Facebook")
+                account_email_fragment = account_number_to_email_fragment(
+                    account_number
+                )
+                _social_platform_path = os.path.join(
+                    LOGS_DIR,
+                    self.user_id,
+                    "f_" + self.user_id + "_" + account_email_fragment + ".csv",
+                )
+                self.buffer_write(f"P,{override_key(key)}, {time.time_ns()}")
+                data = ["P", override_key(key), time.time_ns()]
+                self.csv_writer.write_data_to_csv(
+                    _social_platform_path,
+                    data,
+                )
+
+            def on_release(key) -> None:
+                account_email_fragment = account_number_to_email_fragment(
+                    account_number
+                )
+                _social_platform_path = os.path.join(
+                    LOGS_DIR,
+                    self.user_id,
+                    "f_" + self.user_id + "_" + account_email_fragment + ".csv",
+                )
+                self.buffer_write(f"R,{override_key(key)}, {time.time_ns()}")
+                data = ["R", override_key(key), time.time_ns()]
+                self.csv_writer.write_data_to_csv(
+                    _social_platform_path,
+                    data,
+                )
+
+            with Listener(on_press=on_press, on_release=on_release) as listener:
+                listener.join()
+        if choice == 1:
+
+            def on_press(key):
+                account_email_fragment = account_number_to_email_fragment(
+                    account_number
+                )
+                _social_platform_path = os.path.join(
+                    LOGS_DIR,
+                    self.user_id,
+                    "i_" + self.user_id + "_" + account_email_fragment + ".csv",
+                )
+                self.buffer_write(f"P,{override_key(key)}, {time.time_ns()}")
+                data = ["P", override_key(key), time.time_ns()]
+                self.csv_writer.write_data_to_csv(
+                    _social_platform_path,
+                    data,
+                )
+
+            def on_release(key):
+                account_email_fragment = account_number_to_email_fragment(
+                    account_number
+                )
+                _social_platform_path = os.path.join(
+                    LOGS_DIR,
+                    self.user_id,
+                    "i_" + self.user_id + "_" + account_email_fragment + ".csv",
+                )
+                self.buffer_write(f"R,{override_key(key)}, {time.time_ns()}")
+                data = ["R", override_key(key), time.time_ns()]
+                self.csv_writer.write_data_to_csv(
+                    _social_platform_path,
+                    data,
+                )
+
+            with Listener(on_press=on_press, on_release=on_release) as listener:
+                listener.join()
+
+        if choice == 2:
+
+            def on_press(key):
+                account_email_fragment = account_number_to_email_fragment(
+                    account_number
+                )
+                _social_platform_path = os.path.join(
+                    LOGS_DIR,
+                    self.user_id,
+                    "t_" + self.user_id + "_" + account_email_fragment + ".csv",
+                )
+                self.buffer_write(f"P,{override_key(key)}, {time.time_ns()}")
+                data = ["P", override_key(key), time.time_ns()]
+                self.csv_writer.write_data_to_csv(
+                    _social_platform_path,
+                    data,
+                )
+
+            def on_release(key):
+                account_email_fragment = account_number_to_email_fragment(
+                    account_number
+                )
+                _social_platform_path = os.path.join(
+                    LOGS_DIR,
+                    self.user_id,
+                    "t_" + self.user_id + "_" + account_email_fragment + ".csv",
+                )
+                self.buffer_write(f"R,{override_key(key)}, {time.time_ns()}")
+                data = ["R", override_key(key), time.time_ns()]
+                self.csv_writer.write_data_to_csv(
+                    _social_platform_path,
+                    data,
+                )
+
+            with Listener(on_press=on_press, on_release=on_release) as listener:
+                listener.join()
 
 
 if __name__ == "__main__":

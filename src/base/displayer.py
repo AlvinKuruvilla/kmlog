@@ -201,6 +201,12 @@ def start_menu():
     return choice
 
 
+def windows_only_platform_menu():
+    options = ["Facebook", "Instagram", "Twitter"]
+    choice = get_user_choice(options)
+    return choice
+
+
 def display_account(account_number: int) -> None:
     if account_number == 1:
         acct = {
