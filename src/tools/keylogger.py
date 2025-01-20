@@ -58,11 +58,18 @@ class Keylogger:
         self.user_id = _user_id
         self.csv_writer = CSVWriter()
         self.buffer = []
+        # HOT FIX: use the timestamp to distinguish between user sessions and automate session ID assignment
+        #           For example, session id 1,2,3 have the same filename but with earlier timestamps
+        self.timestamp = time.time_ns()
         self.log_file_path = os.path.join(
-            LOGS_DIR, self.user_id, self.user_id + ".log"
+            LOGS_DIR, self.user_id, self.user_id + "_" + self.timestamp + ".log"
         )  # Create a global log file
         self.csv_writer.write_header(
-            os.path.join(os.path.join(LOGS_DIR, self.user_id, self.user_id + ".csv"))
+            os.path.join(
+                os.path.join(
+                    LOGS_DIR, self.user_id, self.user_id + "_" + self.timestamp + ".csv"
+                )
+            )
         )
         self.platform_count = 1
         self.account_number = 1
