@@ -62,12 +62,12 @@ class Keylogger:
         #           For example, session id 1,2,3 have the same filename but with earlier timestamps
         self.timestamp = time.time_ns()
         self.log_file_path = os.path.join(
-            LOGS_DIR, self.user_id, self.user_id + "_" + self.timestamp + ".log"
+            LOGS_DIR, self.user_id, self.user_id + "_" + str(self.timestamp) + ".log"
         )  # Create a global log file
         self.csv_writer.write_header(
             os.path.join(
                 os.path.join(
-                    LOGS_DIR, self.user_id, self.user_id + "_" + self.timestamp + ".csv"
+                    LOGS_DIR, self.user_id, self.user_id + "_" + str(self.timestamp) + ".csv"
                 )
             )
         )
