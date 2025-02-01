@@ -15,7 +15,7 @@ import sys
 import re
 import argparse
 from dotenv import load_dotenv
-from base.backends.sql import SQLDriver, check_mysql_installed
+from base.backends.sql import SQLDriver, check_mysql_installed_and_env_configured_correctly
 from base.backends.yaml_driver import get_all_associated_values, print_as_table
 from base.user_ops.sql_ops import add_user_to_db, display_profile_from_db
 from base.user_ops.yml_ops import create_user, user_id_to_yaml_file_path
@@ -73,7 +73,7 @@ class TUI:
             print_pid()
             input(km_prompt("Press any key to continue "))
         clear_screen()
-        if check_mysql_installed():
+        if check_mysql_installed_and_env_configured_correctly():
             verify_env_values()
             input(km_prompt("Press any key to continue "))
             clear_screen()
@@ -90,7 +90,7 @@ class TUI:
         if choice == 0:
             clear_screen()
             block_text("Keylogger")
-            if check_mysql_installed():
+            if check_mysql_installed_and_env_configured_correctly():
                 driver = SQLDriver()
                 driver.try_connect()
             else:
@@ -114,7 +114,7 @@ class TUI:
             #     table and start the keylogger
             #   - If they are in the table, let them know that, and then start the
             #     keylogger
-            if check_mysql_installed():
+            if check_mysql_installed_and_env_configured_correctly():
                 # NOTE: To understand this api look in the mysql package's cursor.py
                 # file...According to that api the params argument as they have named it
                 # defaults to an empty tuple

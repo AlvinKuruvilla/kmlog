@@ -20,7 +20,7 @@ from pynput.keyboard import Listener
 from pynput import keyboard
 from base.backends.yaml_driver import get_value_from_key
 from base.user_ops.yml_ops import user_id_to_yaml_file_path
-from base.backends.sql import SQLDriver, check_mysql_installed
+from base.backends.sql import SQLDriver, check_mysql_installed_and_env_configured_correctly
 from base.log import Logger
 from base.displayer import (
     account_number_to_email_fragment,
@@ -128,7 +128,7 @@ class Keylogger:
         """Query the database for the first and last name associated with a
         particular user ID and write those to the log file with the that
         particular user ID in the name"""
-        if check_mysql_installed():
+        if check_mysql_installed_and_env_configured_correctly():
             load_dotenv()
             driver = SQLDriver()
             driver.try_connect()

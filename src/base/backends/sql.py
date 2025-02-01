@@ -20,9 +20,9 @@ from dotenv import load_dotenv, dotenv_values
 from base.log import Logger
 
 
-def check_mysql_installed() -> bool:
+def check_mysql_installed_and_env_configured_correctly() -> bool:
     """
-    Check if mysql is installed on the system
+    Check if mysql is installed on the system and check if any of the required .env fields are missing
 
     Parameters
     ----------
@@ -31,7 +31,8 @@ def check_mysql_installed() -> bool:
     Returns
     ----------
     bool
-        If True, then mysql is installed in the system. If False then mysql is not installed
+        If True, then mysql is installed in the system and .env file has all the necessary fields.
+        If False then mysql is not installed and/or .env file doesn't have all the necessary fields to work with the database.
     """
     # TODO: check if there needs to be a different way to do this on Windows
     try:
@@ -40,6 +41,8 @@ def check_mysql_installed() -> bool:
         config = dotenv_values(".env")
         for k in config.keys():
             c.append(k)
+        if not "KM_USER" in c or not "PASSWORD" in c or not "DB_HOST" in c or not "DB_NAME" in c or not "TABLE" in c:
+            return False
         return bool(bool(version.returncode == 0) and (not len(c) == 0))
     except Exception:
         return False

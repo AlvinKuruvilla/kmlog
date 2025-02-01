@@ -13,7 +13,7 @@
 from typing import Tuple
 from base.log import Logger
 from base.displayer import km_prompt
-from base.backends.sql import check_mysql_installed
+from base.backends.sql import check_mysql_installed_and_env_configured_correctly
 
 
 def verify_gender(gender_input: str) -> bool:
@@ -163,7 +163,7 @@ def expand_user_data(
     Tuple[str, str, str, str]: Returns a tuple of all the expanded forms of the inputted parameters
 
     """
-    if check_mysql_installed:
+    if check_mysql_installed_and_env_configured_correctly:
         if gender.lower() == "m":
             expanded_gender = "Male"
         elif gender.lower() == "f":
