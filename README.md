@@ -215,3 +215,7 @@ See [Contributing](CONTRIBUTING.md)
 ## Media
 
 The logo was designed from [Hatchful by Shopify](https://hatchful.shopify.com)
+
+
+## Credits
+[The original Facebook clone](https://github.com/KashanAdnan/Facebook-Clone)
