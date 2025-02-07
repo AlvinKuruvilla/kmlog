@@ -1,12 +1,18 @@
 import os
+import sys
 from dotenv import dotenv_values
 
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from tools.keylogger import Keylogger
 from base.displayer import CredentialType
+from base.log import Logger
 config = dotenv_values(".env")
-user_id = config['FP_USER_ID']
+user_id = config.get('FP_USER_ID')
+if user_id is None:
+    log = Logger()
+    log.km_error("No FP_USER_ID environment variable set")
+    sys.exit(1)
 print("Loaded user id is:", user_id)
 app = Flask(__name__)
 CORS(app)

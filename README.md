@@ -156,7 +156,7 @@ pip3 -r requirements.txt
 3. Run the main file
 
 ```bash
-python3 tui.py
+python3 kmlog.py
 ```
 
 ### Automated Build
@@ -203,6 +203,13 @@ On Apple devices, navigate to System Preferences > Go to Privacy and Security > 
    ```
 
 3. If your shell kills the executable when trying to run it, this is because Apple does not allow programs to run which are from unidentifiable developers. To fix this, navigate to System Preferences > Go to Privacy and Security > Go to the General tab > Click Run Anyway
+
+## Using the headless keylogger
+
+The headless keylogger is a local webserver which utilizes one of the social media clones in fake_pages/ as frontends.
+The frontend of choice will start the keylogger on page load and quit the server when a post is complete.
+
+The webserver utilizes the FP_USER_ID environment variable which __MUST__ be set in a `.env` file for the server to work properly (The server will throw an error if the variable is not set)
 
 ## License
 
