@@ -215,8 +215,8 @@ window.onload = async () => {
           headers: {
               'Content-Type': 'application/json',
           },
-          // Twitter's platform id = 2
-          body: JSON.stringify({ platform_id: 2  }),
+          // Instagram's platform id = 2
+          body: JSON.stringify({ platform_id: 1  }),
       });
 
       console.log(response);
