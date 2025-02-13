@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Demographics Form</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        background-color: #f4f4f4;
+      }
+      h1 {
+        font-size: 1.8em;
+        margin-bottom: 20px;
+        color: #333;
+      }
+      .form-container {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        max-width: 400px;
+        width: 100%;
+      }
+      label {
+        display: block;
+        font-size: 1.1em;
+        margin-bottom: 10px;
+        font-weight: bold;
+      }
+      select,
+      input {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 1em;
+      }
+      .button-container {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      button {
+        width: 100%;
+        padding: 12px;
+        font-size: 1.1em;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-bottom: 20px;
+        transition: background-color 0.3s ease;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+      .previous-button {
+        background-color: #6c757d;
+        color: white;
+      }
+      .previous-button:hover {
+        background-color: #5a6268;
+      }
+      .next-button {
+        background-color: #007bff;
+        color: white;
+      }
+      .next-button:hover {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="form-container">
+      <h1>Demographics Form</h1>
+      <form>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required />
+
+        <label for="gender">Gender:</label>
+        <select id="gender" name="gender" required>
+          <option value="">Select</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="other">Other</option>
+        </select>
+
+        <label for="handedness">Handedness:</label>
+        <select id="handedness" name="handedness" required>
+          <option value="">Select</option>
+          <option value="right">Right-handed</option>
+          <option value="left">Left-handed</option>
+          <option value="ambidextrous">Ambidextrous</option>
+        </select>
+
+        <label for="education">Education:</label>
+        <select id="education" name="education" required>
+          <option value="">Select</option>
+          <option value="Bachelor">Bachelor</option>
+          <option value="Masters">Masters</option>
+          <option value="Phd">PhD</option>
+        </select>
+
+        <button type="button" onclick="downloadDemographicsData()">
+          Download
+        </button>
+        <div class="button-container">
+          <button
+            type="button"
+            class="previous-button"
+            onclick="navigateToPrevious()"
+          >
+            Previous
+          </button>
+          <button type="button" class="next-button" onclick="navigateToNext()">
+            Next
+          </button>
+        </div>
+      </form>
+    </div>
+    <script>
+      function navigateToNext() {
+        let email_value = document.getElementById("email").value;
+        const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (emailRegex.test(email_value) == false) {
+          alert("Invalid email");
+          return;
+        }
+        let gender_value = document.getElementById("gender").value;
+        if (gender_value == "") {
+          alert("Select a gender");
+          return;
+        }
+        let handedness_value = document.getElementById("handedness").value;
+        if (handedness_value == "") {
+          alert("Select a handedness");
+          return;
+        }
+
+        let education_value = document.getElementById("education").value;
+        if (education_value == "") {
+          alert("Select an education");
+          return;
+        }
+
+        window.location.href = "tasks.html";
+      }
+      function navigateToPrevious() {
+        window.location.href = "consent.html";
+      }
+      function downloadDemographicsData() {
+        let email_value = document.getElementById("email").value;
+        const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (emailRegex.test(email_value) == false) {
+          alert("Invalid email");
+          return;
+        }
+        let gender_value = document.getElementById("gender").value;
+        if (gender_value == "") {
+          alert("Select a gender");
+          return;
+        }
+        let handedness_value = document.getElementById("handedness").value;
+        if (handedness_value == "") {
+          alert("Select a handedness");
+          return;
+        }
+
+        let education_value = document.getElementById("education").value;
+        if (education_value == "") {
+          alert("Select an education");
+          return;
+        }
+
+        let demographics_object = {
+          email: email_value,
+          gender: gender_value,
+          handedness: handedness_value,
+          education: education_value,
+        };
+        var dataStr =
+          "data:text/json;charset=utf-8," +
+          encodeURIComponent(JSON.stringify(demographics_object, null, 2));
+        var downloadAnchorNode = document.createElement("a");
+        downloadAnchorNode.setAttribute("href", dataStr);
+        downloadAnchorNode.setAttribute("download", "demographics" + ".json");
+        document.body.appendChild(downloadAnchorNode); // required for firefox
+        downloadAnchorNode.click();
+        downloadAnchorNode.remove();
+
+        // alert("Downloading demographics data from submit button")
+      }
+    </script>
+  </body>
+</html>

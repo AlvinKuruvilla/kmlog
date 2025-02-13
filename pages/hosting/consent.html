@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Consent Form</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        background-color: #f4f4f4;
+      }
+      .form-container {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        max-width: 600px;
+        width: 100%;
+        text-align: center;
+      }
+      h1 {
+        font-size: 1.8em;
+        margin-bottom: 20px;
+        color: #333;
+      }
+      p {
+        text-align: left;
+        font-size: 1em;
+        margin-bottom: 20px;
+        line-height: 1.6;
+      }
+      label {
+        font-size: 1.1em;
+        margin-bottom: 10px;
+        font-weight: bold;
+        display: block;
+      }
+      input[type="checkbox"] {
+        margin-right: 10px;
+      }
+      #the-canvas {
+        border: 1px solid black;
+        direction: ltr;
+      }
+      .button-container {
+        margin-top: 20px;
+      }
+      button {
+        width: 100%;
+        padding: 12px;
+        font-size: 1.1em;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-bottom: 10px;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+      /* Revert CSS style of target element and its children */
+      .reset-style,
+      .reset-style * {
+        all: revert;
+      }
+    </style>
+    <script
+      src="//mozilla.github.io/pdf.js/build/pdf.mjs"
+      type="module"
+    ></script>
+
+    <script type="module">
+      // If absolute URL from the remote server is provided, configure the CORS
+      // header on that server.
+      var url = "Informed Consent.pdf";
+
+      // Loaded via <script> tag, create shortcut to access PDF.js exports.
+      var { pdfjsLib } = globalThis;
+
+      // The workerSrc property shall be specified.
+      pdfjsLib.GlobalWorkerOptions.workerSrc =
+        "//mozilla.github.io/pdf.js/build/pdf.worker.mjs";
+
+      var pdfDoc = null,
+        pageNum = 1,
+        pageRendering = false,
+        pageNumPending = null,
+        scale = 0.8,
+        canvas = document.getElementById("the-canvas"),
+        ctx = canvas.getContext("2d");
+
+      /**
+       * Get page info from document, resize canvas accordingly, and render page.
+       * @param num Page number.
+       */
+      function renderPage(num) {
+        pageRendering = true;
+        // Using promise to fetch the page
+        pdfDoc.getPage(num).then(function (page) {
+          var viewport = page.getViewport({ scale: scale });
+          canvas.height = viewport.height;
+          canvas.width = viewport.width;
+
+          // Render PDF page into canvas context
+          var renderContext = {
+            canvasContext: ctx,
+            viewport: viewport,
+          };
+          var renderTask = page.render(renderContext);
+
+          // Wait for rendering to finish
+          renderTask.promise.then(function () {
+            pageRendering = false;
+            if (pageNumPending !== null) {
+              // New page rendering is pending
+              renderPage(pageNumPending);
+              pageNumPending = null;
+            }
+          });
+        });
+
+        // Update page counters
+        document.getElementById("page_num").textContent = num;
+      }
+
+      /**
+       * If another page rendering in progress, waits until the rendering is
+       * finished. Otherwise, executes rendering immediately.
+       */
+      function queueRenderPage(num) {
+        if (pageRendering) {
+          pageNumPending = num;
+        } else {
+          renderPage(num);
+        }
+      }
+
+      /**
+       * Displays previous page.
+       */
+      function onPrevPage() {
+        if (pageNum <= 1) {
+          return;
+        }
+        pageNum--;
+        queueRenderPage(pageNum);
+      }
+      document.getElementById("prev").addEventListener("click", onPrevPage);
+
+      /**
+       * Displays next page.
+       */
+      function onNextPage() {
+        if (pageNum >= pdfDoc.numPages) {
+          return;
+        }
+        pageNum++;
+        queueRenderPage(pageNum);
+      }
+      document.getElementById("next").addEventListener("click", onNextPage);
+
+      /**
+       * Asynchronously downloads PDF.
+       */
+      pdfjsLib.getDocument(url).promise.then(function (pdfDoc_) {
+        pdfDoc = pdfDoc_;
+        document.getElementById("page_count").textContent = pdfDoc.numPages;
+
+        // Initial/first page rendering
+        renderPage(pageNum);
+      });
+    </script>
+  </head>
+  <body>
+    <div class="form-container">
+      <h1>Consent Form</h1>
+      <p>
+        Thank you for participating in our research study. Please carefully read
+        the information below before proceeding:
+      </p>
+      <p>
+        By agreeing to participate, you consent to the collection of data for
+        research purposes. Your responses will be kept confidential and used
+        solely for academic purposes. Participation is voluntary, and you may
+        withdraw at any time without penalty.
+      </p>
+      <p>Please read the consent form below:</p>
+      <div>
+        <button id="prev" class="reset-style">Previous</button>
+        <button id="next" class="reset-style">Next</button>
+        &nbsp; &nbsp;
+        <span
+          >Page: <span id="page_num"></span> / <span id="page_count"></span
+        ></span>
+      </div>
+
+      <canvas id="the-canvas"></canvas>
+      <p>
+        If you agree to the terms in the above consent form, please check the
+        box below and proceed.
+      </p>
+      <form>
+        <label>
+          <input type="checkbox" id="consent" required />
+          I have read and understood the above information and consent to
+          participate.
+        </label>
+
+        <div class="button-container">
+          <button type="button" onclick="downloadConsentJSON()">
+            Download consent data
+          </button>
+          <button type="button" onclick="navigateToNext()">
+            Go to next page
+          </button>
+        </div>
+      </form>
+    </div>
+    <script>
+      function navigateToNext() {
+        var isChecked = document.getElementById("consent").checked;
+        if (isChecked == false) {
+          alert("You must provide consent before proceeding!");
+        } else {
+          window.location.href = "demographics.html";
+        }
+      }
+      function downloadConsentJSON() {
+        var isChecked = document.getElementById("consent").checked;
+        if (isChecked == false) {
+          alert(
+            "You must provide consent before downloading the consent file!"
+          );
+        } else {
+          const consent_obj = {
+            consented: "Yes",
+          };
+          var dataStr =
+            "data:text/json;charset=utf-8," +
+            encodeURIComponent(JSON.stringify(consent_obj, null, 2));
+          var downloadAnchorNode = document.createElement("a");
+          downloadAnchorNode.setAttribute("href", dataStr);
+          downloadAnchorNode.setAttribute("download", "consent" + ".json");
+          document.body.appendChild(downloadAnchorNode); // required for firefox
+          downloadAnchorNode.click();
+          downloadAnchorNode.remove();
+        }
+      }
+    </script>
+  </body>
+</html>

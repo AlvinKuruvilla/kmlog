@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task List</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        background-color: #f4f4f4;
+      }
+      .task-container {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        max-width: 500px;
+        width: 100%;
+      }
+      h1 {
+        text-align: center;
+        color: #333;
+      }
+      h2 {
+        margin-top: 20px;
+        color: #007bff;
+      }
+      .task {
+        display: flex;
+        align-items: center;
+        margin: 10px 0;
+      }
+      input[type="checkbox"] {
+        margin-right: 10px;
+        transform: scale(1.2);
+        cursor: pointer;
+      }
+      label {
+        font-size: 1.1em;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="task-container">
+      <h1>Task List</h1>
+
+      <h2>Facebook</h2>
+      <div class="task">
+        <input
+          type="checkbox"
+          id="fb-task1"
+          onclick="handleTask('fb-task1', 'fb-task2', 'https://www.youtube.com/watch?v=2_fDhqRk_Ro&pp=ygUdY29hY2ggY2FydGVyIG91ciBkZWVwZXN0IGZlYXI%3D')"
+        />
+        <label for="fb-task1">Task 1: Coach Carter Movie Clip</label>
+      </div>
+      <div class="task">
+        <input
+          type="checkbox"
+          id="fb-task2"
+          onclick="handleTask('fb-task2', 'fb-task3', 'https://www.youtube.com/watch?v=myjEoDypUD8')"
+          disabled
+        />
+        <label for="fb-task2">Task 2: The Oscar Slap Clip</label>
+      </div>
+      <div class="task">
+        <input
+          type="checkbox"
+          id="fb-task3"
+          onclick="handleTask('fb-task3', null, 'https://www.youtube.com/watch?v=2l8RRcRsHuI')"
+          disabled
+        />
+        <label for="fb-task3"
+          >Task 3: Biden's Speech to the UN about Ukraine</label
+        >
+      </div>
+
+      <h2>Instagram</h2>
+      <div class="task">
+        <input
+          type="checkbox"
+          id="ig-task1"
+          onclick="handleTask('ig-task1', 'ig-task2', 'https://www.youtube.com/watch?v=2_fDhqRk_Ro&pp=ygUdY29hY2ggY2FydGVyIG91ciBkZWVwZXN0IGZlYXI%3D')"
+        />
+        <label for="ig-task1">Task 1: Coach Carter Movie Clip</label>
+      </div>
+      <div class="task">
+        <input
+          type="checkbox"
+          id="ig-task2"
+          onclick="handleTask('ig-task2', 'ig-task3', 'https://www.youtube.com/watch?v=myjEoDypUD8')"
+          disabled
+        />
+        <label for="ig-task2">Task 2: The Oscar Slap Clip</label>
+      </div>
+      <div class="task">
+        <input
+          type="checkbox"
+          id="ig-task3"
+          onclick="handleTask('ig-task3', null, 'https://www.youtube.com/watch?v=2l8RRcRsHuI/')"
+          disabled
+        />
+        <label for="ig-task3"
+          >Task 3: Biden's Speech to the UN about Ukraine</label
+        >
+      </div>
+
+      <h2>Twitter</h2>
+      <div class="task">
+        <input
+          type="checkbox"
+          id="tw-task1"
+          onclick="handleTask('tw-task1', 'tw-task2', 'https://www.youtube.com/watch?v=2_fDhqRk_Ro&pp=ygUdY29hY2ggY2FydGVyIG91ciBkZWVwZXN0IGZlYXI%3D')"
+        />
+        <label for="tw-task1">Task 1: Coach Carter Movie Clip</label>
+      </div>
+      <div class="task">
+        <input
+          type="checkbox"
+          id="tw-task2"
+          onclick="handleTask('tw-task2', 'tw-task3', 'https://www.youtube.com/watch?v=myjEoDypUD8')"
+          disabled
+        />
+        <label for="tw-task2">Task 2: The Oscar Slap Clip</label>
+      </div>
+      <div class="task">
+        <input
+          type="checkbox"
+          id="tw-task3"
+          onclick="handleTask('tw-task3', null, 'https://www.youtube.com/watch?v=2l8RRcRsHuI')"
+          disabled
+        />
+        <label for="tw-task3"
+          >Task 3: Biden's Speech to the UN about Ukraine</label
+        >
+      </div>
+    </div>
+
+    <script>
+      function handleTask(currentTaskId, nextTaskId, url) {
+        let currentTask = document.getElementById(currentTaskId);
+        if (currentTask.checked) {
+          window.open(url, "_blank").focus(); // Open the specified URL in a new tab
+          if (nextTaskId) {
+            document.getElementById(nextTaskId).disabled = false; // Enable next task
+          }
+        } else {
+          if (nextTaskId) {
+            document.getElementById(nextTaskId).disabled = true; // Disable next task if unchecked
+          }
+        }
+      }
+    </script>
+  </body>
+</html>
