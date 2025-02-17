@@ -57,7 +57,6 @@ window.onload = async () => {
 
         const result = await response.json();
         alert('Response from Python server: ' + result.message);
-        post.innerText = result.message; // Display the server response
     } catch (error) {
         console.log('Error:', error);
     }

@@ -211,6 +211,13 @@ The frontend of choice will start the keylogger on page load and quit the server
 
 The webserver utilizes the FP_USER_ID environment variable which __MUST__ be set in a `.env` file for the server to work properly (The server will throw an error if the variable is not set)
 
+## Testing the HTML pages locally
+
+The HTML pages can be tested locally by following these steps:
+
+1. Install the [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) extension
+2. Right-click on the HTML page you wish to open and click the menu item that says "Open with Live Server"
+
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)

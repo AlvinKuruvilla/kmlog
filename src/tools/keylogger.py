@@ -163,17 +163,16 @@ class Keylogger:
     def start_recording(self, platform_type=None, account_number: int = None) -> None:
         """This function reccords all the key presses to the file and the
         buffer. See also :func: `~tools.Keylogger.buffer_write`"""
+        print("Started the recording function")
         try:
             # input("Check platform")
             # print(platform_type)
             self.get_and_write_user_info()
             klog = Logger()
-            animated_marker("Initializing keylogger....")
+            # animated_marker("Initializing keylogger....")
             if self.get_platform_count() == 1:
-                klog.km_custom(
-                    "WARNING! Anything you will type shall be recorded until you terminate this app manually!",
-                    "<red>",
-                    "KEYLOGGER",
+                klog.km_warn(
+                    "WARNING! Anything you will type shall be recorded until you terminate this app manually!"
                 )
             elif self.get_platform_count() > 1:
                 print(
@@ -302,9 +301,11 @@ class Keylogger:
                 # See hotkey todo above
                 # if any([key in COMBO for COMBO in SHUTDOWN]):
                 #     current.remove(key)
-
+            print("Before join")
             with Listener(on_press=on_press, on_release=on_release) as listener:
+                print("Inside join")
                 listener.join()
+            print("After join")
         except KeyboardInterrupt:
             self.graceful_shutdown()
             if platform_type is None:
@@ -323,7 +324,11 @@ class Keylogger:
                 self.start_recording(CredentialType.TWITTER, self.get_account_number())
             elif self.get_platform_count() > 2:
                 self.__hotkey_shutdown()
-
+        except KeyError:
+            print("Probably hit the weird KeyError: 'CGEventKeyboardGetUnicodeString', error that started showing up recently. Could it be because of some update to one of our dependencies like pynput")
+            pass
+        except Exception as e:
+            print("Hitting except:", e)
     def windows_start_recording(self, account_number: int = None) -> None:
         """This function reccords all the key presses to the file and the
         buffer. See also :func: `~tools.Keylogger.buffer_write`"""
