@@ -206,8 +206,7 @@ On Apple devices, navigate to System Preferences > Go to Privacy and Security > 
 
 ## Using the headless keylogger
 
-The headless keylogger is a local webserver which utilizes one of the social media clones in fake_pages/ as frontends.
-The frontend of choice will start the keylogger on page load and quit the server when a post is complete.
+The headless keylogger is a local webserver which utilizes one of the social media clones in fake_pages/ as a frontend by proxy through tasks.html.
 
 The webserver utilizes the FP_USER_ID environment variable which __MUST__ be set in a `.env` file for the server to work properly (The server will throw an error if the variable is not set)
 
@@ -215,8 +214,23 @@ The webserver utilizes the FP_USER_ID environment variable which __MUST__ be set
 
 The HTML pages can be tested locally by following these steps:
 
-1. Install the [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) extension
-2. Right-click on the HTML page you wish to open and click the menu item that says "Open with Live Server"
+1. Start a python webserver in the root directory by:
+  ```bash
+     python3 -m http.server 8000
+  ```
+
+2. Navigate to 127.0.0.1:8000/ (or whatever port you specified) and you should see a directory of the project root
+
+3. If you want to test one of the social media clone pages in isolation you can just navigate to the respective site's `index.html`
+
+OR
+
+3. If you wish to test the data collection flow you can start the process at [consent.html](pages/hosting/consent.html) and follow the flow from there.
+> ℹ **_NOTE:_**  Make sure to have the headless kmlog server running as it is required for the tasks page to work properly:
+  ```bash
+     python3 src/kmlog_headless.py
+  ```
+>  ⚠️ **_NOTE:_**  Do not use live server to test the tasks page as there is an issue with how it handles the fetch requests, which causes the page to refresh on any keyboard input or focus change
 
 ## License
 
