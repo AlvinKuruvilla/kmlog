@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Task List</title>
+    <title>Task Spotlight</title>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -13,148 +13,205 @@
         min-height: 100vh;
         margin: 0;
         background-color: #f4f4f4;
+        text-align: center;
       }
       .task-container {
         background: white;
         padding: 30px;
         border-radius: 15px;
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        max-width: 500px;
+        max-width: 600px;
         width: 100%;
       }
-      h1 {
-        text-align: center;
+      h1,
+      h2 {
         color: #333;
       }
-      h2 {
-        margin-top: 20px;
-        color: #007bff;
+      iframe {
+        width: 100%;
+        height: 315px;
+        border-radius: 10px;
+        margin-bottom: 20px;
       }
-      .task {
+      .button-container {
         display: flex;
-        align-items: center;
-        margin: 10px 0;
+        justify-content: space-between;
+        margin-top: 20px;
       }
-      input[type="checkbox"] {
-        margin-right: 10px;
-        transform: scale(1.2);
-        cursor: pointer;
-      }
-      label {
+      button {
+        flex: 1;
+        padding: 12px;
+        margin: 5px;
         font-size: 1.1em;
+        border: none;
+        border-radius: 8px;
         cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+      .platform-button {
+        background-color: #007bff;
+        color: white;
+      }
+      .platform-button:hover {
+        background-color: #0056b3;
+      }
+      .next-button {
+        background-color: #28a745;
+        color: white;
+      }
+      .next-button:hover {
+        background-color: #218838;
       }
     </style>
   </head>
   <body>
     <div class="task-container">
-      <h1>Task List</h1>
+      <h1 id="platform-name">Facebook</h1>
+      <h2 id="task-name">Task 1: Watch Coach Carter Movie Clip</h2>
 
-      <h2>Facebook</h2>
-      <div class="task">
-        <input
-          type="checkbox"
-          id="fb-task1"
-          onclick="handleTask('fb-task1', 'fb-task2', 'https://www.youtube.com/watch?v=2_fDhqRk_Ro&pp=ygUdY29hY2ggY2FydGVyIG91ciBkZWVwZXN0IGZlYXI%3D')"
-        />
-        <label for="fb-task1">Task 1: Coach Carter Movie Clip</label>
-      </div>
-      <div class="task">
-        <input
-          type="checkbox"
-          id="fb-task2"
-          onclick="handleTask('fb-task2', 'fb-task3', 'https://www.youtube.com/watch?v=myjEoDypUD8')"
-          disabled
-        />
-        <label for="fb-task2">Task 2: The Oscar Slap Clip</label>
-      </div>
-      <div class="task">
-        <input
-          type="checkbox"
-          id="fb-task3"
-          onclick="handleTask('fb-task3', null, 'https://www.youtube.com/watch?v=2l8RRcRsHuI')"
-          disabled
-        />
-        <label for="fb-task3"
-          >Task 3: Biden's Speech to the UN about Ukraine</label
-        >
-      </div>
+      <iframe
+        id="video-frame"
+        src="https://www.youtube.com/embed/2_fDhqRk_Ro"
+        allowfullscreen
+      >
+      </iframe>
 
-      <h2>Instagram</h2>
-      <div class="task">
-        <input
-          type="checkbox"
-          id="ig-task1"
-          onclick="handleTask('ig-task1', 'ig-task2', 'https://www.youtube.com/watch?v=2_fDhqRk_Ro&pp=ygUdY29hY2ggY2FydGVyIG91ciBkZWVwZXN0IGZlYXI%3D')"
-        />
-        <label for="ig-task1">Task 1: Coach Carter Movie Clip</label>
-      </div>
-      <div class="task">
-        <input
-          type="checkbox"
-          id="ig-task2"
-          onclick="handleTask('ig-task2', 'ig-task3', 'https://www.youtube.com/watch?v=myjEoDypUD8')"
-          disabled
-        />
-        <label for="ig-task2">Task 2: The Oscar Slap Clip</label>
-      </div>
-      <div class="task">
-        <input
-          type="checkbox"
-          id="ig-task3"
-          onclick="handleTask('ig-task3', null, 'https://www.youtube.com/watch?v=2l8RRcRsHuI/')"
-          disabled
-        />
-        <label for="ig-task3"
-          >Task 3: Biden's Speech to the UN about Ukraine</label
+      <div class="button-container">
+        <button
+          type="button"
+          class="platform-button"
+          id="platform-link"
+          onclick="goToPlatform()"
         >
-      </div>
-
-      <h2>Twitter</h2>
-      <div class="task">
-        <input
-          type="checkbox"
-          id="tw-task1"
-          onclick="handleTask('tw-task1', 'tw-task2', 'https://www.youtube.com/watch?v=2_fDhqRk_Ro&pp=ygUdY29hY2ggY2FydGVyIG91ciBkZWVwZXN0IGZlYXI%3D')"
-        />
-        <label for="tw-task1">Task 1: Coach Carter Movie Clip</label>
-      </div>
-      <div class="task">
-        <input
-          type="checkbox"
-          id="tw-task2"
-          onclick="handleTask('tw-task2', 'tw-task3', 'https://www.youtube.com/watch?v=myjEoDypUD8')"
-          disabled
-        />
-        <label for="tw-task2">Task 2: The Oscar Slap Clip</label>
-      </div>
-      <div class="task">
-        <input
-          type="checkbox"
-          id="tw-task3"
-          onclick="handleTask('tw-task3', null, 'https://www.youtube.com/watch?v=2l8RRcRsHuI')"
-          disabled
-        />
-        <label for="tw-task3"
-          >Task 3: Biden's Speech to the UN about Ukraine</label
+          Go to Platform
+        </button>
+        <button
+          class="next-button"
+          id="next-task"
+          onclick="nextTask()"
+          type="button"
         >
+          Next Task
+        </button>
       </div>
     </div>
 
     <script>
-      function handleTask(currentTaskId, nextTaskId, url) {
-        let currentTask = document.getElementById(currentTaskId);
-        if (currentTask.checked) {
-          window.open(url, "_blank").focus(); // Open the specified URL in a new tab
-          if (nextTaskId) {
-            document.getElementById(nextTaskId).disabled = false; // Enable next task
+      const FACEBOOK_FAKE_URL =
+        "http://127.0.0.1:8000/pages/fake_pages/Facebook-Clone/index.html";
+      // Task List: Platform, Task Name, Video URL, Platform URL
+      const tasks = [
+        {
+          platform: "Facebook",
+          task: "Watch Coach Carter Movie Clip",
+          video: "https://www.youtube.com/embed/2_fDhqRk_Ro",
+          link: FACEBOOK_FAKE_URL,
+        },
+        {
+          platform: "Facebook",
+          task: "Watch The Oscar Slap Clip",
+          video: "https://www.youtube.com/embed/myjEoDypUD8",
+          link: FACEBOOK_FAKE_URL,
+        },
+        {
+          platform: "Facebook",
+          task: "Watch Biden's Speech",
+          video: "https://www.youtube.com/embed/2l8RRcRsHuI",
+          link: FACEBOOK_FAKE_URL,
+        },
+
+        {
+          platform: "Instagram",
+          task: "Watch Coach Carter Movie Clip",
+          video: "https://www.youtube.com/embed/2_fDhqRk_Ro",
+          link: "https://www.instagram.com/",
+        },
+        {
+          platform: "Instagram",
+          task: "Watch The Oscar Slap Clip",
+          video: "https://www.youtube.com/embed/myjEoDypUD8",
+          link: "https://www.instagram.com/explore",
+        },
+        {
+          platform: "Instagram",
+          task: "Watch Biden's Speech",
+          video: "https://www.youtube.com/embed/2l8RRcRsHuI",
+          link: "https://www.instagram.com/direct/inbox/",
+        },
+
+        {
+          platform: "Twitter",
+          task: "Watch Coach Carter Movie Clip",
+          video: "https://www.youtube.com/embed/2_fDhqRk_Ro",
+          link: "https://twitter.com/",
+        },
+        {
+          platform: "Twitter",
+          task: "Watch The Oscar Slap Clip",
+          video: "https://www.youtube.com/embed/myjEoDypUD8",
+          link: "https://twitter.com/explore",
+        },
+        {
+          platform: "Twitter",
+          task: "Watch Biden's Speech",
+          video: "https://www.youtube.com/embed/2l8RRcRsHuI",
+          link: "https://twitter.com/messages",
+        },
+      ];
+
+      let currentTaskIndex = 0;
+
+      function loadTask(index) {
+        const task = tasks[index];
+        document.getElementById("platform-name").textContent = task.platform;
+        document.getElementById("task-name").textContent = task.task;
+        document.getElementById("video-frame").src = task.video;
+        document
+          .getElementById("platform-link")
+          .setAttribute("data-link", task.link);
+
+        // Disable the next button if it's the last task
+        document.getElementById("next-task").disabled =
+          index >= tasks.length - 1;
+      }
+
+      async function goToPlatform() {
+        const platformUrl = document
+          .getElementById("platform-link")
+          .getAttribute("data-link");
+        window.open(platformUrl, "_blank");
+        try {
+          const response = await fetch("http://127.0.0.1:5000/start-server", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            // Facebook's platform id = 0
+            body: JSON.stringify({ platform_id: 0 }),
+          });
+
+          console.log(response);
+          if (!response.ok) {
+            alert("Failed to send special request: " + response.status);
+            return;
           }
-        } else {
-          if (nextTaskId) {
-            document.getElementById(nextTaskId).disabled = true; // Disable next task if unchecked
-          }
+
+          const result = await response.json();
+          alert("Response from Python server: " + result.message);
+        } catch (error) {
+          alert("Error:", error);
         }
       }
+
+      function nextTask() {
+        if (currentTaskIndex < tasks.length - 1) {
+          currentTaskIndex++;
+          loadTask(currentTaskIndex);
+        }
+      }
+
+      // Load the first task on page load
+      loadTask(currentTaskIndex);
     </script>
   </body>
 </html>
