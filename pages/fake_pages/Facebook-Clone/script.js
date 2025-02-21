@@ -32,7 +32,7 @@ btnGet.onclick = async function (event) {
     }
 
     const result = await response.json();
-    alert("Response from Python server:", result);
+    // alert("Response from Python server:", result);
     post.innerText = result.message; // Display the server response
   } catch (error) {
     console.log("Error:", error);
