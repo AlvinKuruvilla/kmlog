@@ -174,61 +174,37 @@ const commentBox = document.getElementById('comment_box');
 const postCommentButton = document.getElementById('post_comment');
 
 // Show the comment box
-commentButton.addEventListener('click',  async () => {
-  console.log("Comment Post button clicked!");
+commentButton.addEventListener('click', async () => {
+  console.log('Comment Post button clicked!');
   try {
-      const response = await fetch('http://127.0.0.1:5000/end-server', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-      });
-      console.log(response);
-      if (!response.ok) {
-          const errorData = await response.json();
-          alert('Failed to send special request:', errorData);
-          return;
-      }
+    const response = await fetch('http://127.0.0.1:5000/end-server', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    console.log(response);
+    if (!response.ok) {
+      const errorData = await response.json();
+      alert('Failed to send special request:', errorData);
+      return;
+    }
 
-      const result = await response.json();
-      alert('Response from Python server:', result);
+    const result = await response.json();
+    alert('Response from Python server:', result);
   } catch (error) {
-      console.log('Error:', error);
+    console.log('Error:', error);
   }
 
   if (commentBox.style.display === 'block') {
-      commentBox.style.display = 'none'; // Hide the comment box
+    commentBox.style.display = 'none'; // Hide the comment box
   } else {
-      commentBox.style.display = 'block'; // Show the comment box
+    commentBox.style.display = 'block'; // Show the comment box
   }
 });
 
 // Hide the comment box and clear the textarea
 postCommentButton.addEventListener('click', () => {
-    commentBox.style.display = 'none';
-    document.getElementById('comment_input').value = '';
+  commentBox.style.display = 'none';
+  document.getElementById('comment_input').value = '';
 });
-window.onload = async () => {
-  try {
-      const response = await fetch('http://127.0.0.1:5000/start-server', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-          // Instagram's platform id = 2
-          body: JSON.stringify({ platform_id: 1  }),
-      });
-
-      console.log(response);
-      if (!response.ok) {
-          alert('Failed to send special request: ' + response.status);
-          return;
-      }
-
-      const result = await response.json();
-      alert('Response from Python server: ' + result.message);
-      post.innerText = result.message; // Display the server response
-  } catch (error) {
-      console.log('Error:', error);
-  }
-};
