@@ -78,6 +78,15 @@
       .next-button:hover {
         background-color: #0056b3;
       }
+      /* Style the checkbox label to remove bold text */
+      #consent_for_email_reachout_in_future + label {
+        font-weight: normal;
+      }
+
+      /* Add spacing for the checkbox and text */
+      #consent_for_email_reachout_in_future {
+        margin-right: 8px;
+      }
     </style>
   </head>
   <body>
@@ -85,7 +94,17 @@
       <h1>Demographics Form</h1>
       <form>
         <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required />
+        <input type="email" id="email" name="email" />
+        <label for="consent_for_email_reachout_in_future">
+          <input
+            type="checkbox"
+            id="consent_for_email_reachout_in_future"
+            required
+          />
+          By providing a valid email in the field above, I consent to the
+          researchers storing my email address for the purpose of potentially
+          contacting me regarding future research study participation.
+        </label>
 
         <label for="gender">Gender:</label>
         <select id="gender" name="gender" required>
@@ -131,7 +150,7 @@
     <script>
       function navigateToNext() {
         let email_value = document.getElementById("email").value;
-        const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$|^$/;
         if (emailRegex.test(email_value) == false) {
           alert("Invalid email");
           return;
@@ -160,7 +179,7 @@
       }
       function downloadDemographicsData() {
         let email_value = document.getElementById("email").value;
-        const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$|^$/;
         if (emailRegex.test(email_value) == false) {
           alert("Invalid email");
           return;
