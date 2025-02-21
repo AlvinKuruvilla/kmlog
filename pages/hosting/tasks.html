@@ -16,8 +16,6 @@
         text-align: center;
       }
       .task-container {
-        background: white;
-        padding: 30px;
         border-radius: 15px;
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         max-width: 600px;
@@ -28,11 +26,13 @@
         color: #333;
       }
       iframe {
-        width: 100%;
-        height: 315px;
-        border-radius: 10px;
-        margin-bottom: 20px;
-      }
+    width: 100%;
+    height: 315px;
+    display: block;  /* Ensures no extra space below */
+    border: none;    /* Removes any default border */
+    padding: 0;      /* Removes any default padding */
+    margin: 0;       /* Removes any extra margin */
+}
       .button-container {
         display: flex;
         justify-content: space-between;
@@ -99,63 +99,74 @@
     <script>
       const FACEBOOK_FAKE_URL =
         "http://127.0.0.1:8000/pages/fake_pages/Facebook-Clone/index.html";
+      const INSTAGRAM_FAKE_URL =
+        "http://127.0.0.1:8000/pages/fake_pages/instagram-clone/index.html";
+      const TWITTER_FAKE_URL =
+        "http://127.0.0.1:8000/pages/fake_pages/twitter-clone/index.html";
+      const CARTER_PATH = "videos/Coach Carter (6_9) Movie CLIP - Our Deepest Fear (2005) HD.mp4";
+      const BIDEN_PATH = "videos/Biden calls out Putin in speech on last day in Europe.mp4";
+      const OSCARS_PATH = "videos/Watch the uncensored moment Will Smith smacks Chris Rock on stage at the Oscars, drops F-bomb.mp4";
+
       // Task List: Platform, Task Name, Video URL, Platform URL
       const tasks = [
+        // Coach Carter Videos
         {
           platform: "Facebook",
           task: "Watch Coach Carter Movie Clip",
-          video: "https://www.youtube.com/embed/2_fDhqRk_Ro",
+          video: CARTER_PATH,
           link: FACEBOOK_FAKE_URL,
         },
         {
-          platform: "Facebook",
-          task: "Watch The Oscar Slap Clip",
-          video: "https://www.youtube.com/embed/myjEoDypUD8",
-          link: FACEBOOK_FAKE_URL,
+          platform: "Instagram",
+          task: "Watch Coach Carter Movie Clip",
+          video: CARTER_PATH,
+          link: INSTAGRAM_FAKE_URL,
         },
         {
-          platform: "Facebook",
-          task: "Watch Biden's Speech",
-          video: "https://www.youtube.com/embed/2l8RRcRsHuI",
-          link: FACEBOOK_FAKE_URL,
+          platform: "Twitter",
+          task: "Watch Coach Carter Movie Clip",
+          video: CARTER_PATH,
+          link: TWITTER_FAKE_URL,
         },
 
+        // The Oscar Slap Videos
         {
-          platform: "Instagram",
-          task: "Watch Coach Carter Movie Clip",
-          video: "https://www.youtube.com/embed/2_fDhqRk_Ro",
-          link: "https://www.instagram.com/",
+          platform: "Facebook",
+          task: "Watch The Oscar Slap Clip",
+          video: OSCARS_PATH,
+          link: FACEBOOK_FAKE_URL,
         },
         {
           platform: "Instagram",
           task: "Watch The Oscar Slap Clip",
-          video: "https://www.youtube.com/embed/myjEoDypUD8",
-          link: "https://www.instagram.com/explore",
+          video: OSCARS_PATH,
+          link: INSTAGRAM_FAKE_URL,
         },
         {
-          platform: "Instagram",
-          task: "Watch Biden's Speech",
-          video: "https://www.youtube.com/embed/2l8RRcRsHuI",
-          link: "https://www.instagram.com/direct/inbox/",
+          platform: "Twitter",
+          task: "Watch The Oscar Slap Clip",
+          video: OSCARS_PATH,
+          link: TWITTER_FAKE_URL,
         },
 
+        // Biden's Speech Videos
         {
-          platform: "Twitter",
-          task: "Watch Coach Carter Movie Clip",
-          video: "https://www.youtube.com/embed/2_fDhqRk_Ro",
-          link: "https://twitter.com/",
+          platform: "Facebook",
+          task: "Watch Biden's Speech",
+          video: BIDEN_PATH,
+          link: FACEBOOK_FAKE_URL,
         },
         {
-          platform: "Twitter",
-          task: "Watch The Oscar Slap Clip",
-          video: "https://www.youtube.com/embed/myjEoDypUD8",
-          link: "https://twitter.com/explore",
+          platform: "Instagram",
+          task: "Watch Biden's Speech",
+          video: BIDEN_PATH,
+          link: INSTAGRAM_FAKE_URL,
         },
         {
           platform: "Twitter",
           task: "Watch Biden's Speech",
-          video: "https://www.youtube.com/embed/2l8RRcRsHuI",
-          link: "https://twitter.com/messages",
+          video: BIDEN_PATH,
+          link: TWITTER_FAKE_URL,
         },
       ];
 
@@ -181,13 +192,22 @@
           .getAttribute("data-link");
         window.open(platformUrl, "_blank");
         try {
+          let current_platform = 0;
+          if (platformUrl.toLowerCase().includes("facebook")) {
+            current_platform = 0;
+          } else if (platformUrl.toLowerCase().includes("instagram")) {
+            current_platform = 1;
+          } else if (platformUrl.toLowerCase().includes("twitter")) {
+            current_platform = 2;
+          }
+
           const response = await fetch("http://127.0.0.1:5000/start-server", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
             // Facebook's platform id = 0
-            body: JSON.stringify({ platform_id: 0 }),
+            body: JSON.stringify({ platform_id: current_platform }),
           });
 
           console.log(response);
@@ -197,7 +217,6 @@
           }
 
           const result = await response.json();
-          alert("Response from Python server: " + result.message);
         } catch (error) {
           alert("Error:", error);
         }
