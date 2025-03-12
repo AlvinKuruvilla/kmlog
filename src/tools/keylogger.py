@@ -20,7 +20,10 @@ from pynput.keyboard import Listener
 from pynput import keyboard
 from base.backends.yaml_driver import get_value_from_key
 from base.user_ops.yml_ops import user_id_to_yaml_file_path
-from base.backends.sql import SQLDriver, check_mysql_installed_and_env_configured_correctly
+from base.backends.sql import (
+    SQLDriver,
+    check_mysql_installed_and_env_configured_correctly,
+)
 from base.log import Logger
 from base.displayer import (
     account_number_to_email_fragment,
@@ -64,13 +67,6 @@ class Keylogger:
         self.log_file_path = os.path.join(
             LOGS_DIR, self.user_id, self.user_id + "_" + str(self.timestamp) + ".log"
         )  # Create a global log file
-        self.csv_writer.write_header(
-            os.path.join(
-                os.path.join(
-                    LOGS_DIR, self.user_id, self.user_id + "_" + str(self.timestamp) + ".csv"
-                )
-            )
-        )
         self.platform_count = 1
         self.account_number = 1
 
@@ -160,9 +156,20 @@ class Keylogger:
                 file.write("\n" + first + " " + last + "\n")
                 file.write("**********************************" + "\n")
 
-    def start_recording(self, platform_type=None, account_number: int = None) -> None:
-        """This function reccords all the key presses to the file and the
-        buffer. See also :func: `~tools.Keylogger.buffer_write`"""
+    def start_recording(
+        self,
+        platform_type=None,
+        account_number: int = None,
+        running_through_flask: bool = False,
+    ) -> None:
+        """
+        This function records all the key presses to the file and the
+        buffer. See also :func: `~tools.Keylogger.buffer_write`
+
+        Note: `running_through_flask` is a special parameter meant only for when running in headless mode
+               When running in headless mode we want to make sure that the keylogger does not continue
+               recording for the next platform (if there is one).
+        """
         print("Started the recording function")
         try:
             # input("Check platform")
@@ -301,6 +308,7 @@ class Keylogger:
                 # See hotkey todo above
                 # if any([key in COMBO for COMBO in SHUTDOWN]):
                 #     current.remove(key)
+
             print("Before join")
             with Listener(on_press=on_press, on_release=on_release) as listener:
                 print("Inside join")
@@ -308,7 +316,7 @@ class Keylogger:
             print("After join")
         except KeyboardInterrupt:
             self.graceful_shutdown()
-            if platform_type is None:
+            if platform_type is None or running_through_flask:
                 self.__hotkey_shutdown()
             if self.get_platform_count() == 1:
                 print("Please sign in to Instagram using the following credentials:")
@@ -324,13 +332,11 @@ class Keylogger:
                 self.start_recording(CredentialType.TWITTER, self.get_account_number())
             elif self.get_platform_count() > 2:
                 self.__hotkey_shutdown()
-        except KeyError:
-            print("Probably hit the weird KeyError: 'CGEventKeyboardGetUnicodeString', error that started showing up recently. Could it be because of some update to one of our dependencies like pynput")
-            pass
         except Exception as e:
             print("Hitting except:", e)
+
     def windows_start_recording(self, account_number: int = None) -> None:
-        """This function reccords all the key presses to the file and the
+        """This function records all the key presses to the file and the
         buffer. See also :func: `~tools.Keylogger.buffer_write`"""
         # XXX: When the user is done they must physically exit the terminal
         self.get_and_write_user_info()
