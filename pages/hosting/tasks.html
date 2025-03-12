@@ -20,6 +20,8 @@
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         max-width: 600px;
         width: 100%;
+        background: white;
+        padding: 20px;
       }
       h1,
       h2 {
@@ -62,6 +64,35 @@
       .next-button:hover {
         background-color: #218838;
       }
+
+      /* 🔹 Progress Bar Section */
+      .progress-container {
+        width: 100%;
+        background-color: #ddd;
+        border-radius: 8px;
+        margin: 15px 0;
+        height: 30px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        position: relative;
+      }
+      .progress-bar {
+        height: 100%;
+        width: 0%;
+        background-color: #4caf50;
+        transition: width 0.4s ease-in-out;
+      }
+      /* 🔹 Task Counter */
+      #task-counter {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 14px;
+        font-weight: bold;
+        color: #333;
+        z-index: 2;
+      }
     </style>
   </head>
   <body>
@@ -69,22 +100,19 @@
       <h1 id="platform-name">Facebook</h1>
       <h2 id="task-name">Task 1: Watch Coach Carter Movie Clip</h2>
 
+      <!-- Progress Bar -->
+      <div class="progress-container">
+        <span id="task-counter">Task 1 of 9</span>
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+
       <iframe
         id="video-frame"
         src="https://www.youtube.com/embed/2_fDhqRk_Ro"
         allowfullscreen
-      >
-      </iframe>
+      ></iframe>
 
       <div class="button-container">
-        <button
-          type="button"
-          class="platform-button"
-          id="platform-link"
-          onclick="goToPlatform()"
-        >
-          Go to Platform
-        </button>
         <button
           class="next-button"
           id="next-task"
@@ -97,12 +125,14 @@
     </div>
 
     <script>
+      // URLs for Fake Platforms
       const FACEBOOK_FAKE_URL =
         "http://127.0.0.1:8000/pages/fake_pages/Facebook-Clone/index.html";
       const INSTAGRAM_FAKE_URL =
         "http://127.0.0.1:8000/pages/fake_pages/instagram-clone/index.html";
       const TWITTER_FAKE_URL =
         "http://127.0.0.1:8000/pages/fake_pages/twitter-clone/index.html";
+
       const CARTER_PATH =
         "videos/Coach Carter (6_9) Movie CLIP - Our Deepest Fear (2005) HD.mp4";
       const BIDEN_PATH =
@@ -110,9 +140,7 @@
       const OSCARS_PATH =
         "videos/Watch the uncensored moment Will Smith smacks Chris Rock on stage at the Oscars, drops F-bomb.mp4";
 
-      // Task List: Platform, Task Name, Video URL, Platform URL
       const tasks = [
-        // Coach Carter Videos
         {
           platform: "Facebook",
           task: "Watch Coach Carter Movie Clip",
@@ -131,8 +159,6 @@
           video: CARTER_PATH,
           link: TWITTER_FAKE_URL,
         },
-
-        // The Oscar Slap Videos
         {
           platform: "Facebook",
           task: "Watch The Oscar Slap Clip",
@@ -151,8 +177,60 @@
           video: OSCARS_PATH,
           link: TWITTER_FAKE_URL,
         },
-
-        // Biden's Speech Videos
+        {
+          platform: "Facebook",
+          task: "Watch Biden's Speech",
+          video: BIDEN_PATH,
+          link: FACEBOOK_FAKE_URL,
+        },
+        {
+          platform: "Instagram",
+          task: "Watch Biden's Speech",
+          video: BIDEN_PATH,
+          link: INSTAGRAM_FAKE_URL,
+        },
+        {
+          platform: "Twitter",
+          task: "Watch Biden's Speech",
+          video: BIDEN_PATH,
+          link: TWITTER_FAKE_URL,
+        },
+        {
+          platform: "Facebook",
+          task: "Watch Coach Carter Movie Clip",
+          video: CARTER_PATH,
+          link: FACEBOOK_FAKE_URL,
+        },
+        {
+          platform: "Instagram",
+          task: "Watch Coach Carter Movie Clip",
+          video: CARTER_PATH,
+          link: INSTAGRAM_FAKE_URL,
+        },
+        {
+          platform: "Twitter",
+          task: "Watch Coach Carter Movie Clip",
+          video: CARTER_PATH,
+          link: TWITTER_FAKE_URL,
+        },
+        {
+          platform: "Facebook",
+          task: "Watch The Oscar Slap Clip",
+          video: OSCARS_PATH,
+          link: FACEBOOK_FAKE_URL,
+        },
+        {
+          platform: "Instagram",
+          task: "Watch The Oscar Slap Clip",
+          video: OSCARS_PATH,
+          link: INSTAGRAM_FAKE_URL,
+        },
+        {
+          platform: "Twitter",
+          task: "Watch The Oscar Slap Clip",
+          video: OSCARS_PATH,
+          link: TWITTER_FAKE_URL,
+        },
         {
           platform: "Facebook",
           task: "Watch Biden's Speech",
@@ -175,19 +253,36 @@
 
       let currentTaskIndex = 0;
 
+      // 🔹 Updates Progress Bar and Task Counter
+      function updateProgressBar() {
+        let progress = ((currentTaskIndex + 1) / tasks.length) * 100;
+        document.getElementById("progress-bar").style.width = progress + "%";
+        document.getElementById("task-counter").textContent = `Task ${
+          currentTaskIndex + 1
+        } of ${tasks.length}`;
+      }
+
+      // 🔹 Load a Task
       function loadTask(index) {
         const task = tasks[index];
         document.getElementById("platform-name").textContent = task.platform;
         document.getElementById("task-name").textContent = task.task;
         document.getElementById("video-frame").src = task.video;
         document
-          .getElementById("platform-link")
+          .getElementById("next-task")
           .setAttribute("data-link", task.link);
+        // Disable the next button if it's the last task
+        document.getElementById("next-task").disabled =
+          index >= tasks.length - 1;
+        updateProgressBar();
       }
 
-      async function goToPlatform() {
-        const platformUrl = document
-          .getElementById("platform-link")
+      // 🔹 Load Next Task
+      async function nextTask() {
+        if (currentTaskIndex < tasks.length - 1) {
+          currentTaskIndex++;
+          const platformUrl = document
+          .getElementById("next-task")
           .getAttribute("data-link");
         window.open(platformUrl, "_blank");
         try {
@@ -205,32 +300,22 @@
             headers: {
               "Content-Type": "application/json",
             },
-            // Facebook's platform id = 0
             body: JSON.stringify({ platform_id: current_platform }),
           });
 
-          console.log(response);
           if (!response.ok) {
             alert("Failed to send special request: " + response.status);
             return;
           }
 
-          const result = await response.json();
+          await response.json();
         } catch (error) {
           alert("Error:", error);
         }
-      }
-
-      function nextTask() {
-        if (currentTaskIndex < tasks.length - 1) {
-          currentTaskIndex++;
-        } else {
-          currentTaskIndex = 0; // Reset to the first task
+          loadTask(currentTaskIndex);
         }
-        loadTask(currentTaskIndex);
       }
 
-      // Load the first task on page load
       loadTask(currentTaskIndex);
     </script>
   </body>
