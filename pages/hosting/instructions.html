@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Instructions</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+      .instructions-container {
+        background: white;
+        padding: 40px;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        max-width: 800px;
+        width: 90%;
+        text-align: center;
+      }
+      h1 {
+        font-size: 2em;
+        color: #333;
+        margin-bottom: 20px;
+      }
+      .step {
+        display: flex;
+        align-items: center;
+        text-align: left;
+        font-size: 1.3em;
+        margin: 30px 0;
+      }
+      .step img {
+        width: 60px;
+        height: 60px;
+        margin-right: 20px;
+      }
+      p {
+        font-size: 1.2em;
+        color: #555;
+      }
+      .cta {
+        font-size: 1.5em;
+        font-weight: bold;
+        margin-top: 30px;
+        color: #007bff;
+      }
+      .button-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+      }
+      button {
+        padding: 15px 25px;
+        font-size: 1.3em;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+      .back-button {
+        background-color: #007bff;
+        color: white;
+      }
+      .back-button:hover {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="instructions-container">
+      <h1>How the Tasks Page Works</h1>
+
+      <div class="step">
+        <img
+          src="https://cdn-icons-png.flaticon.com/512/1828/1828817.png"
+          alt="Step 1"
+        />
+        <p><b>Step 1:</b> Watch the shown video.</p>
+      </div>
+
+      <div class="step">
+        <img
+          src="https://cdn-icons-png.flaticon.com/512/845/845646.png"
+          alt="Step 2"
+        />
+        <p>
+          <b>Step 2:</b> Click "Next Task" to post on the platform and go to the
+          next task. (NOTE: you will need to post to each platform twice).
+        </p>
+      </div>
+
+      <p class="cta">Are you ready? Begin!</p>
+
+      <div class="button-container">
+        <button class="back-button" onclick="window.location.href='tasks.html'">
+          Go to Tasks
+        </button>
+      </div>
+    </div>
+  </body>
+</html>
