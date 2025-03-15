@@ -16,10 +16,12 @@ I am very much aware that KMLogger can be used for nefarious purposes. This proj
 **[MySQL Setup](#mysql-setup)**<br>
 **[User Information Storage in YAML](#yaml)**<br>
 **[Usage](#usage)**<br>
-**[References](#refs)**<br>
+**[Using the Headless Keylogger](#using-the-headless-keylogger)**<br>
+**[Testing the HTML Pages](#testing-the-html-pages-locally)**<br>
 **[License](#license)**<br>
 **[Contributing](#contributing)**<br>
 **[Media](#media)**<br>
+**[Credits](#credits)**<br>
 
 ## Rationale
 
