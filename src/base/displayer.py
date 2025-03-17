@@ -297,7 +297,7 @@ def account_number_to_email_fragment(account_number: int) -> str:
         frag = "fpd3"
         return frag
     else:
-        raise ValueError("Invalid account number")
+        raise ValueError("Invalid account number" + str(account_number))
 
 
 def graceful_exit() -> None:

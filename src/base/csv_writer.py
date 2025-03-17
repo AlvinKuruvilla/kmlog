@@ -30,7 +30,7 @@ class CSVWriter:
         with open(file_path, "a+", encoding="utf8") as csvfile:
             writer = csv.DictWriter(csvfile, fieldnames=self.headers)
             writer.writeheader()
-            # print("Wrote header to file: ", file_path)
+            print("Wrote header to file: ", file_path)
 
     def write_data_to_csv(self, file_path: str, data: list):
         """

@@ -67,6 +67,23 @@ class Keylogger:
         self.log_file_path = os.path.join(
             LOGS_DIR, self.user_id, self.user_id + "_" + str(self.timestamp) + ".log"
         )  # Create a global log file
+        os.makedirs(
+            os.path.join(
+                os.path.join(
+                    LOGS_DIR,
+                    self.user_id,
+                )
+            )
+        )
+        self.csv_writer.write_header(
+            os.path.join(
+                os.path.join(
+                    LOGS_DIR,
+                    self.user_id,
+                    self.user_id + "_" + str(self.timestamp) + ".csv",
+                )
+            )
+        )
         self.platform_count = 1
         self.account_number = 1
 
@@ -174,9 +191,10 @@ class Keylogger:
         try:
             # input("Check platform")
             # print(platform_type)
-            self.get_and_write_user_info()
+            if not running_through_flask:
+                self.get_and_write_user_info()
             klog = Logger()
-            # animated_marker("Initializing keylogger....")
+            animated_marker("Initializing keylogger....")
             if self.get_platform_count() == 1:
                 klog.km_warn(
                     "WARNING! Anything you will type shall be recorded until you terminate this app manually!"
