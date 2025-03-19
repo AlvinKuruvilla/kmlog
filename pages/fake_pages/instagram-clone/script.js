@@ -174,7 +174,7 @@ const commentBox = document.getElementById('comment_box');
 const postCommentButton = document.getElementById('post_comment');
 
 // Show the comment box
-commentButton.addEventListener('click', async () => {
+postCommentButton.addEventListener('click', async () => {
   console.log('Comment Post button clicked!');
   try {
     const response = await fetch('http://127.0.0.1:5000/end-server', {

@@ -8,7 +8,36 @@
     <link rel="stylesheet" type="text/css" href="style.css" />
     <script src="script.js" defer></script>
   </head>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const commentButton = document.getElementById("comment_button");
+        const commentBox = document.getElementById("comment_box");
+        const commentInput = document.getElementById("comment_input");
+        const postButton = document.getElementById("post_comment");
 
+        // Show comment box when clicking the comment button
+        commentButton.addEventListener("click", function () {
+            commentBox.style.display = "block";
+            commentInput.focus(); // Auto-focus the input box
+        });
+
+        // Enable post button only if there is text in the input
+        commentInput.addEventListener("input", function () {
+            postButton.disabled = commentInput.value.trim() === "";
+        });
+
+        // Handle post button click
+        postButton.addEventListener("click", function () {
+            const commentText = commentInput.value.trim();
+            if (commentText !== "") {
+                console.log("Posted comment:", commentText);
+                commentInput.value = ""; // Clear input
+                postButton.disabled = true; // Disable button again
+                commentBox.style.display = "none"; // Hide the box after posting
+            }
+        });
+    });
+</script>
   <body>
     <header class="header">
       <nav class="header__content">
