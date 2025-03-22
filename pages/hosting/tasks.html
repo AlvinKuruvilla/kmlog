@@ -267,29 +267,6 @@
         if (parts.length === 2) return parts.pop().split(";").shift();
         return null;
       }
-      window.onload = async function () {
-        // Check if the 'user_id' cookie exists
-        const userId = getCookie("user_id");
-
-        if (!userId) {
-          // If the cookie is not set, call setUserIdCookie
-          setUserIdCookie();
-        } else {
-          console.error("Existing user_id cookie:", userId);
-        }
-        const response = await fetch("http://127.0.0.1:5000/set-id", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ user_id: userId }),
-        });
-
-        if (!response.ok) {
-          alert("Failed to send special user_id: " + response.status);
-          return;
-        }
-      };
       let currentTaskIndex = 0;
 
       // 🔹 Updates Progress Bar and Task Counter
@@ -331,13 +308,24 @@
             } else if (platformUrl.toLowerCase().includes("twitter")) {
               current_platform = 2;
             }
+            const userId = getCookie("user_id");
+
+            if (!userId) {
+              // If the cookie is not set, call setUserIdCookie
+              setUserIdCookie();
+            } else {
+              console.error("Existing user_id cookie:", userId);
+            }
 
             const response = await fetch("http://127.0.0.1:5000/start-server", {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
               },
-              body: JSON.stringify({ platform_id: current_platform }),
+              body: JSON.stringify({
+                platform_id: current_platform,
+                user_id: userId,
+              }),
             });
 
             if (!response.ok) {
@@ -351,9 +339,6 @@
           }
 
           loadTask(currentTaskIndex);
-        } else {
-          // Redirect to competition page when the last task is reached
-          window.location.href = "complete.html";
         }
       }
 
