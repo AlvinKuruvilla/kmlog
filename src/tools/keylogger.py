@@ -17,7 +17,6 @@ import time
 import sys
 from dotenv import load_dotenv
 from pynput.keyboard import Listener
-from pynput import keyboard
 from base.backends.yaml_driver import get_value_from_key
 from base.user_ops.yml_ops import user_id_to_yaml_file_path
 from base.backends.sql import (
@@ -38,10 +37,6 @@ from rich.traceback import install
 
 install()
 # TODO: Write csv headers to each generated file
-SHUTDOWN = [
-    {keyboard.Key.ctrl, keyboard.KeyCode(char="a")},
-    {keyboard.Key.ctrl, keyboard.KeyCode(char="A")},
-]
 current = set()
 
 
@@ -74,7 +69,7 @@ class Keylogger:
                     self.user_id,
                 )
             ),
-            exist_ok=True
+            exist_ok=True,
         )
         self.csv_writer.write_header(
             os.path.join(
@@ -323,10 +318,6 @@ class Keylogger:
                         _social_platform_path,
                         data,
                     )
-
-                # See hotkey todo above
-                # if any([key in COMBO for COMBO in SHUTDOWN]):
-                #     current.remove(key)
 
             print("Before join")
             with Listener(on_press=on_press, on_release=on_release) as listener:
