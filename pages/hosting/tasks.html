@@ -316,8 +316,9 @@
             } else {
               console.error("Existing user_id cookie:", userId);
             }
-
-            const response = await fetch("http://127.0.0.1:5000/start-server", {
+            // TODO: For some reason, the website will only progress when the service is turned off after the "Next Task" button is pressed.
+            //       This means the service needs to be turned on and off per task which is not feasible for deployment
+            const response = await fetch("http://127.0.0.1:5500/start-server", {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",

@@ -15,3 +15,5 @@ integrity/*.csv
 build/
 dist/
 kmlog.spec
+node_modules/
+package-lock.json
