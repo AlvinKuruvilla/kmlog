@@ -22,6 +22,7 @@ I am very much aware that KMLogger can be used for nefarious purposes. This proj
 **[Contributing](#contributing)**<br>
 **[Media](#media)**<br>
 **[Credits](#credits)**<br>
+**[Participate](#)**<br>
 
 ## Rationale
 
@@ -251,3 +252,6 @@ The logo was designed from [Hatchful by Shopify](https://hatchful.shopify.com)
 [The original Facebook clone](https://github.com/KashanAdnan/Facebook-Clone)
 
 [The original Instagram clone](https://github.com/leocosta1/instagram-clone)
+
+## Participate
+Click [here](docs/hosting/consent.html) to participate in data collection
