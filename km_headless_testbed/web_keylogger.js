@@ -18,7 +18,7 @@ function startKeyLogger(user_id_str, platform_initial) {
   button.style.background = "black";
   button.style.color = "white";
   button.onclick = () => {
-    const platform_letter = null;
+    let platform_letter = null;
     if (platform_initial == "0") {
       platform_letter = "f";
     } else if (platform_initial == "1") {

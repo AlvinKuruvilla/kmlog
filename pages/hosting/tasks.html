@@ -297,7 +297,6 @@
           const platformUrl = document
             .getElementById("next-task")
             .getAttribute("data-link");
-          window.open(platformUrl, "_blank");
 
           try {
             let current_platform = 0;
@@ -308,33 +307,20 @@
             } else if (platformUrl.toLowerCase().includes("twitter")) {
               current_platform = 2;
             }
-            const userId = getCookie("user_id");
-
+            let userId = getCookie("user_id");
+            console.error("The retrieved cookie value was:"+ userId)
             if (!userId) {
               // If the cookie is not set, call setUserIdCookie
               setUserIdCookie();
+              userId = getCookie("user_id");
             } else {
               console.error("Existing user_id cookie:", userId);
             }
-            // TODO: For some reason, the website will only progress when the service is turned off after the "Next Task" button is pressed.
-            //       This means the service needs to be turned on and off per task which is not feasible for deployment
-            const response = await fetch("http://127.0.0.1:5500/start-server", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                platform_id: current_platform,
-                user_id: userId,
-              }),
-            });
+            const urlWithParams = `${platformUrl}?user_id=${encodeURIComponent(
+              userId
+            )}&platform_id=${encodeURIComponent(current_platform)}`;
 
-            if (!response.ok) {
-              alert("Failed to send special request: " + response.status);
-              return;
-            }
-
-            await response.json();
+            window.open(urlWithParams, "_blank");
           } catch (error) {
             console.error("Error:", error);
           }

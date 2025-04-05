@@ -42,7 +42,7 @@ function startKeyLogger(user_id_str, platform_initial) {
   button.style.background = "black";
   button.style.color = "white";
   button.onclick = () => {
-    const platform_letter = null;
+    let platform_letter = null;
     if (platform_initial == "0") {
       platform_letter = "f";
     } else if (platform_initial == "1") {
@@ -77,11 +77,12 @@ function startKeyLogger(user_id_str, platform_initial) {
   document.body.appendChild(button);
 }
 window.onload = async function () {
-  const res = await fetch("http://127.0.0.1:5500/get-current-user");
-  if (res.ok) {
-    const user = await res.json();
-    startKeyLogger(user.user_id, user.platform_id);
+  const user_id = getQueryParam('user_id');
+  const platform_id = getQueryParam('platform_id');
+
+  if (user_id && platform_id) {
+    startKeyLogger(user_id, platform_id);
   } else {
-    alert("Failed to start keylogger");
+    alert('Missing user or platform info in URL');
   }
 };
