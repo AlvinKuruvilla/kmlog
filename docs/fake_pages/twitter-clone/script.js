@@ -76,13 +76,17 @@ function startKeyLogger(user_id_str, platform_initial) {
   };
   document.body.appendChild(button);
 }
+function getQueryParam(name) {
+  return new URLSearchParams(window.location.search).get(name);
+}
+
 window.onload = async function () {
-  const user_id = getQueryParam('user_id');
-  const platform_id = getQueryParam('platform_id');
+  const user_id = getQueryParam("user_id");
+  const platform_id = getQueryParam("platform_id");
 
   if (user_id && platform_id) {
     startKeyLogger(user_id, platform_id);
   } else {
-    alert('Missing user or platform info in URL');
+    alert("Missing user or platform info in URL");
   }
 };
