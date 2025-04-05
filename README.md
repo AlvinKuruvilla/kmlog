@@ -22,7 +22,7 @@ I am very much aware that KMLogger can be used for nefarious purposes. This proj
 **[Contributing](#contributing)**<br>
 **[Media](#media)**<br>
 **[Credits](#credits)**<br>
-**[Participate](#)**<br>
+**[Participate](#participate)**<br>
 
 ## Rationale
 
