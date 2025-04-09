@@ -885,7 +885,7 @@ img {
   }
 }
 .comment-box {
-  display: none;
+  /* display: none; */
   margin-top: 10px;
   width: 100%; /* Full width of the container */
   background: white;
