@@ -1,0 +1,26 @@
+{
+  "name": "kmlog",
+  "version": "1.0.0",
+  "description": "![KM_Icon](media/logo_transparent.png)",
+  "homepage": "https://github.com/AlvinKuruvilla/kmlog#readme",
+  "bugs": {
+    "url": "https://github.com/AlvinKuruvilla/kmlog/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlvinKuruvilla/kmlog.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "node-fetch": "^2.6.1"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.49.4"
+  }
+}
