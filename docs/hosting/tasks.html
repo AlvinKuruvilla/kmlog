@@ -308,7 +308,7 @@
               current_platform = 2;
             }
             let userId = getCookie("user_id");
-            console.error("The retrieved cookie value was:"+ userId)
+            console.error("The retrieved cookie value was:" + userId);
             if (!userId) {
               // If the cookie is not set, call setUserIdCookie
               setUserIdCookie();
@@ -318,7 +318,9 @@
             }
             const urlWithParams = `${platformUrl}?user_id=${encodeURIComponent(
               userId
-            )}&platform_id=${encodeURIComponent(current_platform)}`;
+            )}&platform_id=${encodeURIComponent(
+              current_platform
+            )}&task_id=${encodeURIComponent((currentTaskIndex % 3) + 1)}`;
 
             window.open(urlWithParams, "_blank");
           } catch (error) {

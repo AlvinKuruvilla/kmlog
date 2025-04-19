@@ -8,66 +8,79 @@ function getQueryParam(name) {
   return new URLSearchParams(window.location.search).get(name);
 }
 
-function startKeyLogger(user_id_str, platform_initial) {
+function startKeyLogger(user_id_str, platform_initial, task_id) {
   const keyEvents = [];
 
-  document.addEventListener("keydown", function (event) {
-    keyEvents.push(["P", event.key, Date.now()]);
-    console.log(`Pressed: ${event.key}`);
-  });
+  document.addEventListener("keydown", (e) =>
+    keyEvents.push(["P", e.key, Date.now()])
+  );
+  document.addEventListener("keyup", (e) =>
+    keyEvents.push(["R", e.key, Date.now()])
+  );
 
-  document.addEventListener("keyup", function (event) {
-    keyEvents.push(["R", event.key, Date.now()]);
-    console.log(`Released: ${event.key}`);
-  });
   const button = document.createElement("button");
-  button.textContent = "Download Keylog";
+  button.textContent = "Submit Keylog";
   button.style.position = "fixed";
   button.style.bottom = "10px";
   button.style.right = "10px";
   button.style.background = "black";
   button.style.color = "white";
-  button.onclick = () => {
-    let platform_letter = null;
-    if (platform_initial == "0") {
-      platform_letter = "f";
-    } else if (platform_initial == "1") {
-      platform_letter = "i";
-    } else if (platform_initial == "2") {
-      platform_letter = "t";
-    }
-    const filename = `${platform_letter}_${user_id_str}.csv`;
-    const heading = [["Press or Release", "Key", "Time"]];
-    const final_events = heading.concat(keyEvents);
-    console.error(final_events);
-    const csvString = final_events.map((row) => row.join(",")).join("\n");
-    const blob = new Blob([csvString], { type: "text/csv;charset=utf-8;" });
+  document.body.appendChild(button);
 
-    if (navigator.msSaveBlob) {
-      // IE 10+
-      navigator.msSaveBlob(blob, filename);
-    } else {
-      const link = document.createElement("a");
-      if (link.download !== undefined) {
-        // Browsers that support HTML5 download attribute
-        const url = URL.createObjectURL(blob);
-        link.setAttribute("href", url);
-        link.setAttribute("download", filename);
-        link.style.visibility = "hidden";
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+  // --- click handler ---------------------------------------------------------
+  button.onclick = async () => {
+    /* 1 — build filename ----------------------------------------------------- */
+    const platform_letter =
+      platform_initial === "0"
+        ? "f"
+        : platform_initial === "1"
+        ? "i"
+        : platform_initial === "2"
+        ? "t"
+        : "u"; // u = unknown / fallback
+    const filename = `${platform_letter}_${user_id_str}_${task_id}.csv`;
+
+    /* 2 — build CSV blob ----------------------------------------------------- */
+    const heading = [["Press or Release", "Key", "Time"]];
+    const csvString = heading
+      .concat(keyEvents)
+      .map((row) => row.join(","))
+      .join("\n");
+    const blob = new Blob([csvString], {
+      type: "text/csv;charset=utf-8",
+    });
+
+    /* 3 — send to Netlify Function ------------------------------------------ */
+    const formData = new FormData();
+    formData.append("file", blob, filename); // filename → Content‑Disposition
+
+    try {
+      const res = await fetch("https://melodious-squirrel-b0930c.netlify.app/saver", {
+        method: "POST",
+        body: formData, // fetch sets the correct multipart boundary
+      });
+      const result = await res.json();
+
+      if (res.ok && result.url) {
+        console.log("✅ Uploaded!", result.url);
+        alert(`✅ Uploaded!\nURL: ${result.url}`);
+      } else {
+        console.error("❌ Upload failed:", result);
+        alert("❌ Upload failed - check console for details");
       }
+    } catch (err) {
+      console.error("❌ Network/function error:", err);
+      alert("❌ Could not reach serverless function");
     }
   };
-  document.body.appendChild(button);
 }
 window.onload = async function () {
   const user_id = getQueryParam("user_id");
   const platform_id = getQueryParam("platform_id");
+  const task_id = getQueryParam("task_id");
 
-  if (user_id && platform_id) {
-    startKeyLogger(user_id, platform_id);
+  if (user_id && platform_id && task_id) {
+    startKeyLogger(user_id, platform_id, task_id);
   } else {
     alert("Missing user or platform info in URL");
   }
