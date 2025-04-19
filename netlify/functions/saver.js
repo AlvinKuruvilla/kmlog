@@ -1,10 +1,12 @@
 import { createClient } from "@supabase/supabase-js";
-// TODO: Make these netlify environment variables
-const SUPABASE_URL = process.env.SUPABASE_URL;
-const SUPABASE_KEY = process.env.SUPABASE_KEY;
-const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-exports.handler = async function (event) {
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_KEY
+);
+
+// ⇣  THIS is what Netlify will look for
+export const handler = async (event) => {
   if (event.httpMethod !== "POST") {
     return { statusCode: 405, body: "Only POST allowed" };
   }
@@ -18,8 +20,8 @@ exports.handler = async function (event) {
   const filePart = parts.find(
     (p) => p.includes("Content-Disposition") && p.includes("filename=")
   );
-  const match = filePart.match(/filename="(.+?)"/);
-  const fileName = match ? match[1] : `upload-${Date.now()}`;
+  const [, fileName = `upload-${Date.now()}`] =
+    filePart.match(/filename="(.+?)"/) || [];
 
   const fileData = filePart.split("\r\n\r\n")[1].split("\r\n")[0];
   const fileBuffer = Buffer.from(fileData, "binary");
