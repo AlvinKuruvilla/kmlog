@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Supabase Upload via Netlify</title>
+  </head>
+  <body>
+    <h1>Upload a File</h1>
+    <input type="file" id="fileInput" />
+    <button id="uploadButton">Upload</button>
+    <pre id="output"></pre>
+
+    <script>
+      const uploadButton = document.getElementById("uploadButton");
+      const fileInput = document.getElementById("fileInput");
+      const output = document.getElementById("output");
+
+      uploadButton.addEventListener("click", async () => {
+        const file = fileInput.files[0];
+        if (!file) return alert("Please choose a file");
+
+        const formData = new FormData();
+        formData.append("file", file);
+
+        const res = await fetch("/.netlify/functions/saver", {
+          method: "POST",
+          body: formData,
+        });
+
+        const result = await res.json();
+
+        if (res.ok && result.url) {
+          output.innerText = `✅ Uploaded!\nURL: ${result.url}`;
+        } else {
+          output.innerText = `❌ Upload failed:\n${JSON.stringify(
+            result,
+            null,
+            2
+          )}`;
+        }
+      });
+    </script>
+  </body>
+</html>
