@@ -5,10 +5,21 @@ const supabase = createClient(
   process.env.SUPABASE_KEY
 );
 
-// ⇣  THIS is what Netlify will look for
 export const handler = async (event) => {
   if (event.httpMethod !== "POST") {
     return { statusCode: 405, body: "Only POST allowed" };
+  }
+  /* ---------- CORS pre‑flight ---------- */
+  if (event.httpMethod === "OPTIONS") {
+    return {
+      statusCode: 200,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type",
+      },
+      body: "",
+    };
   }
 
   const contentType =
