@@ -277,7 +277,7 @@ function startKeyLogger(user_id_str, platform_initial, task_id) {
     const typed_text_blob = new Blob(
       [document.getElementById('comment_input').value],
       {
-        type: 'text/csv;charset=utf-8',
+        type: 'text/plain;charset=utf-8',
       }
     );
     const typed_text_form_data = new FormData();
