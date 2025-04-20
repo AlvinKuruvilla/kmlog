@@ -54,22 +54,20 @@ function startKeyLogger(user_id_str, platform_initial, task_id) {
     const formData = new FormData();
     formData.append("file", blob, filename); // filename → Content‑Disposition
 
-    try {
-      const res = await fetch("/.netlify/functions/saver", {
+    const res1 = await fetch(
+      "https://melodious-squirrel-b0930c.netlify.app/.netlify/functions/saver",
+      {
         method: "POST",
         body: formData, // fetch sets the correct multipart boundary
-      });
-      const result = await res.json();
-
-      if (res.ok && result.url) {
-        console.log("✅ Uploaded!", result.url);
-        console.log(`✅ Uploaded!\nURL: ${result.url}`);
-      } else {
-        console.error("❌ Upload failed:", result);
       }
-    } catch (err) {
-      console.error("❌ Network/function error:", err);
-      alert("❌ Could not reach serverless function");
+    );
+    const result1 = await res1.json();
+
+    if (res1.ok && result1.url) {
+      console.log("✅ Uploaded!", result.url);
+      console.log(`✅ Uploaded!\nURL: ${result.url}`);
+    } else {
+      console.error("❌ Upload failed:", result);
     }
     const typed_text_blob = new Blob(
       [document.getElementById("input_value").value],
@@ -81,22 +79,20 @@ function startKeyLogger(user_id_str, platform_initial, task_id) {
     const raw_text_filename = `${platform_letter}_${user_id_str}_${task_id}_raw.txt`;
 
     typed_text_form_data.append("file", typed_text_blob, raw_text_filename);
-    try {
-      const res = await fetch("/.netlify/functions/saver", {
+    const res = await fetch(
+      "https://melodious-squirrel-b0930c.netlify.app/.netlify/functions/saver",
+      {
         method: "POST",
         body: typed_text_form_data, // fetch sets the correct multipart boundary
-      });
-      const result = await res.json();
-
-      if (res.ok && result.url) {
-        console.log("✅ Uploaded!", result.url);
-        console.log(`✅ Uploaded!\nURL: ${result.url}`);
-      } else {
-        console.error("❌ Upload failed:", result);
       }
-    } catch (err) {
-      console.error("❌ Network/function error:", err);
-      alert("❌ Could not reach serverless function to send raw data");
+    );
+    const result = await res.json();
+
+    if (res.ok && result.url) {
+      console.log("✅ Uploaded!", result.url);
+      console.log(`✅ Uploaded!\nURL: ${result.url}`);
+    } else {
+      console.error("❌ Upload failed:", result);
     }
   };
 }
