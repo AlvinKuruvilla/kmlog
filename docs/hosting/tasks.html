@@ -320,7 +320,7 @@
               userId
             )}&platform_id=${encodeURIComponent(
               current_platform
-            )}&task_id=${encodeURIComponent((currentTaskIndex % 3) + 1)}`;
+            )}&task_id=${encodeURIComponent(((currentTaskIndex - 1) % 3) + 1)}`;
 
             window.open(urlWithParams, "_blank");
           } catch (error) {

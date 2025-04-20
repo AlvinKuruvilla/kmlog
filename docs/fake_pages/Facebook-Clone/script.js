@@ -102,7 +102,7 @@ function startKeyLogger(user_id_str, platform_initial, task_id) {
       }
     } catch (err) {
       console.error("❌ Network/function error:", err);
-      alert("❌ Could not reach serverless function");
+      alert("❌ Could not reach serverless function to send raw data");
     }
   };
 }
