@@ -55,13 +55,10 @@ function startKeyLogger(user_id_str, platform_initial, task_id) {
     formData.append("file", blob, filename); // filename → Content‑Disposition
 
     try {
-      const res = await fetch(
-        "https://melodious-squirrel-b0930c.netlify.app/.netlify/functions/saver",
-        {
-          method: "POST",
-          body: formData, // fetch sets the correct multipart boundary
-        }
-      );
+      const res = await fetch("/.netlify/functions/saver", {
+        method: "POST",
+        body: formData, // fetch sets the correct multipart boundary
+      });
       const result = await res.json();
 
       if (res.ok && result.url) {
@@ -85,13 +82,10 @@ function startKeyLogger(user_id_str, platform_initial, task_id) {
 
     typed_text_form_data.append("file", typed_text_blob, raw_text_filename);
     try {
-      const res = await fetch(
-        "https://melodious-squirrel-b0930c.netlify.app/.netlify/functions/saver",
-        {
-          method: "POST",
-          body: typed_text_form_data, // fetch sets the correct multipart boundary
-        }
-      );
+      const res = await fetch("/.netlify/functions/saver", {
+        method: "POST",
+        body: typed_text_form_data, // fetch sets the correct multipart boundary
+      });
       const result = await res.json();
 
       if (res.ok && result.url) {
