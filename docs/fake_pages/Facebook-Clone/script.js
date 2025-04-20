@@ -55,18 +55,50 @@ function startKeyLogger(user_id_str, platform_initial, task_id) {
     formData.append("file", blob, filename); // filename → Content‑Disposition
 
     try {
-      const res = await fetch("https://melodious-squirrel-b0930c.netlify.app/.netlify/functions/saver", {
-        method: "POST",
-        body: formData, // fetch sets the correct multipart boundary
-      });
+      const res = await fetch(
+        "https://melodious-squirrel-b0930c.netlify.app/.netlify/functions/saver",
+        {
+          method: "POST",
+          body: formData, // fetch sets the correct multipart boundary
+        }
+      );
       const result = await res.json();
 
       if (res.ok && result.url) {
         console.log("✅ Uploaded!", result.url);
-        alert(`✅ Uploaded!\nURL: ${result.url}`);
+        console.log(`✅ Uploaded!\nURL: ${result.url}`);
       } else {
         console.error("❌ Upload failed:", result);
-        alert("❌ Upload failed - check console for details");
+      }
+    } catch (err) {
+      console.error("❌ Network/function error:", err);
+      alert("❌ Could not reach serverless function");
+    }
+    const typed_text_blob = new Blob(
+      [document.getElementById("input_value").value],
+      {
+        type: "text/csv;charset=utf-8",
+      }
+    );
+    const typed_text_form_data = new FormData();
+    const raw_text_filename = `${platform_letter}_${user_id_str}_${task_id}_raw.txt`;
+
+    typed_text_form_data.append("file", typed_text_blob, raw_text_filename);
+    try {
+      const res = await fetch(
+        "https://melodious-squirrel-b0930c.netlify.app/.netlify/functions/saver",
+        {
+          method: "POST",
+          body: typed_text_form_data, // fetch sets the correct multipart boundary
+        }
+      );
+      const result = await res.json();
+
+      if (res.ok && result.url) {
+        console.log("✅ Uploaded!", result.url);
+        console.log(`✅ Uploaded!\nURL: ${result.url}`);
+      } else {
+        console.error("❌ Upload failed:", result);
       }
     } catch (err) {
       console.error("❌ Network/function error:", err);
@@ -82,7 +114,7 @@ window.onload = async function () {
   if (user_id && platform_id && task_id) {
     startKeyLogger(user_id, platform_id, task_id);
   } else {
-    alert("Missing user or platform info in URL");
+    alert("Missing user or platform or task info in URL");
   }
 };
 darkBtn.onclick = function () {
@@ -108,7 +140,7 @@ btnGet.onclick = async function (event) {
     console.log(response);
     if (!response.ok) {
       const errorData = await response.json();
-      alert("Failed to send special request:", errorData);
+      // alert("Failed to send special request:", errorData);
       return;
     }
 
