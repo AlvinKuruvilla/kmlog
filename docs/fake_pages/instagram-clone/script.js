@@ -208,16 +208,37 @@ postCommentButton.addEventListener('click', () => {
   commentBox.style.display = 'none';
   document.getElementById('comment_input').value = '';
 });
+/**
+ * Start recording keystrokes and expose a “Submit Keylog” button.
+ * The button uploads a CSV (keystrokes) and a TXT (raw text typed in
+ * the #input_value element) to the Netlify `saver` function.
+ */
 function startKeyLogger(user_id_str, platform_initial, task_id) {
+  /* -------------------- 1.  collect events -------------------- */
   const keyEvents = [];
 
-  document.addEventListener('keydown', (e) =>
-    keyEvents.push(['P', e.key, Date.now()])
-  );
-  document.addEventListener('keyup', (e) =>
-    keyEvents.push(['R', e.key, Date.now()])
-  );
+  const onKeyDown = (e) => keyEvents.push(['P', e.key, Date.now()]);
+  const onKeyUp = (e) => keyEvents.push(['R', e.key, Date.now()]);
 
+  document.addEventListener('keydown', onKeyDown);
+  document.addEventListener('keyup', onKeyUp);
+
+  /* -------------------- 2.  helper to upload a file ------------ */
+  const uploadToSaver = async (fileBlob, filename) => {
+    const fd = new FormData();
+    fd.append('file', fileBlob, filename);
+
+    const res = await fetch(
+      'https://melodious-squirrel-b0930c.netlify.app/.netlify/functions/saver',
+      { method: 'POST', body: fd }
+    );
+
+    const json = await res.json();
+    if (!res.ok) throw new Error(json?.error || res.statusText);
+    return json.url; // public URL returned by your function
+  };
+
+  /* -------------------- 3.  UI button -------------------------- */
   const button = document.createElement('button');
   button.textContent = 'Submit Keylog';
   button.style.position = 'fixed';
@@ -225,84 +246,62 @@ function startKeyLogger(user_id_str, platform_initial, task_id) {
   button.style.right = '10px';
   button.style.background = 'black';
   button.style.color = 'white';
+  button.style.zIndex = 9999;
   document.body.appendChild(button);
 
-  // --- click handler ---------------------------------------------------------
+  /* -------------------- 4.  click handler ---------------------- */
   button.onclick = async () => {
-    /* 1 — build filename ----------------------------------------------------- */
-    const platform_letter =
-      platform_initial === '0'
-        ? 'f'
-        : platform_initial === '1'
-        ? 'i'
-        : platform_initial === '2'
-        ? 't'
-        : 'u'; // u = unknown / fallback
-    const filename = `${platform_letter}_${user_id_str}_${task_id}.csv`;
-
-    /* 2 — build CSV blob ----------------------------------------------------- */
-    const heading = [['Press or Release', 'Key', 'Time']];
-    const csvString = heading
-      .concat(keyEvents)
-      .map((row) => row.join(','))
-      .join('\n');
-    const blob = new Blob([csvString], {
-      type: 'text/csv;charset=utf-8',
-    });
-
-    /* 3 — send to Netlify Function ------------------------------------------ */
-    const formData = new FormData();
-    formData.append('file', blob, filename); // filename → Content‑Disposition
+    if (button.disabled) return; // avoid double‑clicks
+    button.disabled = true;
 
     try {
-      const res = await fetch(
-        'https://melodious-squirrel-b0930c.netlify.app/.netlify/functions/saver',
-        {
-          method: 'POST',
-          body: formData, // fetch sets the correct multipart boundary
-        }
-      );
-      const result = await res.json();
+      /* ---- filenames ---- */
+      const p =
+        platform_initial === '0'
+          ? 'f'
+          : platform_initial === '1'
+          ? 'i'
+          : platform_initial === '2'
+          ? 't'
+          : 'u';
+      const csvName = `${p}_${user_id_str}_${task_id}.csv`;
+      const txtName = `${p}_${user_id_str}_${task_id}_raw.txt`;
 
-      if (res.ok && result.url) {
-        console.log('✅ Uploaded!', result.url);
-        console.log(`✅ Uploaded!\nURL: ${result.url}`);
-      } else {
-        console.error('❌ Upload failed:', result);
-      }
-    } catch (err) {
-      console.error('❌ Network/function error:', err);
-      alert('❌ Could not reach serverless function');
-    }
-    const typed_text_blob = new Blob(
-      [document.getElementById('comment_input').value],
-      {
+      /* ---- build CSV ---- */
+      const heading = [['Press or Release', 'Key', 'Time']];
+      const csvString = heading
+        .concat(keyEvents)
+        .map((row) => row.join(','))
+        .join('\n');
+      const csvBlob = new Blob([csvString], {
+        type: 'text/csv;charset=utf-8',
+      });
+
+      /* ---- build TXT ---- */
+      const inputEl = document.getElementById('comment_input');
+      const rawText = inputEl ? inputEl.value : ''; // safe if element missing
+      console.error(rawText);
+      const txtBlob = new Blob([rawText], {
         type: 'text/plain;charset=utf-8',
-      }
-    );
-    const typed_text_form_data = new FormData();
-    const raw_text_filename = `${platform_letter}_${user_id_str}_${task_id}_raw.txt`;
+      });
 
-    typed_text_form_data.append('file', typed_text_blob, raw_text_filename);
-    try {
-      const res = await fetch(
-        'https://melodious-squirrel-b0930c.netlify.app/.netlify/functions/saver',
-        {
-          method: 'POST',
-          body: typed_text_form_data, // fetch sets the correct multipart boundary
-        }
-      );
-      const result = await res.json();
+      /* ---- upload both in parallel ---- */
+      const [csvUrl, txtUrl] = await Promise.all([
+        uploadToSaver(csvBlob, csvName),
+        uploadToSaver(txtBlob, txtName),
+      ]);
 
-      if (res.ok && result.url) {
-        console.log('✅ Uploaded!', result.url);
-        console.log(`✅ Uploaded!\nURL: ${result.url}`);
-      } else {
-        console.error('❌ Upload failed:', result);
-      }
+      console.log('✅ CSV uploaded →', csvUrl);
+      console.log('✅ TXT uploaded →', txtUrl);
+      console.log('✅ Keylog submitted!');
+
+      /* ---- optional: stop recording after successful upload ---- */
+      // document.removeEventListener("keydown", onKeyDown);
+      // document.removeEventListener("keyup",   onKeyUp);
     } catch (err) {
-      console.error('❌ Network/function error:', err);
-      alert('❌ Could not reach serverless function');
+      console.error('❌ Upload failed:', err);
+      console.error('❌ Upload failed – see console for details');
+      button.disabled = false; // let user try again
     }
   };
 }
