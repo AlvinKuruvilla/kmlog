@@ -173,11 +173,6 @@ const commentButton = document.getElementById('comment_button');
 const commentBox = document.getElementById('comment_box');
 const postCommentButton = document.getElementById('post_comment');
 
-// Hide the comment box and clear the textarea
-postCommentButton.addEventListener('click', () => {
-  commentBox.style.display = 'none';
-  document.getElementById('comment_input').value = '';
-});
 /**
  * Start recording keystrokes and expose a “Submit Keylog” button.
  * The button uploads a CSV (keystrokes) and a TXT (raw text typed in
