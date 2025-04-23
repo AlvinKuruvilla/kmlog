@@ -25,17 +25,6 @@
         commentInput.addEventListener("input", function () {
             postButton.disabled = commentInput.value.trim() === "";
         });
-
-        // Handle post button click
-        postButton.addEventListener("click", function () {
-            const commentText = commentInput.value.trim();
-            if (commentText !== "") {
-                console.log("Posted comment:", commentText);
-                commentInput.value = ""; // Clear input
-                postButton.disabled = true; // Disable button again
-                commentBox.style.display = "none"; // Hide the box after posting
-            }
-        });
     });
 </script>
   <body>
