@@ -101,8 +101,8 @@
             id="consent_for_email_reachout_in_future"
             required
           />
-          I consent to the researchers storing my email address for potential future
-          research study participation
+          I consent to the researchers storing my email address for potential
+          future research study participation
         </label>
 
         <label for="gender">Gender:</label>
@@ -170,6 +170,20 @@
         if (education_value == "") {
           alert("Select an education");
           return;
+        }
+        const consentChecked = document.getElementById(
+          "consent_for_email_reachout_in_future"
+        ).checked;
+
+        if (!consentChecked) {
+          const ok = confirm(
+            "Are you sure you do not want us to store your e-mail for a follow-up?\n" +
+              "You can still continue if you are sure."
+          );
+          if (!ok) {
+            // user clicked “Cancel” so stay on the page
+            return;
+          }
         }
 
         window.location.href = "instructions.html";
