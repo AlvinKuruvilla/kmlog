@@ -148,6 +148,10 @@
       </form>
     </div>
     <script>
+      function getQueryParam(name) {
+        return new URLSearchParams(window.location.search).get(name);
+      }
+
       function navigateToNext() {
         let email_value = document.getElementById("email").value;
         const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$|^$/;
@@ -185,13 +189,21 @@
             return;
           }
         }
-
-        window.location.href = "instructions.html";
+        let userId = getQueryParam("user_id");
+        console.error("The retrieved cookie value was:" + userId);
+        if (!userId) {
+          alert("Cookie not set in URL Query params");
+        } else {
+          console.error("Existing user_id cookie:", userId);
+        }
+        window.location.href = `instructions.html?user_id=${encodeURIComponent(
+          userId
+        )}`;
       }
       function navigateToPrevious() {
         window.location.href = "consent.html";
       }
-      function downloadDemographicsData() {
+      async function downloadDemographicsData() {
         let email_value = document.getElementById("email").value;
         const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$|^$/;
         if (emailRegex.test(email_value) == false) {
@@ -214,22 +226,53 @@
           alert("Select an education");
           return;
         }
+        let consent = document.getElementById(
+          "consent_for_email_reachout_in_future"
+        ).checked;
 
         let demographics_object = {
           email: email_value,
           gender: gender_value,
           handedness: handedness_value,
           education: education_value,
+          consent_email_for_future: consent,
         };
-        var dataStr =
-          "data:text/json;charset=utf-8," +
-          encodeURIComponent(JSON.stringify(demographics_object, null, 2));
-        var downloadAnchorNode = document.createElement("a");
-        downloadAnchorNode.setAttribute("href", dataStr);
-        downloadAnchorNode.setAttribute("download", "demographics" + ".json");
-        document.body.appendChild(downloadAnchorNode); // required for firefox
-        downloadAnchorNode.click();
-        downloadAnchorNode.remove();
+        const jsonBlob = new Blob(
+          [JSON.stringify(demographics_object, null, 2)],
+          {
+            type: "application/json",
+          }
+        );
+        let userId = getQueryParam("user_id");
+        console.error("The retrieved cookie value was:" + userId);
+        if (!userId) {
+          alert("Cookie not set in URL Query params");
+        } else {
+          console.error("Existing user_id cookie:", userId);
+        }
+
+        /* 3 — wrap in multipart/form-data (same format your function expects) */
+        const fd = new FormData();
+        fd.append("file", jsonBlob, `${userId}_demographics.json`); // filename= is vital for saver’s regex
+
+        /* 4 — POST to the Netlify Function */
+        try {
+          const res = await fetch(
+            "https://melodious-squirrel-b0930c.netlify.app/.netlify/functions/saver",
+            {
+              method: "POST",
+              body: fd,
+            }
+          );
+          const result = await res.json();
+
+          if (!res.ok) throw new Error(JSON.stringify(result));
+
+          alert(`✅ Demographics uploaded!\nURL: ${result.url}`);
+        } catch (err) {
+          console.error("❌ Upload failed:", err);
+          alert("❌ Upload failed - check console");
+        }
 
         // alert("Downloading demographics data from submit button")
       }

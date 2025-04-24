@@ -102,10 +102,28 @@
       <p class="cta">Are you ready? Begin!</p>
 
       <div class="button-container">
-        <button class="back-button" onclick="window.location.href='tasks.html'">
+        <button class="back-button" onclick="goToTasks()">
           Go to Tasks
         </button>
       </div>
     </div>
+    <script>
+      function getQueryParam(name) {
+        return new URLSearchParams(window.location.search).get(name);
+      }
+
+      function goToTasks() {
+        let userId = getQueryParam("user_id");
+        console.error("The retrieved cookie value was:" + userId);
+        if (!userId) {
+          alert("Cookie not set in URL Query params");
+        } else {
+          console.error("Existing user_id cookie:", userId);
+        }
+        window.location.href = `tasks.html?user_id=${encodeURIComponent(
+          userId
+        )}`;
+      }
+    </script>
   </body>
 </html>
