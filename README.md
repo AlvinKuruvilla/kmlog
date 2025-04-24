@@ -254,4 +254,4 @@ The logo was designed from [Hatchful by Shopify](https://hatchful.shopify.com)
 [The original Instagram clone](https://github.com/leocosta1/instagram-clone)
 
 ## Participate
-Click [here](https://alvinkuruvilla.github.io/kmlog/docs/hosting/consent.html) to participate in data collection
+Click [here](https://alvinkuruvilla.github.io/kmlog/pages/hosting/consent.html) to participate in data collection
