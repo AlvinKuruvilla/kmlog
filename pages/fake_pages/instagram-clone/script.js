@@ -244,6 +244,9 @@ function startKeyLogger(user_id_str, platform_initial, task_id) {
         uploadToSaver(csvBlob, csvName),
         uploadToSaver(txtBlob, txtName),
       ]);
+      alert(
+        'Keystroke CSV and raw text uploaded successfully! Close this tab and begin the next task!'
+      );
 
       console.log('✅ CSV uploaded →', csvUrl);
       console.log('✅ TXT uploaded →', txtUrl);

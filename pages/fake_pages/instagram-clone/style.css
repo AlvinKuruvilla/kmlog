@@ -916,6 +916,7 @@ img {
   font-size: 14px;
   float: right;
   margin-top: 10px;
+  cursor: pointer;
 }
 
 .comment-box .post-comment:hover {
