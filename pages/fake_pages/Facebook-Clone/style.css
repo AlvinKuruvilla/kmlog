@@ -836,6 +836,7 @@ footer {
     padding: 10px 30px;
     margin-bottom: -440px;
     margin-left: 430px;
+    cursor: pointer;
 }
 
 #post {
