@@ -112,7 +112,7 @@
 
         <div class="button-container">
           <button type="button" onclick="downloadConsentJSON()">
-            Download consent data
+            Upload consent data
           </button>
           <button type="button" onclick="navigateToNext()">
             Go to next page
@@ -209,7 +209,7 @@
 
             if (!res.ok) throw new Error(JSON.stringify(result));
 
-            alert(`✅ Demographics uploaded!\nURL: ${result.url}`);
+            alert(`✅ Consent uploaded! Go to the next page!`);
           } catch (err) {
             console.error("❌ Upload failed:", err);
             alert("❌ Upload failed - check console");
