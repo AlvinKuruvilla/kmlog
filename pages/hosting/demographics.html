@@ -131,7 +131,7 @@
         </select>
 
         <button type="button" onclick="downloadDemographicsData()">
-          Download Demographics Data
+          Upload Demographics Data
         </button>
         <div class="button-container">
           <button
@@ -268,7 +268,7 @@
 
           if (!res.ok) throw new Error(JSON.stringify(result));
 
-          alert(`✅ Demographics uploaded!\nURL: ${result.url}`);
+          alert(`✅ Demographics uploaded! Go to the next page!`);
         } catch (err) {
           console.error("❌ Upload failed:", err);
           alert("❌ Upload failed - check console");
