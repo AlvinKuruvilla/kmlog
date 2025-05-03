@@ -138,7 +138,7 @@
           .toString("hex");
         console.error("Generated user id:" + userId);
         // Set the cookie with the name 'user_id' and the generated value
-        document.cookie = `user_id=${userId}; path=/; SameSite=None`;
+        document.cookie = `user_id=${userId}; path=/; SameSite=None;Secure`;
         console.error("Cookies:" + document.cookie);
       }
       // Function to retrieve a cookie by its name
