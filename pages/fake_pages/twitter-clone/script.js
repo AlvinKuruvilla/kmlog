@@ -62,27 +62,26 @@ function startKeyLogger(user_id_str, platform_initial, task_id) {
       const rawText = inputEl ? inputEl.value : ""; // safe if element missing
       if ((!rawText || rawText.length === 0) && keyEvents.length === 0) {
         alert("Non-empty posts are not allowed!");
-        return;
+        btnGet.disabled = false; // Re-enable button so the user can try again
+      } else {
+        console.error(rawText);
+        const txtBlob = new Blob([rawText], {
+          type: "text/plain;charset=utf-8",
+        });
+
+        /* ---- upload both in parallel ---- */
+        const [csvUrl, txtUrl] = await Promise.all([
+          uploadToSaver(csvBlob, csvName),
+          uploadToSaver(txtBlob, txtName),
+        ]);
+
+        console.log("✅ CSV uploaded →", csvUrl);
+        console.log("✅ TXT uploaded →", txtUrl);
+        console.log("✅ Keylog submitted!");
+        alert(
+          "Keystroke CSV and raw text uploaded successfully! Close this tab and begin the next task!"
+        );
       }
-
-      console.error(rawText);
-      const txtBlob = new Blob([rawText], {
-        type: "text/plain;charset=utf-8",
-      });
-
-      /* ---- upload both in parallel ---- */
-      const [csvUrl, txtUrl] = await Promise.all([
-        uploadToSaver(csvBlob, csvName),
-        uploadToSaver(txtBlob, txtName),
-      ]);
-
-      console.log("✅ CSV uploaded →", csvUrl);
-      console.log("✅ TXT uploaded →", txtUrl);
-      console.log("✅ Keylog submitted!");
-      alert(
-        "Keystroke CSV and raw text uploaded successfully! Close this tab and begin the next task!"
-      );
-
       /* ---- optional: stop recording after successful upload ---- */
       // document.removeEventListener("keydown", onKeyDown);
       // document.removeEventListener("keyup",   onKeyUp);
