@@ -69,6 +69,10 @@ function startKeyLogger(user_id_str, platform_initial, task_id) {
       /* ---- build TXT ---- */
       const inputEl = document.getElementById("input_value");
       const rawText = inputEl ? inputEl.value : ""; // safe if element missing
+      if ((!rawText || rawText.length === 0) && keyEvents.length === 0) {
+        alert("Non-empty posts are not allowed!");
+        return;
+      }
       console.error(rawText);
       const txtBlob = new Blob([rawText], {
         type: "text/plain;charset=utf-8",

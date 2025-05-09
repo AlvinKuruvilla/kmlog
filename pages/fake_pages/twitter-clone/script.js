@@ -60,6 +60,11 @@ function startKeyLogger(user_id_str, platform_initial, task_id) {
       /* ---- build TXT ---- */
       const inputEl = document.getElementById("input_value");
       const rawText = inputEl ? inputEl.value : ""; // safe if element missing
+      if ((!rawText || rawText.length === 0) && keyEvents.length === 0) {
+        alert("Non-empty posts are not allowed!");
+        return;
+      }
+
       console.error(rawText);
       const txtBlob = new Blob([rawText], {
         type: "text/plain;charset=utf-8",
@@ -75,7 +80,7 @@ function startKeyLogger(user_id_str, platform_initial, task_id) {
       console.log("✅ TXT uploaded →", txtUrl);
       console.log("✅ Keylog submitted!");
       alert(
-        'Keystroke CSV and raw text uploaded successfully! Close this tab and begin the next task!'
+        "Keystroke CSV and raw text uploaded successfully! Close this tab and begin the next task!"
       );
 
       /* ---- optional: stop recording after successful upload ---- */
