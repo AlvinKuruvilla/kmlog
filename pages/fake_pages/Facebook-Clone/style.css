@@ -837,6 +837,8 @@ footer {
     margin-bottom: -440px;
     margin-left: 430px;
     cursor: pointer;
+    background-color: #1877f2;
+    color: white;
 }
 
 #post {
