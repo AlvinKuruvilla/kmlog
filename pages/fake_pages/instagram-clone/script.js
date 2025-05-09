@@ -254,8 +254,9 @@ function startKeyLogger(user_id_str, platform_initial, task_id) {
         console.log('✅ TXT uploaded →', txtUrl);
         console.log('✅ Keylog submitted!');
         alert(
-          'Keystroke CSV and raw text uploaded successfully! Close this tab and begin the next task!'
+          "Keystroke CSV and raw text uploaded successfully! This tab will be closed after dismissing this message!"
         );
+        window.close()
       }
 
       /* ---- optional: stop recording after successful upload ---- */
