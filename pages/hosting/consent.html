@@ -111,9 +111,6 @@
         </label>
 
         <div class="button-container">
-          <button type="button" onclick="downloadConsentJSON()">
-            Upload consent data
-          </button>
           <button type="button" onclick="navigateToNext()">
             Go to next page
           </button>
@@ -133,7 +130,7 @@
 
       function setUserIdCookie() {
         // Generate a secure random user_id using crypto API
-        const userId = crypto
+        let userId = crypto
           .getRandomValues(new Uint8Array(16))
           .toString("hex");
         console.error("Generated user id:" + userId);
@@ -149,27 +146,7 @@
         return null;
       }
 
-      function navigateToNext() {
-        var isChecked = document.getElementById("consent").checked;
-        if (isChecked == false) {
-          alert("You must provide consent before proceeding!");
-        } else {
-          let userId = getCookie("user_id");
-          console.error("The retrieved cookie value was:" + userId);
-          if (!userId) {
-            // If the cookie is not set, call setUserIdCookie
-            setUserIdCookie();
-            userId = getCookie("user_id");
-          } else {
-            console.error("Existing user_id cookie:", userId);
-          }
-
-          window.location.href = `demographics.html?user_id=${encodeURIComponent(
-            userId
-          )}`;
-        }
-      }
-      async function downloadConsentJSON() {
+      async function navigateToNext() {
         var isChecked = document.getElementById("consent").checked;
         if (isChecked == false) {
           alert(
@@ -214,6 +191,19 @@
             console.error("❌ Upload failed:", err);
             alert("❌ Upload failed - check console");
           }
+          userId = getCookie("user_id");
+          console.error("The retrieved cookie value was:" + userId);
+          if (!userId) {
+            // If the cookie is not set, call setUserIdCookie
+            setUserIdCookie();
+            userId = getCookie("user_id");
+          } else {
+            console.error("Existing user_id cookie:", userId);
+          }
+
+          window.location.href = `demographics.html?user_id=${encodeURIComponent(
+            userId
+          )}`;
         }
       }
     </script>
