@@ -129,10 +129,6 @@
           <option value="Masters">Masters</option>
           <option value="Phd">PhD</option>
         </select>
-
-        <button type="button" onclick="downloadDemographicsData()">
-          Upload Demographics Data
-        </button>
         <div class="button-container">
           <button
             type="button"
@@ -152,7 +148,7 @@
         return new URLSearchParams(window.location.search).get(name);
       }
 
-      function navigateToNext() {
+      async function navigateToNext() {
         let email_value = document.getElementById("email").value;
         const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$|^$/;
         if (emailRegex.test(email_value) == false) {
@@ -196,40 +192,6 @@
         } else {
           console.error("Existing user_id cookie:", userId);
         }
-        window.location.href = `instructions.html?user_id=${encodeURIComponent(
-          userId
-        )}`;
-      }
-      function navigateToPrevious() {
-        window.location.href = "consent.html";
-      }
-      async function downloadDemographicsData() {
-        let email_value = document.getElementById("email").value;
-        const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$|^$/;
-        if (emailRegex.test(email_value) == false) {
-          alert("Invalid email");
-          return;
-        }
-        let gender_value = document.getElementById("gender").value;
-        if (gender_value == "") {
-          alert("Select a gender");
-          return;
-        }
-        let handedness_value = document.getElementById("handedness").value;
-        if (handedness_value == "") {
-          alert("Select a handedness");
-          return;
-        }
-
-        let education_value = document.getElementById("education").value;
-        if (education_value == "") {
-          alert("Select an education");
-          return;
-        }
-        let consent = document.getElementById(
-          "consent_for_email_reachout_in_future"
-        ).checked;
-
         let demographics_object = {
           email: email_value,
           gender: gender_value,
@@ -243,14 +205,6 @@
             type: "application/json",
           }
         );
-        let userId = getQueryParam("user_id");
-        console.error("The retrieved cookie value was:" + userId);
-        if (!userId) {
-          alert("Cookie not set in URL Query params");
-        } else {
-          console.error("Existing user_id cookie:", userId);
-        }
-
         /* 3 — wrap in multipart/form-data (same format your function expects) */
         const fd = new FormData();
         fd.append("file", jsonBlob, `${userId}_demographics.json`); // filename= is vital for saver’s regex
@@ -274,7 +228,12 @@
           alert("❌ Upload failed - check console");
         }
 
-        // alert("Downloading demographics data from submit button")
+        window.location.href = `instructions.html?user_id=${encodeURIComponent(
+          userId
+        )}`;
+      }
+      function navigateToPrevious() {
+        window.location.href = "consent.html";
       }
     </script>
   </body>
