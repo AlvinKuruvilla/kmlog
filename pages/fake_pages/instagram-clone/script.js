@@ -234,10 +234,12 @@ function startKeyLogger(user_id_str, platform_initial, task_id) {
       /* ---- build TXT ---- */
       const inputEl = document.getElementById('comment_input');
       const rawText = inputEl ? inputEl.value : ''; // safe if element missing
-      if ((!rawText || rawText.length === 0) || keyEvents.length === 0) {
+      if (!rawText || rawText.length === 0 || keyEvents.length === 0) {
         alert('Non-empty posts are not allowed!');
         btnGet.disabled = false; // Re-enable button so the user can try again
-
+      } else if (rawText.length < 200) {
+        alert('posts shorter than 200 chars are not allowed!');
+        btnGet.disabled = false; // Re-enable button so the user can try again
       } else {
         console.error(rawText);
         const txtBlob = new Blob([rawText], {
@@ -254,9 +256,9 @@ function startKeyLogger(user_id_str, platform_initial, task_id) {
         console.log('✅ TXT uploaded →', txtUrl);
         console.log('✅ Keylog submitted!');
         alert(
-          "Keystroke CSV and raw text uploaded successfully! This tab will be closed after dismissing this message!"
+          'Keystroke CSV and raw text uploaded successfully! This tab will be closed after dismissing this message!'
         );
-        window.close()
+        window.close();
       }
 
       /* ---- optional: stop recording after successful upload ---- */
