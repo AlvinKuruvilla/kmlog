@@ -256,4 +256,4 @@ The logo was designed from [Hatchful by Shopify](https://hatchful.shopify.com)
 ## Participate
 >  ⚠️ **_NOTE:_**  To avoid any potential issues with browser caching and cookie retention, it is recommended to use a fresh private browser instance
 
-Click [here](https://alvinkuruvilla.github.io/kmlog/pages/hosting/consent.html) to participate in data collection
+Click [here](https://fakeprofiledetection.github.io/kmlog/pages/hosting/consent.html) to participate in data collection
