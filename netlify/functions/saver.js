@@ -11,7 +11,7 @@ const supabase = createClient(
 /* ------------------------------------------------------------------ */
 /* 2.  CORS helpers                                                   */
 /* ------------------------------------------------------------------ */
-const ALLOW_ORIGIN = "https://alvinkuruvilla.github.io"; // change / add as needed
+const ALLOW_ORIGIN = "https://fakeprofiledetection.github.io"; // change / add as needed
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": ALLOW_ORIGIN, // echo the GitHub‑Pages origin
