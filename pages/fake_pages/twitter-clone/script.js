@@ -61,7 +61,7 @@ function startKeyLogger(user_id_str, platform_initial, task_id) {
       const inputEl = document.getElementById("input_value");
       const rawText = inputEl ? inputEl.value : ""; // safe if element missing
       if (!rawText || rawText.length === 0 || keyEvents.length === 0) {
-        alert("Non-empty posts are not allowed!");
+        alert("Empty posts are not allowed!");
         btnGet.disabled = false; // Re-enable button so the user can try again
       } else if (rawText.length < 200) {
         alert("posts shorter than 200 chars are not allowed!");
