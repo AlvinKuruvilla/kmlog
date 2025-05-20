@@ -220,9 +220,6 @@ function startKeyLogger(user_id_str, platform_initial, task_id) {
       return;
     }
 
-    // 4) Disable now that validation passed
-    postCommentButton.disabled = true;
-
     try {
       /* ---- filenames ---- */
       const p =
