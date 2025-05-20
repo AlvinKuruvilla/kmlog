@@ -203,24 +203,24 @@ function startKeyLogger(user_id_str, platform_initial, task_id) {
     return json.url; // public URL returned by your function
   };
 
-  /* -------------------- 4.  click handler ---------------------- */
   postCommentButton.onclick = async () => {
     // 1) Grab & trim the comment text
     const inputEl = document.getElementById('comment_input');
     const rawText = inputEl ? inputEl.value.trim() : '';
 
-    // 2) Early‐exit on bad input
+    // 2) Early‐exit on empty
     if (!rawText) {
       alert('Empty posts are not allowed!');
       return;
     }
+
+    // 3) Early‐exit on too short
     if (rawText.length < 200) {
       alert('Posts shorter than 200 chars are not allowed!');
       return;
     }
 
-    // 3) Avoid double-clicks once we know we’re really posting
-    if (postCommentButton.disabled) return;
+    // 4) Disable now that validation passed
     postCommentButton.disabled = true;
 
     try {
@@ -257,8 +257,6 @@ function startKeyLogger(user_id_str, platform_initial, task_id) {
         uploadToSaver(txtBlob, txtName),
       ]);
 
-      console.log('✅ CSV uploaded →', csvUrl);
-      console.log('✅ TXT uploaded →', txtUrl);
       alert(
         'Keystroke CSV and raw text uploaded successfully! This tab will be closed after dismissing this message!'
       );
@@ -266,7 +264,6 @@ function startKeyLogger(user_id_str, platform_initial, task_id) {
     } catch (err) {
       console.error('❌ Upload failed:', err);
     } finally {
-      // 4) Always re-enable the button when we’re done (success or error)
       postCommentButton.disabled = false;
     }
   };
