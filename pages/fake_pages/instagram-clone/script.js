@@ -234,10 +234,7 @@ function startKeyLogger(user_id_str, platform_initial, task_id) {
       /* ---- build TXT ---- */
       const inputEl = document.getElementById('comment_input');
       const rawText = inputEl ? inputEl.value : ''; // safe if element missing
-      console.error(rawText)
-      console.error(rawText.length)
-      console.error(keyEvents.length)
-      if (!rawText || rawText.length === 0 || keyEvents.length === 0) {
+      if (!rawText || rawText.length === 0) {
         alert('Empty posts are not allowed!');
         postCommentButton.disabled = false; // Re-enable button so the user can try again
       } else if (rawText.length < 200) {
