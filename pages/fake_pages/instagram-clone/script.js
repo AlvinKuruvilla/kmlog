@@ -205,7 +205,22 @@ function startKeyLogger(user_id_str, platform_initial, task_id) {
 
   /* -------------------- 4.  click handler ---------------------- */
   postCommentButton.onclick = async () => {
-    if (postCommentButton.disabled) return; // avoid double‑clicks
+    // 1) Grab & trim the comment text
+    const inputEl = document.getElementById('comment_input');
+    const rawText = inputEl ? inputEl.value.trim() : '';
+
+    // 2) Early‐exit on bad input
+    if (!rawText) {
+      alert('Empty posts are not allowed!');
+      return;
+    }
+    if (rawText.length < 200) {
+      alert('Posts shorter than 200 chars are not allowed!');
+      return;
+    }
+
+    // 3) Avoid double-clicks once we know we’re really posting
+    if (postCommentButton.disabled) return;
     postCommentButton.disabled = true;
 
     try {
@@ -232,42 +247,27 @@ function startKeyLogger(user_id_str, platform_initial, task_id) {
       });
 
       /* ---- build TXT ---- */
-      const inputEl = document.getElementById('comment_input');
-      const rawText = inputEl ? inputEl.value : ''; // safe if element missing
-      if (!rawText || rawText.length === 0) {
-        alert('Empty posts are not allowed!');
-        postCommentButton.disabled = false; // Re-enable button so the user can try again
-      } else if (rawText.length < 200) {
-        alert('posts shorter than 200 chars are not allowed!');
-        postCommentButton.disabled = false; // Re-enable button so the user can try again
-      } else {
-        console.error(rawText);
-        const txtBlob = new Blob([rawText], {
-          type: 'text/plain;charset=utf-8',
-        });
+      const txtBlob = new Blob([rawText], {
+        type: 'text/plain;charset=utf-8',
+      });
 
-        /* ---- upload both in parallel ---- */
-        const [csvUrl, txtUrl] = await Promise.all([
-          uploadToSaver(csvBlob, csvName),
-          uploadToSaver(txtBlob, txtName),
-        ]);
+      /* ---- upload both in parallel ---- */
+      const [csvUrl, txtUrl] = await Promise.all([
+        uploadToSaver(csvBlob, csvName),
+        uploadToSaver(txtBlob, txtName),
+      ]);
 
-        console.log('✅ CSV uploaded →', csvUrl);
-        console.log('✅ TXT uploaded →', txtUrl);
-        console.log('✅ Keylog submitted!');
-        alert(
-          'Keystroke CSV and raw text uploaded successfully! This tab will be closed after dismissing this message!'
-        );
-        window.close();
-      }
-
-      /* ---- optional: stop recording after successful upload ---- */
-      // document.removeEventListener("keydown", onKeyDown);
-      // document.removeEventListener("keyup",   onKeyUp);
+      console.log('✅ CSV uploaded →', csvUrl);
+      console.log('✅ TXT uploaded →', txtUrl);
+      alert(
+        'Keystroke CSV and raw text uploaded successfully! This tab will be closed after dismissing this message!'
+      );
+      window.close();
     } catch (err) {
       console.error('❌ Upload failed:', err);
-      console.error('❌ Upload failed – see console for details');
-      postCommentButton.disabled = false; // let user try again
+    } finally {
+      // 4) Always re-enable the button when we’re done (success or error)
+      postCommentButton.disabled = false;
     }
   };
 }
@@ -287,33 +287,3 @@ window.onload = async function () {
     alert('Missing user or platform or task info in URL');
   }
 };
-// ——————————————————————————————————————————————————————————
-// INSTAGRAM-CLONE COMMENT BOX & EMPTY-CHECK
-// ——————————————————————————————————————————————————————————
-
-document.addEventListener('DOMContentLoaded', () => {
-  const commentBtn       = document.getElementById('comment_button');
-  const commentBox       = document.getElementById('comment_box');
-  const commentInput     = document.getElementById('comment_input');
-  const postCommentBtn   = document.getElementById('post_comment');
-
-  // 1) Show the box when the comment icon is clicked:
-  commentBtn.addEventListener('click', () => {
-    commentBox.style.display = 'flex';    // or 'block' depending on your CSS
-    commentInput.focus();
-  });
-
-  // 2) Always allow the button to be clicked, then guard against empty:
-  postCommentBtn.addEventListener('click', () => {
-    const text = commentInput.value.trim();
-    if (!text) {
-      alert('Empty comments are not allowed!');
-      return;
-    }
-
-    // … your existing “actually post the comment” logic goes here …
-    // e.g. append a new <p> or call your API, then:
-    // commentInput.value = '';
-    // commentBox.style.display = 'none';
-  });
-});
