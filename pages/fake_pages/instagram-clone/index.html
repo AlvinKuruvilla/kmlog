@@ -20,11 +20,6 @@
             commentBox.style.display = "block";
             commentInput.focus(); // Auto-focus the input box
         });
-
-        // Enable post button only if there is text in the input
-        commentInput.addEventListener("input", function () {
-            postButton.disabled = commentInput.value.trim() === "";
-        });
     });
 </script>
   <body>

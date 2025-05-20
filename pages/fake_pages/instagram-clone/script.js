@@ -203,67 +203,74 @@ function startKeyLogger(user_id_str, platform_initial, task_id) {
     return json.url; // public URL returned by your function
   };
 
-  postCommentButton.onclick = async () => {
-    // 1) Grab & trim the comment text
-    const inputEl = document.getElementById('comment_input');
-    const rawText = inputEl ? inputEl.value.trim() : '';
+postCommentButton.onclick = async () => {
+  // 1) Grab & trim the comment text
+  const inputEl = document.getElementById('comment_input');
+  const rawText = inputEl ? inputEl.value.trim() : '';
 
-    // 2) Early‐exit on empty
-    if (!rawText) {
-      alert('Empty posts are not allowed!');
-      return;
-    }
+  // 2) If empty, alert and stop (button never gets disabled)
+  if (!rawText) {
+    alert('Empty posts are not allowed!');
+    return;
+  }
 
-    // 3) Early‐exit on too short
-    if (rawText.length < 200) {
-      alert('Posts shorter than 200 chars are not allowed!');
-      return;
-    }
+  // 3) If too short, alert and stop
+  if (rawText.length < 200) {
+    alert('Posts shorter than 200 chars are not allowed!');
+    return;
+  }
 
-    try {
-      /* ---- filenames ---- */
-      const p =
-        platform_initial === '0'
-          ? 'f'
-          : platform_initial === '1'
-          ? 'i'
-          : platform_initial === '2'
-          ? 't'
-          : 'u';
-      const csvName = `${p}_${user_id_str}_${task_id}.csv`;
-      const txtName = `${p}_${user_id_str}_${task_id}_raw.txt`;
+  // 4) Prevent double-clicks now that validation passed
+  if (postCommentButton.disabled) return;
+  postCommentButton.disabled = true;
 
-      /* ---- build CSV ---- */
-      const heading = [['Press or Release', 'Key', 'Time']];
-      const csvString = heading
-        .concat(keyEvents)
-        .map((row) => row.join(','))
-        .join('\n');
-      const csvBlob = new Blob([csvString], {
-        type: 'text/csv;charset=utf-8',
-      });
+  try {
+    /* ---- filenames ---- */
+    const p =
+      platform_initial === '0'
+        ? 'f'
+        : platform_initial === '1'
+        ? 'i'
+        : platform_initial === '2'
+        ? 't'
+        : 'u';
+    const csvName = `${p}_${user_id_str}_${task_id}.csv`;
+    const txtName = `${p}_${user_id_str}_${task_id}_raw.txt`;
 
-      /* ---- build TXT ---- */
-      const txtBlob = new Blob([rawText], {
-        type: 'text/plain;charset=utf-8',
-      });
+    /* ---- build CSV ---- */
+    const heading = [['Press or Release', 'Key', 'Time']];
+    const csvString = heading
+      .concat(keyEvents)
+      .map((row) => row.join(','))
+      .join('\n');
+    const csvBlob = new Blob([csvString], {
+      type: 'text/csv;charset=utf-8',
+    });
 
-      /* ---- upload both in parallel ---- */
-      const [csvUrl, txtUrl] = await Promise.all([
-        uploadToSaver(csvBlob, csvName),
-        uploadToSaver(txtBlob, txtName),
-      ]);
+    /* ---- build TXT ---- */
+    const txtBlob = new Blob([rawText], {
+      type: 'text/plain;charset=utf-8',
+    });
 
-      alert(
-        'Keystroke CSV and raw text uploaded successfully! This tab will be closed after dismissing this message!'
-      );
-      window.close();
-    } catch (err) {
-      console.error('❌ Upload failed:', err);
-    } finally {
-      postCommentButton.disabled = false;
-    }
-  };
+    /* ---- upload both in parallel ---- */
+    const [csvUrl, txtUrl] = await Promise.all([
+      uploadToSaver(csvBlob, csvName),
+      uploadToSaver(txtBlob, txtName),
+    ]);
+
+    console.log('✅ CSV uploaded →', csvUrl);
+    console.log('✅ TXT uploaded →', txtUrl);
+    alert(
+      'Keystroke CSV and raw text uploaded successfully! This tab will be closed after dismissing this message!'
+    );
+    window.close();
+  } catch (err) {
+    console.error('❌ Upload failed:', err);
+  } finally {
+    // 5) Re-enable the button regardless of success or failure
+    postCommentButton.disabled = false;
+  }
+};
 }
 
 function getQueryParam(name) {
