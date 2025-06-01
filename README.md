@@ -207,34 +207,6 @@ On Apple devices, navigate to System Preferences > Go to Privacy and Security > 
 
 3. If your shell kills the executable when trying to run it, this is because Apple does not allow programs to run which are from unidentifiable developers. To fix this, navigate to System Preferences > Go to Privacy and Security > Go to the General tab > Click Run Anyway
 
-## Using the headless keylogger
-
-The headless keylogger is a local webserver which utilizes one of the social media clones in fake_pages/ as a frontend by proxy through tasks.html.
-
-The webserver utilizes the FP_USER_ID environment variable which __MUST__ be set in a `.env` file for the server to work properly (The server will throw an error if the variable is not set)
-
-## Testing the HTML pages locally
-
-The HTML pages can be tested locally by following these steps:
-
-1. Start a python webserver in the root directory by:
-  ```bash
-     python3 -m http.server 8000
-  ```
-
-2. Navigate to 127.0.0.1:8000/ (or whatever port you specified) and you should see a directory of the project root
-
-3. If you want to test one of the social media clone pages in isolation you can just navigate to the respective site's `index.html`
-
-OR
-
-3. If you wish to test the data collection flow you can start the process at [consent.html](pages/hosting/consent.html) and follow the flow from there.
-> ℹ **_NOTE:_**  Make sure to have the headless kmlog server running as it is required for the tasks page to work properly:
-  ```bash
-     python3 src/kmlog_headless.py
-  ```
->  ⚠️ **_NOTE:_**  Do not use live server to test the tasks page as there is an issue with how it handles the fetch requests, which causes the page to refresh on any keyboard input or focus change
-
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
@@ -247,8 +219,8 @@ See [Contributing](CONTRIBUTING.md)
 
 The logo was designed from [Hatchful by Shopify](https://hatchful.shopify.com)
 
-
 ## Credits
+
 [The original Facebook clone](https://github.com/KashanAdnan/Facebook-Clone)
 
 [The original Instagram clone](https://github.com/leocosta1/instagram-clone)
