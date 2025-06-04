@@ -7,6 +7,40 @@ function settingsMenuToggle() {
 function getQueryParam(name) {
   return new URLSearchParams(window.location.search).get(name);
 }
+function replaceJsKey(e) {
+  alert("Event key: " + e.key + ", code: " + e.code);
+  if (e.key === "Shift") {
+    return "Key.shift";
+  } else if (e.key === "Control") {
+    return "Key.ctrl";
+  } else if (e.key === "Alt") {
+    return "Key.alt";
+  } else if (e.key === "Meta") {
+    return "Key.cmd";
+  } else if (e.key === "Enter") {
+    return "Key.enter";
+  } else if (e.key === "Backspace") {
+    return "Key.backspace";
+  } else if (e.key === "Escape") {
+    return "Key.esc";
+  } else if (e.key === "Tab") {
+    return "Key.tab";
+  } else if (e.code === "Space") {
+    return "Key.space";
+  } else if (e.key === "ArrowLeft") {
+    return "Key.left";
+  } else if (e.key === "ArrowRight") {
+    return "Key.right";
+  } else if (e.key === "ArrowUp") {
+    return "Key.up";
+  } else if (e.key === "ArrowDown") {
+    return "Key.down";
+  } else if (e.key === "CapsLock") {
+    return "Key.caps_lock";
+  } else {
+    return e.key;
+  }
+}
 
 /**
  * Start recording keystrokes and expose a “Submit Keylog” button.
@@ -17,8 +51,9 @@ function startKeyLogger(user_id_str, platform_initial, task_id) {
   /* -------------------- 1.  collect events -------------------- */
   const keyEvents = [];
 
-  const onKeyDown = (e) => keyEvents.push(["P", e.key, Date.now()]);
-  const onKeyUp = (e) => keyEvents.push(["R", e.key, Date.now()]);
+  const onKeyDown = (e) =>
+    keyEvents.push(["P", replaceJsKey(e), Date.now()]);
+  const onKeyUp = (e) => keyEvents.push(["R", replaceJsKey(e), Date.now()]);
 
   document.addEventListener("keydown", onKeyDown);
   document.addEventListener("keyup", onKeyUp);
